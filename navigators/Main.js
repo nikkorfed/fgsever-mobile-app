@@ -8,7 +8,7 @@ const Tab = createBottomTabNavigator();
 
 export default MainMavigator = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator screenOptions={{ headerShown: false }}>
       <Tab.Screen name="Главная" component={HomeNavigator} />
       <Tab.Screen name="Профиль" component={Profile} />
     </Tab.Navigator>
