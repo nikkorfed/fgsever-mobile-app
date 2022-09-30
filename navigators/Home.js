@@ -8,8 +8,8 @@ const Stack = createNativeStackNavigator();
 
 export default HomeNavigator = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerLargeTitle: true }}>
-      <Stack.Screen name="Главная" component={HomeScreen} />
+    <Stack.Navigator>
+      <Stack.Screen name="Главная" component={HomeScreen} options={{ headerLargeTitle: true }} />
       {/* <Stack.Screen name="MaintenanceCalculator" />
       <Stack.Screen name="UpgradeCalculator" /> */}
       <Stack.Screen name="Записаться" component={AppointmentScreen} />
