@@ -1,10 +1,10 @@
 import React from "react";
 import { View, Text } from "react-native";
 
-export default ProfileScreen = () => {
+export default AppointmentScreen = () => {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Профиль</Text>
+      <Text>Записаться</Text>
     </View>
   );
 };
