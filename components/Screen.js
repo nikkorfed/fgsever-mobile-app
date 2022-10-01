@@ -4,7 +4,9 @@ import { StyleSheet, SafeAreaView, View, ScrollView } from "react-native";
 export default Screen = ({ children }) => {
   return (
     <SafeAreaView style={styles.screen}>
-      <ScrollView style={styles.wrapper}>{children}</ScrollView>
+      <ScrollView style={styles.wrapper} contentInsetAdjustmentBehavior="automatic">
+        {children}
+      </ScrollView>
     </SafeAreaView>
   );
 };
