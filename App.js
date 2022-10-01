@@ -4,6 +4,8 @@ import React from "react";
 
 import MainNavigator from "./navigators/Main";
 
+// TODO: Перевести приложение на TypeScript (чтобы видеть ошибки при импорте из неверных путей).
+
 const App = () => {
   const [fontsLoaded] = useFonts({ Montserrat_500Medium, Montserrat_600SemiBold, Montserrat_700Bold });
 
@@ -16,4 +18,5 @@ const App = () => {
     </NavigationContainer>
   );
 };
+
 export default App;

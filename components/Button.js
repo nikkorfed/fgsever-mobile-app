@@ -3,6 +3,8 @@ import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
+// TODO: Добавить кнопки, пульсирующие при нажатии (как в приложении Тинькофф).
+
 export const BackButton = ({ style, title, ...props }) => {
   const navigation = useNavigation();
 
