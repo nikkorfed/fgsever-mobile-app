@@ -1,10 +1,11 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { BlurView } from "expo-blur";
-import { Feather } from "@expo/vector-icons";
+import { Feather, Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import HomeNavigator from "../navigators/Home";
+import Chat from "../screens/Chat";
 import Profile from "../screens/Profile";
 
 const Tab = createBottomTabNavigator();
@@ -22,6 +23,12 @@ export default MainMavigator = () => {
         name="HomeNavigator"
         component={HomeNavigator}
         options={{ title: "Главная", tabBarIcon: ({ color }) => <Feather name="home" color={color} size={26} /> }}
+      />
+      <Tab.Screen
+        name="ChatNavigator"
+        m
+        component={Chat}
+        options={{ title: "Чат", tabBarIcon: ({ color }) => <Ionicons name="chatbubbles-outline" color={color} size={26} /> }}
       />
       <Tab.Screen
         name="ProfileNavigator"

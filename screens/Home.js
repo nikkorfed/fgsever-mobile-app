@@ -12,8 +12,7 @@ export default HomeScreen = ({ navigation }) => {
       <TouchableOpacity style={styles.promo} activeOpacity={0.5} onPress={() => navigation.navigate("MaintenanceCalculator")}>
         <Text style={styles.promoTitle}>Добро пожаловать в FGSEVER!</Text>
         <Text style={styles.promoDescription}>
-          Здесь вы можете рассчитать стоимость ТО или дооснащения, записаться на ремонт, заказать запчасти или посмотреть историю работ по
-          вашему автомобилю.
+          Здесь вы можете рассчитать стоимость ТО или дооснащения, записаться на ремонт, заказать запчасти или посмотреть историю работ.
         </Text>
       </TouchableOpacity>
       <View style={styles.services}>
