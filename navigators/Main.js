@@ -1,6 +1,8 @@
 import React from "react";
+import { StyleSheet } from "react-native";
+import { BlurView } from "expo-blur";
+import { Feather } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { MaterialIcons, Feather } from "@expo/vector-icons";
 
 import HomeNavigator from "../navigators/Home";
 import Profile from "../screens/Profile";
@@ -9,7 +11,13 @@ const Tab = createBottomTabNavigator();
 
 export default MainMavigator = () => {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: { position: "absolute" },
+        tabBarBackground: () => <BlurView tint="light" intensity={100} style={StyleSheet.absoluteFill} />,
+      }}
+    >
       <Tab.Screen
         name="HomeNavigator"
         component={HomeNavigator}
