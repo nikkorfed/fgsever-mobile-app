@@ -9,16 +9,23 @@ import { Button } from "../components/Button";
 export default HomeScreen = ({ navigation }) => {
   return (
     <Screen>
+      <TouchableOpacity style={styles.promo} activeOpacity={0.5} onPress={() => navigation.navigate("MaintenanceCalculator")}>
+        <Text style={styles.promoTitle}>Добро пожаловать в FGSEVER!</Text>
+        <Text style={styles.promoDescription}>
+          Здесь вы можете рассчитать стоимость ТО или дооснащения, записаться на ремонт, заказать запчасти или посмотреть историю работ по
+          вашему автомобилю.
+        </Text>
+      </TouchableOpacity>
       <View style={styles.services}>
         <View style={styles.serviceContainer}>
-          <TouchableOpacity style={styles.service} activeOpacity={0.8} onPress={() => navigation.navigate("MaintenanceCalculator")}>
+          <TouchableOpacity style={styles.service} activeOpacity={0.5} onPress={() => navigation.navigate("MaintenanceCalculator")}>
             <FontAwesome5 name="calculator" color="dodgerblue" size={40} />
             <Text style={styles.serviceTitle}>Калькулятор ТО</Text>
             <Text style={styles.serviceDescription}>Рассчитать стоимость техобслуживания по VIN автомобиля</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.serviceContainer}>
-          <TouchableOpacity style={styles.service} activeOpacity={0.8} onPress={() => navigation.navigate("UpgradeCalculator")}>
+          <TouchableOpacity style={styles.service} activeOpacity={0.5} onPress={() => navigation.navigate("UpgradeCalculator")}>
             <FontAwesome5 name="calculator" color="dodgerblue" size={40} />
             <Text style={styles.serviceTitle}>Калькулятор дооснащения</Text>
             <Text style={styles.serviceDescription}>Рассчитать стоимость дооснащения по VIN</Text>
@@ -32,6 +39,21 @@ export default HomeScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  promo: {
+    marginBottom: 15,
+    borderRadius: 10,
+    padding: 15,
+    backgroundColor: "rgba(28, 105, 212, 0.15)",
+  },
+  promoTitle: {
+    fontFamily: "Montserrat_600SemiBold",
+    fontSize: 16,
+  },
+  promoDescription: {
+    marginTop: 5,
+    fontFamily: "Montserrat_500Medium",
+    color: "#888",
+  },
   services: {
     flexDirection: "row",
     alignItems: "stretch",
