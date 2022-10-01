@@ -1,10 +1,10 @@
 import React from "react";
-import { StyleSheet, SafeAreaView, View } from "react-native";
+import { StyleSheet, SafeAreaView, View, ScrollView } from "react-native";
 
 export default Screen = ({ children }) => {
   return (
     <SafeAreaView style={styles.screen}>
-      <View style={styles.wrapper}>{children}</View>
+      <ScrollView style={styles.wrapper}>{children}</ScrollView>
     </SafeAreaView>
   );
 };

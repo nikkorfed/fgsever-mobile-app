@@ -13,20 +13,20 @@ export default HomeScreen = ({ navigation }) => {
         <View style={styles.serviceContainer}>
           <TouchableOpacity style={styles.service} activeOpacity={0.8} onPress={() => navigation.navigate("MaintenanceCalculator")}>
             <FontAwesome5 name="calculator" color="dodgerblue" size={40} />
-            <Text style={styles.serviceText}>Калькулятор техобслуживания</Text>
+            <Text style={styles.serviceTitle}>Калькулятор ТО</Text>
+            <Text style={styles.serviceDescription}>Рассчитать стоимость техобслуживания по VIN автомобиля</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.serviceContainer}>
           <TouchableOpacity style={styles.service} activeOpacity={0.8} onPress={() => navigation.navigate("UpgradeCalculator")}>
             <FontAwesome5 name="calculator" color="dodgerblue" size={40} />
-            <Text style={styles.serviceText}>Калькулятор дооснащения</Text>
+            <Text style={styles.serviceTitle}>Калькулятор дооснащения</Text>
+            <Text style={styles.serviceDescription}>Рассчитать стоимость дооснащения по VIN</Text>
           </TouchableOpacity>
         </View>
       </View>
-      <Button title="Калькулятор техобслуживания" onPress={() => navigation.navigate("MaintenanceCalculator")} />
-      <Button title="Калькулятор дооснащения" onPress={() => navigation.navigate("UpgradeCalculator")} />
-      <Button title="Записаться на ремонт" onPress={() => navigation.navigate("Appointment")} />
-      <Button title="Купить запчасти" onPress={() => navigation.navigate("Parts")} />
+      <Button style={styles.button} title="Записаться на ремонт" onPress={() => navigation.navigate("Appointment")} />
+      <Button style={styles.button} title="Купить запчасти" onPress={() => navigation.navigate("Parts")} />
     </Screen>
   );
 };
@@ -34,28 +34,37 @@ export default HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   services: {
     flexDirection: "row",
+    alignItems: "stretch",
     flexWrap: "wrap",
     marginHorizontal: -7.5,
   },
   serviceContainer: {
+    flexDirection: "row",
     flex: 1,
     marginBottom: 15,
     paddingHorizontal: 7.5,
   },
   service: {
-    justifyContent: "center",
-    alignItems: "center",
     borderRadius: 10,
     padding: 15,
-    height: 150,
+    width: "100%",
     backgroundColor: "white",
     shadowOpacity: 0.05,
     shadowOffset: { height: 0, width: 0 },
     shadowRadius: 10,
   },
-  serviceText: {
+  serviceTitle: {
     marginTop: 15,
-    fontWeight: "500",
-    textAlign: "center",
+    fontFamily: "Montserrat_600SemiBold",
+    color: "#111",
+  },
+  serviceDescription: {
+    marginTop: 5,
+    fontFamily: "Montserrat_500Medium",
+    fontSize: 13,
+    color: "#666",
+  },
+  button: {
+    marginBottom: 10,
   },
 });
