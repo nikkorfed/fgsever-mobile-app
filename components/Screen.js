@@ -1,7 +1,7 @@
 import React from "react";
-import { StyleSheet, SafeAreaView, View, ScrollView } from "react-native";
+import { StyleSheet, ScrollView } from "react-native";
 
-export default Screen = ({ children }) => {
+const Screen = ({ children }) => {
   return (
     <ScrollView style={styles.wrapper} contentInsetAdjustmentBehavior="automatic">
       {children}
@@ -16,3 +16,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#f8f8f8",
   },
 });
+
+export default Screen;

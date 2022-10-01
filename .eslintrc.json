@@ -1,0 +1,6 @@
+{
+  "extends": ["universe/native", "prettier"],
+  "rules": {
+    "prettier/prettier": "off"
+  }
+}

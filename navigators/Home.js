@@ -1,14 +1,14 @@
-import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import React from "react";
 
+import AppointmentScreen from "../screens/Appointment";
 import HomeScreen from "../screens/Home";
 import MaintenanceCalculatorScreen from "../screens/MaintenanceCalculator";
 import UpgradeCalculatorScreen from "../screens/UpgradeCalculator";
-import AppointmentScreen from "../screens/Appointment";
 
 const Stack = createNativeStackNavigator();
 
-export default HomeNavigator = () => {
+const HomeNavigator = () => {
   return (
     <Stack.Navigator
       screenOptions={{ headerTransparent: true, headerBlurEffect: "light", headerLargeStyle: { backgroundColor: "#f8f8f8" } }}
@@ -21,3 +21,5 @@ export default HomeNavigator = () => {
     </Stack.Navigator>
   );
 };
+
+export default HomeNavigator;

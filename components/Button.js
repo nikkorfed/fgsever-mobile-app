@@ -1,14 +1,13 @@
+import { AntDesign } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
-import { AntDesign } from "@expo/vector-icons";
-
-export let BackButton = ({ style, title, ...props }) => {
+export const BackButton = ({ style, title, ...props }) => {
   const navigation = useNavigation();
 
-  let color = Array.isArray(style) ? style.reduce((_, style) => style?.color || _, undefined) : style?.color;
-  let textStyle = { color: color ?? "dodgerblue" };
+  const color = Array.isArray(style) ? style.reduce((_, style) => style?.color || _, undefined) : style?.color;
+  const textStyle = { color: color ?? "dodgerblue" };
 
   return (
     <TouchableOpacity style={[styles.back, style]} activeOpacity={0.5} onPress={navigation.goBack} {...props}>
@@ -18,9 +17,9 @@ export let BackButton = ({ style, title, ...props }) => {
   );
 };
 
-export let Button = ({ style, title, ...props }) => {
-  let color = Array.isArray(style) ? style.reduce((_, style) => style?.color || _, undefined) : style?.color;
-  let textStyle = { color: color ?? "white" };
+export const Button = ({ style, title, ...props }) => {
+  const color = Array.isArray(style) ? style.reduce((_, style) => style?.color || _, undefined) : style?.color;
+  const textStyle = { color: color ?? "white" };
 
   return (
     <TouchableOpacity style={[styles.button, style]} activeOpacity={0.8} {...props}>
@@ -29,9 +28,9 @@ export let Button = ({ style, title, ...props }) => {
   );
 };
 
-export let SimpleButton = ({ style, title, ...props }) => {
-  let color = Array.isArray(style) ? style.reduce((_, style) => style?.color || _, undefined) : style?.color;
-  let textStyle = { color: color ?? "dodgerblue" };
+export const SimpleButton = ({ style, title, ...props }) => {
+  const color = Array.isArray(style) ? style.reduce((_, style) => style?.color || _, undefined) : style?.color;
+  const textStyle = { color: color ?? "dodgerblue" };
   return (
     <TouchableOpacity style={[styles.button, styles.simpleButton, style]} activeOpacity={0.8} {...props}>
       <Text style={[styles.buttonText, textStyle]}>{title}</Text>

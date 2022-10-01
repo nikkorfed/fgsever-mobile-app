@@ -1,8 +1,8 @@
-import React from "react";
-import { StyleSheet } from "react-native";
-import { BlurView } from "expo-blur";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { BlurView } from "expo-blur";
+import React from "react";
+import { StyleSheet } from "react-native";
 
 import HomeNavigator from "../navigators/Home";
 import Chat from "../screens/Chat";
@@ -10,7 +10,7 @@ import Profile from "../screens/Profile";
 
 const Tab = createBottomTabNavigator();
 
-export default MainMavigator = () => {
+const MainMavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -38,3 +38,5 @@ export default MainMavigator = () => {
     </Tab.Navigator>
   );
 };
+
+export default MainMavigator;

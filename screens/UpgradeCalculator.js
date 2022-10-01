@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, SafeAreaView } from "react-native";
 import { WebView } from "react-native-webview";
 
-export default UpgradeCalculatorScreen = ({ navigation }) => {
+const UpgradeCalculatorScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <WebView source={{ uri: "https://fgsever.ru/upgrade-calculator" }} />
@@ -15,3 +15,5 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+export default UpgradeCalculatorScreen;

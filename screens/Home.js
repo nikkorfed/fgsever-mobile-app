@@ -1,12 +1,11 @@
+import { FontAwesome5 } from "@expo/vector-icons";
 import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import { FontAwesome5 } from "@expo/vector-icons";
 
-// TODO: Настроить линтер, чтобы проверял пути импортов, переменные (чтобы подставлять их или выявлять случаи, когда они отсутствуют).
-import Screen from "../components/Screen";
 import { Button } from "../components/Button";
+import Screen from "../components/Screen";
 
-export default HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ navigation }) => {
   return (
     <Screen>
       <TouchableOpacity style={styles.promo} activeOpacity={0.5} onPress={() => navigation.navigate("MaintenanceCalculator")}>
@@ -89,3 +88,5 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 });
+
+export default HomeScreen;
