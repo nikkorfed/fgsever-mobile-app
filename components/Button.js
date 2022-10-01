@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     backgroundColor: undefined,
   },
   buttonText: {
-    fontSize: 16,
+    fontFamily: "Montserrat_600SemiBold",
     color: "white",
   },
 });
