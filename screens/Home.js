@@ -1,48 +1,49 @@
 import { FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
 import React from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 
 import { Button } from "../components/Button";
+import Pressable from "../components/Pressable";
 import Screen from "../components/Screen";
 
 const HomeScreen = ({ navigation }) => {
   return (
     <Screen>
-      <TouchableOpacity style={styles.promo} activeOpacity={0.5} onPress={() => navigation.navigate("MaintenanceCalculator")}>
+      <View style={styles.promo}>
         <Text style={styles.promoTitle}>Добро пожаловать в FGSEVER!</Text>
         <Text style={styles.promoDescription}>
           Здесь вы можете рассчитать стоимость ТО или дооснащения, записаться на ремонт, заказать запчасти или посмотреть историю работ.
         </Text>
-      </TouchableOpacity>
+      </View>
       <View style={styles.services}>
         <View style={styles.serviceContainer}>
-          <TouchableOpacity style={styles.service} activeOpacity={0.5} onPress={() => navigation.navigate("MaintenanceCalculator")}>
-            <FontAwesome5 name="calculator" color="dodgerblue" size={40} />
+          <Pressable style={styles.service} onPress={() => navigation.navigate("MaintenanceCalculator")}>
+            <FontAwesome5 name="calculator" color="dodgerblue" size={32} />
             <Text style={styles.serviceTitle}>Калькулятор ТО</Text>
             <Text style={styles.serviceDescription}>Рассчитать стоимость техобслуживания по VIN автомобиля</Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
         <View style={styles.serviceContainer}>
-          <TouchableOpacity style={styles.service} activeOpacity={0.5} onPress={() => navigation.navigate("UpgradeCalculator")}>
-            <FontAwesome5 name="calculator" color="dodgerblue" size={40} />
+          <Pressable style={styles.service} onPress={() => navigation.navigate("UpgradeCalculator")}>
+            <FontAwesome5 name="calculator" color="dodgerblue" size={32} />
             <Text style={styles.serviceTitle}>Калькулятор дооснащения</Text>
             <Text style={styles.serviceDescription}>Рассчитать стоимость дооснащения по VIN</Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </View>
-      <View style={styles.appointment}>
+      <Pressable style={styles.appointment} onPress={() => navigation.navigate("Appointment")}>
         <View style={styles.appointmentRow}>
           <View style={styles.appointmentText}>
             <Text style={styles.appointmentTitle}>Запись на ремонт</Text>
             <Text style={styles.appointmentDescription}>Выберите автомобиль, необходимый вид работ и дату посещения</Text>
           </View>
           <View style={styles.appointmentIcon}>
-            <MaterialCommunityIcons name="car-wrench" color="dodgerblue" size={50} />
+            <MaterialCommunityIcons name="car-wrench" color="dodgerblue" size={40} />
           </View>
         </View>
-        <Button style={styles.button} title="Записаться" onPress={() => navigation.navigate("Appointment")} />
-      </View>
-      <Button style={styles.button} title="Купить запчасти" onPress={() => navigation.navigate("Parts")} />
+        {/* <Button title="Записаться" onPress={() => navigation.navigate("Appointment")} /> */}
+      </Pressable>
+      <Button title="Купить запчасти" onPress={() => navigation.navigate("Parts")} />
     </Screen>
   );
 };
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "flex-start",
-    marginBottom: 15,
+    // marginBottom: 15,
   },
   appointmentText: {
     flexShrink: 1,
@@ -117,9 +118,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
-    // height: 60,
-    // width: 60,
-    // backgroundColor: "#f8f8f8",
+    height: 60,
+    width: 60,
+    backgroundColor: "#f8f8f8",
   },
   appointmentTitle: {
     marginBottom: 5,

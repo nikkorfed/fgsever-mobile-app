@@ -3,7 +3,9 @@ import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
-// TODO: Добавить кнопки, пульсирующие при нажатии (как в приложении Тинькофф).
+import Pressable from "./Pressable";
+
+// Попробовать реализовать экспорт вида Button, { SimpleButton }
 
 export const BackButton = ({ style, title, ...props }) => {
   const navigation = useNavigation();
@@ -20,13 +22,14 @@ export const BackButton = ({ style, title, ...props }) => {
 };
 
 export const Button = ({ style, title, ...props }) => {
+  // Проверить, как в Pressable передается style в виде массива в массиве. Если не передается, самому через reduce() собирать объект со стилями.
   const color = Array.isArray(style) ? style.reduce((_, style) => style?.color || _, undefined) : style?.color;
   const textStyle = { color: color ?? "white" };
 
   return (
-    <TouchableOpacity style={[styles.button, style]} activeOpacity={0.8} {...props}>
+    <Pressable style={[styles.button, style]} {...props}>
       <Text style={[styles.buttonText, textStyle]}>{title}</Text>
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 
