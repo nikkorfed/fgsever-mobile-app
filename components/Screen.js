@@ -1,11 +1,12 @@
 import React from "react";
-import { StyleSheet, ScrollView } from "react-native";
+import { StyleSheet } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const Screen = ({ children }) => {
   return (
-    <ScrollView style={styles.wrapper} contentInsetAdjustmentBehavior="automatic">
+    <KeyboardAwareScrollView style={styles.wrapper} contentInsetAdjustmentBehavior="automatic">
       {children}
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 };
 
