@@ -5,7 +5,7 @@ const Pressable = ({ style, onPress, children }) => {
   const scale = useRef(new Animated.Value(1)).current;
 
   const scaleUp = () => Animated.timing(scale, { toValue: 1, duration: 100, useNativeDriver: true }).start();
-  const scaleDown = () => Animated.timing(scale, { toValue: 0.96, duration: 100, useNativeDriver: true }).start();
+  const scaleDown = () => Animated.timing(scale, { toValue: 0.95, duration: 100, useNativeDriver: true }).start();
 
   return (
     <Animated.View style={{ transform: [{ scale }] }}>

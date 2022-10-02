@@ -1,6 +1,6 @@
 import { FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, TextInput } from "react-native";
 
 import { Button } from "../components/Button";
 import Pressable from "../components/Pressable";
@@ -43,7 +43,19 @@ const HomeScreen = ({ navigation }) => {
         </View>
         {/* <Button title="Записаться" onPress={() => navigation.navigate("Appointment")} /> */}
       </Pressable>
-      <Button title="Купить запчасти" onPress={() => navigation.navigate("Parts")} />
+      <View style={styles.parts}>
+        <View style={styles.partsRow}>
+          <View style={styles.partsText}>
+            <Text style={styles.partsTitle}>Покупка запчастей</Text>
+            <Text style={styles.partsDescription}>Введите номера запчастей, чтобы проверить их наличие и перейти к оформлению заказа</Text>
+          </View>
+          <View style={styles.partsIcon}>
+            <MaterialCommunityIcons name="cart" color="dodgerblue" size={40} />
+          </View>
+        </View>
+        <TextInput style={styles.partsInput} placeholder="Номера запчастей (через запятую)" />
+        <Button title="Заказать запчасти" onPress={() => navigation.navigate("Parts")} />
+      </View>
     </Screen>
   );
 };
@@ -94,7 +106,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontFamily: "Montserrat_500Medium",
     fontSize: 13,
-    color: "#666",
+    color: "#888",
   },
   appointment: {
     marginBottom: 15,
@@ -114,14 +126,6 @@ const styles = StyleSheet.create({
   appointmentText: {
     flexShrink: 1,
   },
-  appointmentIcon: {
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 10,
-    height: 60,
-    width: 60,
-    backgroundColor: "#f8f8f8",
-  },
   appointmentTitle: {
     marginBottom: 5,
     fontFamily: "Montserrat_600SemiBold",
@@ -130,7 +134,59 @@ const styles = StyleSheet.create({
   appointmentDescription: {
     fontFamily: "Montserrat_500Medium",
     fontSize: 13,
-    color: "#666",
+    color: "#888",
+  },
+  appointmentIcon: {
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    height: 60,
+    width: 60,
+    backgroundColor: "#f8f8f8",
+  },
+  parts: {
+    borderRadius: 10,
+    padding: 15,
+    backgroundColor: "white",
+    shadowOpacity: 0.05,
+    shadowOffset: { height: 0, width: 0 },
+    shadowRadius: 10,
+  },
+  partsRow: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    marginBottom: 15,
+  },
+  partsText: {
+    flexShrink: 1,
+  },
+  partsTitle: {
+    marginBottom: 5,
+    fontFamily: "Montserrat_600SemiBold",
+    color: "#111",
+  },
+  partsDescription: {
+    fontFamily: "Montserrat_500Medium",
+    fontSize: 13,
+    color: "#888",
+  },
+  partsIcon: {
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    height: 60,
+    width: 60,
+    backgroundColor: "#f8f8f8",
+  },
+  partsInput: {
+    marginBottom: 15,
+    borderRadius: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 15,
+    fontFamily: "Montserrat_500Medium",
+    fontSize: 13,
+    backgroundColor: "#f8f8f8",
   },
 });
 
