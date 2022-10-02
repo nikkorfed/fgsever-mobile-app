@@ -8,8 +8,8 @@ const Pressable = ({ style, onPress, children }) => {
   const scaleDown = () => Animated.timing(scale, { toValue: 0.95, duration: 100, useNativeDriver: true }).start();
 
   return (
-    <Animated.View style={{ transform: [{ scale }] }}>
-      <ReactNativePressable style={style} onPress={onPress} onPressIn={scaleDown} onPressOut={scaleUp}>
+    <Animated.View style={[style, { transform: [{ scale }] }]}>
+      <ReactNativePressable onPress={onPress} onPressIn={scaleDown} onPressOut={scaleUp}>
         {children}
       </ReactNativePressable>
     </Animated.View>

@@ -9,51 +9,51 @@ import Screen from "../components/Screen";
 const HomeScreen = ({ navigation }) => {
   return (
     <Screen>
-      <View style={styles.promo}>
-        <Text style={styles.promoTitle}>Добро пожаловать в FGSEVER!</Text>
-        <Text style={styles.promoDescription}>
+      <View style={[styles.block, styles.promo]}>
+        <Text style={[styles.title, styles.promoTitle]}>Добро пожаловать в FGSEVER!</Text>
+        <Text style={[styles.description, styles.promoDescription]}>
           Здесь вы можете рассчитать стоимость ТО или дооснащения, записаться на ремонт, заказать запчасти или посмотреть историю работ.
         </Text>
       </View>
       <View style={styles.services}>
         <View style={styles.serviceContainer}>
-          <Pressable style={styles.service} onPress={() => navigation.navigate("MaintenanceCalculator")}>
-            <FontAwesome5 name="calculator" color="dodgerblue" size={32} />
-            <Text style={styles.serviceTitle}>Калькулятор ТО</Text>
-            <Text style={styles.serviceDescription}>Рассчитать стоимость техобслуживания по VIN автомобиля</Text>
+          <Pressable style={styles.block} onPress={() => navigation.navigate("MaintenanceCalculator")}>
+            <FontAwesome5 style={styles.serviceIcon} name="calculator" color="dodgerblue" size={32} />
+            <Text style={styles.title}>Калькулятор ТО</Text>
+            <Text style={styles.description}>Рассчитать стоимость техобслуживания по VIN автомобиля</Text>
           </Pressable>
         </View>
         <View style={styles.serviceContainer}>
-          <Pressable style={styles.service} onPress={() => navigation.navigate("UpgradeCalculator")}>
-            <FontAwesome5 name="calculator" color="dodgerblue" size={32} />
-            <Text style={styles.serviceTitle}>Калькулятор дооснащения</Text>
-            <Text style={styles.serviceDescription}>Рассчитать стоимость дооснащения по VIN</Text>
+          <Pressable style={styles.block} onPress={() => navigation.navigate("UpgradeCalculator")}>
+            <FontAwesome5 style={styles.serviceIcon} name="calculator" color="dodgerblue" size={32} />
+            <Text style={styles.title}>Калькулятор дооснащения</Text>
+            <Text style={styles.description}>Рассчитать стоимость дооснащения по VIN</Text>
           </Pressable>
         </View>
       </View>
-      <Pressable style={styles.appointment} onPress={() => navigation.navigate("Appointment")}>
-        <View style={styles.appointmentRow}>
-          <View style={styles.appointmentText}>
-            <Text style={styles.appointmentTitle}>Запись на ремонт</Text>
-            <Text style={styles.appointmentDescription}>Выберите автомобиль, необходимый вид работ и дату посещения</Text>
+      <Pressable style={styles.block} onPress={() => navigation.navigate("Appointment")}>
+        <View style={styles.row}>
+          <View style={styles.text}>
+            <Text style={styles.title}>Запись на ремонт</Text>
+            <Text style={styles.description}>Выберите автомобиль, необходимый вид работ и дату посещения</Text>
           </View>
-          <View style={styles.appointmentIcon}>
+          <View style={styles.icon}>
             <MaterialCommunityIcons name="car-wrench" color="dodgerblue" size={40} />
           </View>
         </View>
         {/* <Button title="Записаться" onPress={() => navigation.navigate("Appointment")} /> */}
       </Pressable>
-      <View style={styles.parts}>
-        <View style={styles.partsRow}>
-          <View style={styles.partsText}>
-            <Text style={styles.partsTitle}>Покупка запчастей</Text>
-            <Text style={styles.partsDescription}>Введите номера запчастей, чтобы проверить их наличие и перейти к оформлению заказа</Text>
+      <View style={styles.block}>
+        <View style={styles.row}>
+          <View style={styles.text}>
+            <Text style={styles.title}>Покупка запчастей</Text>
+            <Text style={styles.description}>Введите номера запчастей, чтобы проверить их наличие и перейти к оформлению заказа</Text>
           </View>
-          <View style={styles.partsIcon}>
+          <View style={styles.icon}>
             <MaterialCommunityIcons name="cart" color="dodgerblue" size={40} />
           </View>
         </View>
-        <TextInput style={styles.partsInput} placeholder="Номера запчастей (через запятую)" />
+        <TextInput style={styles.input} placeholder="Номера запчастей (через запятую)" />
         <Button title="Заказать запчасти" onPress={() => navigation.navigate("Parts")} />
       </View>
     </Screen>
@@ -61,34 +61,8 @@ const HomeScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  promo: {
+  block: {
     marginBottom: 15,
-    borderRadius: 10,
-    padding: 15,
-    backgroundColor: "rgba(28, 105, 212, 0.15)",
-  },
-  promoTitle: {
-    fontFamily: "Montserrat_600SemiBold",
-    fontSize: 16,
-  },
-  promoDescription: {
-    marginTop: 5,
-    fontFamily: "Montserrat_500Medium",
-    color: "#888",
-  },
-  services: {
-    flexDirection: "row",
-    alignItems: "stretch",
-    flexWrap: "wrap",
-    marginHorizontal: -7.5,
-  },
-  serviceContainer: {
-    flexDirection: "row",
-    flex: 1,
-    marginBottom: 15,
-    paddingHorizontal: 7.5,
-  },
-  service: {
     borderRadius: 10,
     padding: 15,
     width: "100%",
@@ -97,89 +71,31 @@ const styles = StyleSheet.create({
     shadowOffset: { height: 0, width: 0 },
     shadowRadius: 10,
   },
-  serviceTitle: {
+  row: {
+    flexDirection: "row",
+  },
+  text: {
+    flexShrink: 1,
+  },
+  title: {
+    marginBottom: 5,
+    fontFamily: "Montserrat_600SemiBold",
+  },
+  description: {
+    fontFamily: "Montserrat_500Medium",
+    fontSize: 13,
+    color: "#888",
+  },
+  icon: {
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    height: 60,
+    width: 60,
+    backgroundColor: "#f8f8f8",
+  },
+  input: {
     marginTop: 15,
-    fontFamily: "Montserrat_600SemiBold",
-    color: "#111",
-  },
-  serviceDescription: {
-    marginTop: 5,
-    fontFamily: "Montserrat_500Medium",
-    fontSize: 13,
-    color: "#888",
-  },
-  appointment: {
-    marginBottom: 15,
-    borderRadius: 10,
-    padding: 15,
-    backgroundColor: "white",
-    shadowOpacity: 0.05,
-    shadowOffset: { height: 0, width: 0 },
-    shadowRadius: 10,
-  },
-  appointmentRow: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "flex-start",
-    // marginBottom: 15,
-  },
-  appointmentText: {
-    flexShrink: 1,
-  },
-  appointmentTitle: {
-    marginBottom: 5,
-    fontFamily: "Montserrat_600SemiBold",
-    color: "#111",
-  },
-  appointmentDescription: {
-    fontFamily: "Montserrat_500Medium",
-    fontSize: 13,
-    color: "#888",
-  },
-  appointmentIcon: {
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 10,
-    height: 60,
-    width: 60,
-    backgroundColor: "#f8f8f8",
-  },
-  parts: {
-    borderRadius: 10,
-    padding: 15,
-    backgroundColor: "white",
-    shadowOpacity: 0.05,
-    shadowOffset: { height: 0, width: 0 },
-    shadowRadius: 10,
-  },
-  partsRow: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "flex-start",
-    marginBottom: 15,
-  },
-  partsText: {
-    flexShrink: 1,
-  },
-  partsTitle: {
-    marginBottom: 5,
-    fontFamily: "Montserrat_600SemiBold",
-    color: "#111",
-  },
-  partsDescription: {
-    fontFamily: "Montserrat_500Medium",
-    fontSize: 13,
-    color: "#888",
-  },
-  partsIcon: {
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 10,
-    height: 60,
-    width: 60,
-    backgroundColor: "#f8f8f8",
-  },
-  partsInput: {
     marginBottom: 15,
     borderRadius: 10,
     paddingVertical: 12,
@@ -187,6 +103,29 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat_500Medium",
     fontSize: 13,
     backgroundColor: "#f8f8f8",
+  },
+  promo: {
+    backgroundColor: "rgba(28, 105, 212, 0.15)",
+    shadowRadius: 0,
+  },
+  promoTitle: {
+    fontSize: 16,
+  },
+  promoDescription: {
+    fontSize: 14,
+  },
+  services: {
+    flexDirection: "row",
+    alignItems: "stretch",
+    marginHorizontal: -7.5,
+  },
+  serviceContainer: {
+    flex: 1,
+    flexDirection: "row",
+    paddingHorizontal: 7.5,
+  },
+  serviceIcon: {
+    marginBottom: 15,
   },
 });
 
