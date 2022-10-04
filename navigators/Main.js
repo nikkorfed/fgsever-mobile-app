@@ -1,4 +1,4 @@
-import { Feather, Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, MaterialIcons, Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { BlurView } from "expo-blur";
 import React from "react";
@@ -22,18 +22,32 @@ const MainMavigator = () => {
       <Tab.Screen
         name="HomeNavigator"
         component={HomeNavigator}
-        options={{ title: "Главная", tabBarIcon: ({ color }) => <Feather name="home" color={color} size={26} /> }}
+        options={{ title: "Главная", tabBarIcon: ({ color }) => <Ionicons name="ios-home" color={color} size={22} /> }}
+      />
+      <Tab.Screen
+        name="ServicesNavigator"
+        component={Chat}
+        options={{ title: "Услуги", tabBarIcon: ({ color }) => <MaterialCommunityIcons name="wrench" color={color} size={22} /> }}
+      />
+      <Tab.Screen
+        name="GarageNavigator"
+        component={Chat}
+        options={{ title: "Гараж", tabBarIcon: ({ color }) => <Ionicons name="car" color={color} size={28} /> }}
+      />
+      <Tab.Screen
+        name="ParkNavigator"
+        component={Chat}
+        options={{ title: "Парк", tabBarIcon: ({ color }) => <MaterialIcons name="park" color={color} size={26} /> }}
       />
       <Tab.Screen
         name="ChatNavigator"
-        m
         component={Chat}
-        options={{ title: "Чат", tabBarIcon: ({ color }) => <Ionicons name="chatbubbles-outline" color={color} size={26} /> }}
+        options={{ title: "Чат", tabBarIcon: ({ color }) => <Ionicons name="chatbubbles" color={color} size={24} /> }}
       />
       <Tab.Screen
         name="ProfileNavigator"
         component={Profile}
-        options={{ title: "Профиль", tabBarIcon: ({ color }) => <Feather name="user" color={color} size={26} /> }}
+        options={{ title: "Профиль", tabBarIcon: ({ color }) => <FontAwesome5 name="user-alt" color={color} size={22} /> }}
       />
     </Tab.Navigator>
   );
