@@ -5,27 +5,28 @@ import { StyleSheet, View, Text, TextInput } from "react-native";
 import { Button } from "../components/Button";
 import Pressable from "../components/Pressable";
 import Screen from "../components/Screen";
+import globalStyles from "../styles";
 
 const HomeScreen = ({ navigation }) => {
   return (
     <Screen>
-      <View style={[styles.block, styles.promo]}>
-        <Text style={[styles.title, styles.promoTitle]}>Добро пожаловать в FGSEVER!</Text>
-        <Text style={[styles.description, styles.promoDescription]}>
+      <View style={styles.intro}>
+        <Text style={styles.introTitle}>Добро пожаловать в FGSEVER!</Text>
+        <Text style={styles.introDescription}>
           Здесь вы можете рассчитать стоимость ТО или дооснащения, записаться на ремонт, заказать запчасти или посмотреть историю работ.
         </Text>
       </View>
-      <View style={styles.services}>
-        <View style={styles.serviceContainer}>
+      <View style={styles.columns}>
+        <View style={styles.column}>
           <Pressable style={styles.block} onPress={() => navigation.navigate("MaintenanceCalculator")}>
-            <FontAwesome5 style={styles.serviceIcon} name="calculator" color="dodgerblue" size={32} />
+            <FontAwesome5 style={styles.icon} name="calculator" color="dodgerblue" size={32} />
             <Text style={styles.title}>Калькулятор ТО</Text>
             <Text style={styles.description}>Рассчитать стоимость техобслуживания по VIN автомобиля</Text>
           </Pressable>
         </View>
-        <View style={styles.serviceContainer}>
+        <View style={styles.column}>
           <Pressable style={styles.block} onPress={() => navigation.navigate("UpgradeCalculator")}>
-            <FontAwesome5 style={styles.serviceIcon} name="calculator" color="dodgerblue" size={32} />
+            <FontAwesome5 style={styles.icon} name="calculator" color="dodgerblue" size={32} />
             <Text style={styles.title}>Калькулятор дооснащения</Text>
             <Text style={styles.description}>Рассчитать стоимость дооснащения по VIN</Text>
           </Pressable>
@@ -37,7 +38,7 @@ const HomeScreen = ({ navigation }) => {
             <Text style={styles.title}>Запись на ремонт</Text>
             <Text style={styles.description}>Выберите автомобиль, необходимый вид работ и дату посещения</Text>
           </View>
-          <View style={styles.icon}>
+          <View style={styles.sideIcon}>
             <MaterialCommunityIcons name="car-wrench" color="dodgerblue" size={40} />
           </View>
         </View>
@@ -49,7 +50,7 @@ const HomeScreen = ({ navigation }) => {
             <Text style={styles.title}>Покупка запчастей</Text>
             <Text style={styles.description}>Введите номера запчастей, чтобы проверить их наличие и перейти к оформлению заказа</Text>
           </View>
-          <View style={styles.icon}>
+          <View style={styles.sideIcon}>
             <MaterialCommunityIcons name="cart" color="dodgerblue" size={40} />
           </View>
         </View>
@@ -61,72 +62,14 @@ const HomeScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  block: {
-    marginBottom: 15,
-    borderRadius: 10,
-    padding: 15,
-    width: "100%",
-    backgroundColor: "white",
-    shadowOpacity: 0.05,
-    shadowOffset: { height: 0, width: 0 },
-    shadowRadius: 10,
-  },
-  row: {
-    flexDirection: "row",
-  },
-  text: {
-    flexShrink: 1,
-  },
-  title: {
-    marginBottom: 5,
-    fontFamily: "Montserrat_600SemiBold",
-  },
-  description: {
-    fontFamily: "Montserrat_500Medium",
-    fontSize: 13,
-    color: "#888",
-  },
-  icon: {
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 10,
-    height: 60,
-    width: 60,
-    backgroundColor: "#f8f8f8",
-  },
-  input: {
-    marginTop: 15,
-    marginBottom: 15,
-    borderRadius: 10,
-    paddingVertical: 12,
-    paddingHorizontal: 15,
-    fontFamily: "Montserrat_500Medium",
-    fontSize: 13,
-    backgroundColor: "#f8f8f8",
-  },
-  promo: {
-    backgroundColor: "rgba(28, 105, 212, 0.15)",
+  ...globalStyles.main,
+  intro: {
+    ...globalStyles.main.block,
+    backgroundColor: "rgba(28, 105, 212, 0.10)",
     shadowRadius: 0,
   },
-  promoTitle: {
-    fontSize: 16,
-  },
-  promoDescription: {
-    fontSize: 14,
-  },
-  services: {
-    flexDirection: "row",
-    alignItems: "stretch",
-    marginHorizontal: -7.5,
-  },
-  serviceContainer: {
-    flex: 1,
-    flexDirection: "row",
-    paddingHorizontal: 7.5,
-  },
-  serviceIcon: {
-    marginBottom: 15,
-  },
+  introTitle: globalStyles.intro.title,
+  introDescription: globalStyles.intro.description,
 });
 
 export default HomeScreen;
