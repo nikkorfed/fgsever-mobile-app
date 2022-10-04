@@ -1,25 +1,23 @@
 import React from "react";
-import { StyleSheet, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
+import { StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { useKeyboardVisible } from "../hooks/keyboard";
 
-// Текущий вид прокрутки для текстовых полей корректно работает с полосой прокрутки, но имеет скачки.
+// Этот вид прокрутки работает немного плавнее, но некорректно отображает колесо прокрутки и имеет лишний отступ при открытой клавиатуре.
 
 const Screen = ({ children }) => {
   const isKeyboardVisible = useKeyboardVisible();
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
-      <ScrollView
-        style={styles.wrapper}
-        contentInsetAdjustmentBehavior="automatic"
-        contentContainerStyle={{ paddingBottom: isKeyboardVisible ? 0 : 49 }}
-        scrollIndicatorInsets={{ bottom: isKeyboardVisible ? 0 : 49 }}
-      >
-        {children}
-      </ScrollView>
-    </KeyboardAvoidingView>
+    <KeyboardAwareScrollView
+      style={styles.wrapper}
+      contentInsetAdjustmentBehavior="automatic"
+      contentContainerStyle={{ paddingBottom: 49 }}
+      scrollIndicatorInsets={{ bottom: 49 }}
+    >
+      {children}
+    </KeyboardAwareScrollView>
   );
 };
 
