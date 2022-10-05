@@ -3,17 +3,20 @@ import { Text, StyleSheet, TextInput } from "react-native";
 
 import { Button } from "../components/Button";
 import DateTimePicker from "../components/DateTimePicker";
+import NumberInput from "../components/NumberInput";
 import Screen from "../components/Screen";
 import globalStyles from "../styles";
 
 const ParkScreen = () => {
   const [date, setDate] = useState();
+  const [guests, setGuests] = useState(2);
+
   return (
     <Screen>
       <Text style={styles.intro}>Выберите необходимый дом, дату посещения и количество гостей</Text>
       <TextInput style={styles.input} placeholder="Дом" />
       <DateTimePicker style={styles.input} value={date} onChange={setDate} placeholder="Дата" />
-      <TextInput style={styles.input} placeholder="Количество гостей" />
+      <NumberInput title="Количество гостей" value={guests} onChange={setGuests} />
       <Button style={styles.button} title="Забронировать" onPress={() => {}} />
     </Screen>
   );
