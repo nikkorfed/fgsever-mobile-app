@@ -1,7 +1,9 @@
 import React, { useRef } from "react";
-import { Animated, Pressable as ReactNativePressable } from "react-native";
+import { Animated, Pressable as ReactNativePressable, View } from "react-native";
 
 const Pressable = ({ style, onPress, children }) => {
+  const Component = onPress ? ReactNativePressable : View;
+
   const scale = useRef(new Animated.Value(1)).current;
 
   const scaleUp = () => Animated.timing(scale, { toValue: 1, duration: 100, useNativeDriver: true }).start();
@@ -9,9 +11,9 @@ const Pressable = ({ style, onPress, children }) => {
 
   return (
     <Animated.View style={[{ transform: [{ scale }] }]}>
-      <ReactNativePressable style={style} onPress={onPress} onPressIn={scaleDown} onPressOut={scaleUp}>
+      <Component style={style} onPress={onPress} onPressIn={scaleDown} onPressOut={scaleUp}>
         {children}
-      </ReactNativePressable>
+      </Component>
     </Animated.View>
   );
 };

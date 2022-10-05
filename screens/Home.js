@@ -2,6 +2,7 @@ import { FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
 import React from "react";
 import { StyleSheet, View, Text, TextInput } from "react-native";
 
+import Block from "../components/Block";
 import { Button } from "../components/Button";
 import Pressable from "../components/Pressable";
 import Screen from "../components/Screen";
@@ -18,45 +19,40 @@ const HomeScreen = ({ navigation }) => {
       </View>
       <View style={styles.columns}>
         <View style={styles.column}>
-          <Pressable style={styles.block} onPress={() => navigation.navigate("MaintenanceCalculator")}>
-            <FontAwesome5 style={styles.blockIcon} name="calculator" color="dodgerblue" size={30} />
-            <Text style={styles.title}>Калькулятор ТО</Text>
-            <Text style={styles.description}>Рассчитать стоимость техобслуживания по VIN автомобиля</Text>
-          </Pressable>
+          <Block
+            onPress={() => navigation.navigate("MaintenanceCalculator")}
+            icon={<FontAwesome5 name="calculator" color="dodgerblue" size={30} />}
+            title="Калькулятор ТО"
+            description="Рассчитать стоимость техобслуживания по VIN автомобиля"
+          />
         </View>
         <View style={styles.column}>
-          <Pressable style={styles.block} onPress={() => navigation.navigate("UpgradeCalculator")}>
-            <FontAwesome5 style={styles.blockIcon} name="calculator" color="dodgerblue" size={30} />
-            <Text style={styles.title}>Калькулятор дооснащения</Text>
-            <Text style={styles.description}>Рассчитать стоимость дооснащения по VIN</Text>
-          </Pressable>
+          <Block
+            onPress={() => navigation.navigate("UpgradeCalculator")}
+            icon={<FontAwesome5 name="calculator" color="dodgerblue" size={30} />}
+            title="Калькулятор дооснащения"
+            description="Рассчитать стоимость дооснащения по VIN"
+          />
         </View>
       </View>
-      <Pressable style={styles.block} onPress={() => navigation.navigate("Appointment")}>
-        <View style={styles.row}>
-          <View style={styles.text}>
-            <Text style={styles.title}>Запись на ремонт</Text>
-            <Text style={styles.description}>Выберите автомобиль, необходимый вид работ и дату посещения</Text>
+      <Block
+        onPress={() => navigation.navigate("Appointment")}
+        title="Запись на ремонт"
+        description="Выберите автомобиль, необходимый вид работ и дату посещения"
+        sideIcon={<MaterialCommunityIcons name="car-wrench" color="dodgerblue" size={34} />}
+        // buttons={<Button title="Записаться" onPress={() => navigation.navigate("Appointment")} />}
+      />
+      <Block
+        title="Покупка запчастей"
+        description="Введите номера запчастей, чтобы проверить их наличие и перейти к оформлению заказа"
+        sideIcon={<MaterialCommunityIcons name="cart" color="dodgerblue" size={30} />}
+        buttons={
+          <View>
+            <TextInput style={styles.input} placeholder="Номера запчастей (через запятую)" />
+            <Button style={styles.button} title="Заказать запчасти" onPress={() => navigation.navigate("Parts")} />
           </View>
-          <View style={styles.sideIcon}>
-            <MaterialCommunityIcons name="car-wrench" color="dodgerblue" size={34} />
-          </View>
-        </View>
-        {/* <Button title="Записаться" onPress={() => navigation.navigate("Appointment")} /> */}
-      </Pressable>
-      <View style={styles.block}>
-        <View style={styles.row}>
-          <View style={styles.text}>
-            <Text style={styles.title}>Покупка запчастей</Text>
-            <Text style={styles.description}>Введите номера запчастей, чтобы проверить их наличие и перейти к оформлению заказа</Text>
-          </View>
-          <View style={styles.sideIcon}>
-            <MaterialCommunityIcons name="cart" color="dodgerblue" size={30} />
-          </View>
-        </View>
-        <TextInput style={styles.input} placeholder="Номера запчастей (через запятую)" />
-        <Button style={styles.button} title="Заказать запчасти" onPress={() => navigation.navigate("Parts")} />
-      </View>
+        }
+      />
     </Screen>
   );
 };
@@ -70,10 +66,7 @@ const styles = StyleSheet.create({
   },
   introTitle: globalStyles.intro.title,
   introDescription: globalStyles.intro.description,
-  input: {
-    ...globalStyles.main.input,
-    marginTop: 15,
-  },
+  input: globalStyles.main.input,
   button: {
     marginTop: 15,
   },
