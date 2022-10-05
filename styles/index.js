@@ -3,6 +3,7 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   columns: {
     flexDirection: "row",
+    flexWrap: "wrap",
     alignItems: "stretch",
     marginHorizontal: -7.5,
   },
