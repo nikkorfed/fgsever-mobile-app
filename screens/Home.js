@@ -1,22 +1,22 @@
 import { FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
 import React from "react";
-import { StyleSheet, View, Text, TextInput } from "react-native";
+import { StyleSheet, View, TextInput } from "react-native";
 
 import Block from "../components/Block";
 import { Button } from "../components/Button";
-import Pressable from "../components/Pressable";
 import Screen from "../components/Screen";
 import globalStyles from "../styles";
 
 const HomeScreen = ({ navigation }) => {
   return (
     <Screen>
-      <View style={styles.intro}>
-        <Text style={styles.introTitle}>Добро пожаловать в FGSEVER!</Text>
-        <Text style={styles.introDescription}>
-          Здесь вы можете рассчитать стоимость ТО или дооснащения, записаться на ремонт, заказать запчасти или посмотреть историю работ.
-        </Text>
-      </View>
+      <Block
+        style={styles.intro}
+        title="Добро пожаловать в FGSEVER!"
+        titleStyle={styles.introTitle}
+        description="Здесь вы можете рассчитать стоимость ТО или дооснащения, записаться на ремонт, заказать запчасти или посмотреть историю работ."
+        descriptionStyle={styles.introDescription}
+      />
       <View style={styles.columns}>
         <View style={styles.column}>
           <Block
@@ -60,12 +60,15 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   ...globalStyles.main,
   intro: {
-    ...globalStyles.main.block,
     backgroundColor: "rgba(28, 105, 212, 0.10)",
     shadowRadius: 0,
   },
-  introTitle: globalStyles.intro.title,
-  introDescription: globalStyles.intro.description,
+  introTitle: {
+    fontSize: 16,
+  },
+  introDescription: {
+    fontSize: 14,
+  },
   input: globalStyles.main.input,
   button: {
     marginTop: 15,

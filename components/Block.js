@@ -4,14 +4,14 @@ import { View, Text, StyleSheet } from "react-native";
 import Pressable from "../components/Pressable";
 import globalStyles from "../styles";
 
-const Block = ({ onPress, icon, title, description, sideIcon, buttons }) => {
+const Block = ({ style, onPress, icon, title, titleStyle, description, descriptionStyle, sideIcon, buttons }) => {
   return (
-    <Pressable style={styles.block} onPress={onPress}>
+    <Pressable style={[styles.block, style]} onPress={onPress}>
       <View style={styles.row}>
         <View style={styles.text}>
           {icon && <View style={styles.icon}>{icon}</View>}
-          {title && <Text style={styles.title}>{title}</Text>}
-          {description && <Text style={styles.description}>{description}</Text>}
+          {title && <Text style={[styles.title, titleStyle]}>{title}</Text>}
+          {description && <Text style={[styles.description, descriptionStyle]}>{description}</Text>}
         </View>
         {sideIcon && <View style={styles.sideIcon}>{sideIcon}</View>}
       </View>
