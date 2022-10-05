@@ -1,15 +1,18 @@
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import { useState } from "react";
+import { Text, StyleSheet, TextInput } from "react-native";
 
 import { Button } from "../components/Button";
+import DateTimePicker from "../components/DateTimePicker";
 import Screen from "../components/Screen";
 import globalStyles from "../styles";
 
 const ParkScreen = () => {
+  const [date, setDate] = useState();
   return (
     <Screen>
       <Text style={styles.intro}>Выберите необходимый дом, дату посещения и количество гостей</Text>
       <TextInput style={styles.input} placeholder="Дом" />
-      <TextInput style={styles.input} placeholder="Дата" />
+      <DateTimePicker style={styles.input} value={date} onChange={setDate} placeholder="Дата" />
       <TextInput style={styles.input} placeholder="Количество гостей" />
       <Button style={styles.button} title="Забронировать" onPress={() => {}} />
     </Screen>
