@@ -4,9 +4,10 @@ import { BlurView } from "expo-blur";
 import React from "react";
 import { StyleSheet } from "react-native";
 
-import HomeNavigator from "../navigators/Home";
 import Chat from "../screens/Chat";
 import Profile from "../screens/Profile";
+import HomeNavigator from "./Home";
+import ParkNavigator from "./Park";
 
 const Tab = createBottomTabNavigator();
 
@@ -36,7 +37,7 @@ const MainMavigator = () => {
       />
       <Tab.Screen
         name="ParkNavigator"
-        component={Chat}
+        component={ParkNavigator}
         options={{ title: "Парк", tabBarIcon: ({ color }) => <MaterialIcons name="park" color={color} size={26} /> }}
       />
       <Tab.Screen
