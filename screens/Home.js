@@ -58,7 +58,7 @@ const HomeScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  ...globalStyles.main,
+  ...globalStyles,
   intro: {
     backgroundColor: "rgba(28, 105, 212, 0.10)",
     shadowRadius: 0,
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   introDescription: {
     fontSize: 14,
   },
-  input: globalStyles.main.input,
+  input: globalStyles.input,
   button: {
     marginTop: 15,
   },

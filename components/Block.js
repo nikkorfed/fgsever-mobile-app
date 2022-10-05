@@ -40,8 +40,8 @@ const styles = StyleSheet.create({
   text: {
     flexShrink: 1,
   },
-  title: globalStyles.main.title,
-  description: globalStyles.main.description,
+  title: globalStyles.title,
+  description: globalStyles.description,
   sideIcon: {
     justifyContent: "center",
     alignItems: "center",

@@ -17,7 +17,7 @@ const ParkScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  ...globalStyles.main,
+  ...globalStyles,
   container: {
     flex: 1,
     height: "100%",
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     backgroundColor: "red",
   },
   row: {
-    ...globalStyles.main.row,
+    ...globalStyles.row,
     justifyContent: "center",
   },
   icon: {
@@ -38,11 +38,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#f8f8f8",
   },
   intro: {
-    ...globalStyles.main.intro,
+    ...globalStyles.intro,
     paddingHorizontal: 6,
   },
   input: {
-    ...globalStyles.main.input,
+    ...globalStyles.input,
     marginTop: 15,
   },
   button: {
