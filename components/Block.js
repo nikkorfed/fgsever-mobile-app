@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 import Pressable from "../components/Pressable";
+import globalStyles from "../styles";
 
 const Block = ({ onPress, icon, title, description, sideIcon, buttons }) => {
   return (
@@ -39,18 +40,8 @@ const styles = StyleSheet.create({
   text: {
     flexShrink: 1,
   },
-  title: {
-    fontFamily: "Montserrat_600SemiBold",
-    fontSize: 15,
-    lineHeight: 20,
-  },
-  description: {
-    marginTop: 5,
-    fontFamily: "Montserrat_500Medium",
-    fontSize: 13,
-    lineHeight: 18,
-    color: "#888",
-  },
+  title: globalStyles.main.title,
+  description: globalStyles.main.description,
   sideIcon: {
     justifyContent: "center",
     alignItems: "center",

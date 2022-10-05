@@ -7,7 +7,7 @@ import globalStyles from "../styles";
 const ParkScreen = () => {
   return (
     <Screen>
-      <Text style={styles.introDescription}>Выберите необходимый дом, дату посещения и количество гостей</Text>
+      <Text style={styles.intro}>Выберите необходимый дом, дату посещения и количество гостей</Text>
       <TextInput style={styles.input} placeholder="Дом" />
       <TextInput style={styles.input} placeholder="Дата" />
       <TextInput style={styles.input} placeholder="Количество гостей" />
@@ -37,16 +37,13 @@ const styles = StyleSheet.create({
     width: 80,
     backgroundColor: "#f8f8f8",
   },
-  introDescription: {
-    ...globalStyles.intro.description,
+  intro: {
+    ...globalStyles.main.intro,
     paddingHorizontal: 6,
   },
   input: {
     ...globalStyles.main.input,
     marginTop: 15,
-    // shadowOpacity: 0.05,
-    // shadowOffset: { height: 0, width: 0 },
-    // shadowRadius: 10,
   },
   button: {
     marginTop: 15,

@@ -17,6 +17,24 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  intro: {
+    fontFamily: "Montserrat_500Medium",
+    fontSize: 14,
+    lineHeight: 18,
+    color: "#888",
+  },
+  title: {
+    fontFamily: "Montserrat_600SemiBold",
+    fontSize: 15,
+    lineHeight: 20,
+  },
+  description: {
+    marginTop: 5,
+    fontFamily: "Montserrat_500Medium",
+    fontSize: 13,
+    lineHeight: 18,
+    color: "#888",
+  },
   input: {
     borderRadius: 10,
     padding: 15,
