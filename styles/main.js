@@ -8,8 +8,14 @@ const styles = StyleSheet.create({
   },
   column: {
     flex: 1,
-    flexDirection: "row",
     paddingHorizontal: 7.5,
+  },
+  row: {
+    flexDirection: "row",
+  },
+  centered: {
+    justifyContent: "center",
+    alignItems: "center",
   },
   block: {
     marginBottom: 15,
@@ -17,12 +23,12 @@ const styles = StyleSheet.create({
     padding: 15,
     width: "100%",
     backgroundColor: "white",
-    shadowOpacity: 0.05,
+    shadowOpacity: 0.1,
     shadowOffset: { height: 0, width: 0 },
     shadowRadius: 10,
   },
-  row: {
-    flexDirection: "row",
+  blockIcon: {
+    marginBottom: 15,
   },
   text: {
     flexShrink: 1,
@@ -39,23 +45,17 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     color: "#888",
   },
-  icon: {
-    marginBottom: 15,
-  },
   sideIcon: {
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 10,
+    borderRadius: "100%",
     height: 60,
     width: 60,
     backgroundColor: "#f8f8f8",
   },
   input: {
-    marginTop: 15,
-    marginBottom: 15,
     borderRadius: 10,
-    paddingVertical: 12,
-    paddingHorizontal: 15,
+    padding: 15,
     fontFamily: "Montserrat_500Medium",
     fontSize: 13,
     backgroundColor: "#f8f8f8",
