@@ -5,12 +5,12 @@ import { View, Text, StyleSheet } from "react-native";
 import globalStyles from "../styles";
 import Pressable from "./Pressable";
 
-const NumberInput = ({ title, value, onChange }) => {
+const NumberInput = ({ style, title, value, onChange }) => {
   const increase = () => onChange(value + 1);
   const decrease = () => onChange(value - 1);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <Text style={styles.title}>{title}</Text>
       <View style={styles.buttons}>
         <Pressable style={styles.button} onPress={decrease}>
@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 15,
   },
   buttons: {
     flexDirection: "row",

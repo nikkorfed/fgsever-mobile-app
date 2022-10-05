@@ -20,6 +20,7 @@ const HomeScreen = ({ navigation }) => {
       <View style={styles.columns}>
         <View style={styles.column}>
           <Block
+            style={styles.block}
             onPress={() => navigation.navigate("MaintenanceCalculator")}
             icon={<FontAwesome5 name="calculator" color="dodgerblue" size={30} />}
             title="Калькулятор ТО"
@@ -28,6 +29,7 @@ const HomeScreen = ({ navigation }) => {
         </View>
         <View style={styles.column}>
           <Block
+            style={styles.block}
             onPress={() => navigation.navigate("UpgradeCalculator")}
             icon={<FontAwesome5 name="calculator" color="dodgerblue" size={30} />}
             title="Калькулятор дооснащения"
@@ -36,6 +38,7 @@ const HomeScreen = ({ navigation }) => {
         </View>
       </View>
       <Block
+        style={styles.block}
         onPress={() => navigation.navigate("Appointment")}
         title="Запись на ремонт"
         description="Выберите автомобиль, необходимый вид работ и дату посещения"
@@ -43,6 +46,7 @@ const HomeScreen = ({ navigation }) => {
         // buttons={<Button title="Записаться" onPress={() => navigation.navigate("Appointment")} />}
       />
       <Block
+        style={styles.block}
         title="Покупка запчастей"
         description="Введите номера запчастей, чтобы проверить их наличие и перейти к оформлению заказа"
         sideIcon={<MaterialCommunityIcons name="cart" color="dodgerblue" size={30} />}
@@ -60,6 +64,7 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   ...globalStyles,
   intro: {
+    marginBottom: 15,
     backgroundColor: "rgba(28, 105, 212, 0.10)",
     shadowRadius: 0,
   },
@@ -68,6 +73,9 @@ const styles = StyleSheet.create({
   },
   introDescription: {
     fontSize: 14,
+  },
+  block: {
+    marginBottom: 15,
   },
   input: globalStyles.input,
   button: {
