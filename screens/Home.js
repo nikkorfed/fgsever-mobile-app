@@ -2,6 +2,8 @@ import { FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
 import React from "react";
 import { StyleSheet, View, TextInput } from "react-native";
 
+import RepairIcon from "../assets/icons/repair.svg";
+import Suspension from "../assets/icons/suspension.svg";
 import Block from "../components/Block";
 import { Button } from "../components/Button";
 import Screen from "../components/Screen";
@@ -42,14 +44,14 @@ const HomeScreen = ({ navigation }) => {
         onPress={() => navigation.navigate("Appointment")}
         title="Запись на ремонт"
         description="Выберите автомобиль, необходимый вид работ и дату посещения"
-        sideIcon={<MaterialCommunityIcons name="car-wrench" color="dodgerblue" size={34} />}
+        sideIcon={<RepairIcon size={30} />}
         // buttons={<Button title="Записаться" onPress={() => navigation.navigate("Appointment")} />}
       />
       <Block
         style={styles.block}
         title="Покупка запчастей"
         description="Введите номера запчастей, чтобы проверить их наличие и перейти к оформлению заказа"
-        sideIcon={<MaterialCommunityIcons name="cart" color="dodgerblue" size={30} />}
+        sideIcon={<Suspension size={30} />}
         buttons={
           <View>
             <TextInput style={styles.input} placeholder="Номера запчастей (через запятую)" />

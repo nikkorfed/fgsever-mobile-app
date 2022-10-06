@@ -1,0 +1,10 @@
+{
+  "svgProps": {
+    "height": "{props.size}",
+    "width": "{props.size}",
+    "fill": "{props.color ?? \"#000\"}"
+  },
+  "replaceAttrValues": {
+    "currentColor": "{props.primaryColor ?? \"dodgerblue\"}"
+  }
+}
