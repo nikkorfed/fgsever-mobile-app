@@ -21,7 +21,11 @@ const Screen = ({ style, children, fixedBottom }) => {
       >
         {children}
       </KeyboardAwareScrollView>
-      {fixedBottom && <View style={{ ...styles.fixedBottom, bottom: bottomTabBarHeight }}>{fixedBottom}</View>}
+      {fixedBottom && (
+        <View style={{ ...styles.fixedBottom, paddingHorizontal: style?.paddingHorizontal, bottom: bottomTabBarHeight }}>
+          {fixedBottom}
+        </View>
+      )}
     </>
   );
 };

@@ -9,13 +9,13 @@ import NumberInput from "../components/NumberInput";
 import Screen from "../components/Screen";
 import globalStyles from "../styles";
 
-const ParkScreen = () => {
+const ParkScreen = ({ navigation }) => {
   const [house, setHouse] = useState(0);
   const [date, setDate] = useState();
   const [guests, setGuests] = useState(2);
 
   return (
-    <Screen style={{ paddingHorizontal: 20 }}>
+    <Screen style={{ paddingHorizontal: 20 }} fixedBottom={<Button title="Далее" onPress={() => navigation.navigate("Booking")} />}>
       <Text style={styles.intro}>Выберите необходимый дом, дату посещения и количество гостей</Text>
       <Text style={styles.title}>Дом</Text>
       <Carousel>
@@ -51,7 +51,6 @@ const ParkScreen = () => {
       <Text style={styles.title}>День</Text>
       <DateTimePicker style={styles.input} value={date} onChange={setDate} placeholder="Дата" />
       <NumberInput style={styles.numberInput} title="Количество гостей" value={guests} onChange={setGuests} />
-      <Button title="Забронировать" onPress={() => {}} />
     </Screen>
   );
 };
