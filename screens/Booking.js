@@ -8,7 +8,7 @@ import globalStyles from "../styles";
 
 const BookingScreen = () => {
   return (
-    <Screen fixedBottom={<Button title="Открыть дом" />}>
+    <Screen fixedBottom={<FixedBottom />}>
       <View style={styles.iconContainer}>
         <View style={styles.icon}>
           <TickIcon size={30} />
@@ -26,6 +26,15 @@ const BookingScreen = () => {
         <Text>Здесь будет карта</Text>
       </View>
     </Screen>
+  );
+};
+
+const FixedBottom = () => {
+  return (
+    <View style={styles.fixedBottom}>
+      <Button title="Открыть дом" />
+      <Text style={styles.fixedBottomText}>Когда подъедете к воротам, нажмите кнопку и дом автоматичесик откроется.</Text>
+    </View>
   );
 };
 
@@ -64,6 +73,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     height: 100,
     backgroundColor: "lightgreen",
+  },
+  fixedBottom: {
+    backgroundColor: "white",
+  },
+  fixedBottomText: {
+    ...globalStyles.description,
+    marginTop: 5,
+    textAlign: "center",
   },
 });
 

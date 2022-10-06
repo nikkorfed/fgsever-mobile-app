@@ -40,7 +40,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   fixedBottom: {
-    position: "fixed",
+    position: "absolute",
+    width: "100%",
     padding: 15,
   },
 });
