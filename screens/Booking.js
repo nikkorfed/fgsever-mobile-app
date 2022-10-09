@@ -1,12 +1,45 @@
+import * as Linking from "expo-linking";
+import * as Location from "expo-location";
+import LottieView from "lottie-react-native";
+import { useState, useEffect } from "react";
 import { StyleSheet, View, Text } from "react-native";
 
 import TickIcon from "../assets/icons/tick.svg";
 import Block from "../components/Block";
-import { Button } from "../components/Button";
+import { Button, SimpleButton } from "../components/Button";
+import Map from "../components/Map";
 import Screen from "../components/Screen";
 import globalStyles from "../styles";
 
+const loadingAnimation = require("../assets/animations/loading.json");
+
+const parkCoordinates = {
+  longitude: 37.819658,
+  latitude: 56.4547,
+};
+
 const BookingScreen = () => {
+  const [route, setRoute] = useState({ to: parkCoordinates });
+  const isRouteReady = route.from && route.to && route.distance && route.duration;
+
+  const getLocation = async () => {
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") return;
+    const { coords } = await Location.getCurrentPositionAsync({});
+    setRoute((prev) => ({ ...prev, from: coords }));
+  };
+
+  useEffect(() => {
+    getLocation();
+  }, []);
+
+  const routeDetails = route.distance && route.duration && `${route.distance}, ${route.duration}`;
+
+  const openMap = async () => {
+    const url = `yandexmaps://maps.yandex.ru/?pt=${route.to.longitude},${route.to.latitude}&z=14`;
+    await Linking.openURL(url).catch(() => Linking.openURL(url.replace("yandexmaps://", "https://")));
+  };
+
   return (
     <Screen fixedBottom={<FixedBottom />}>
       <View style={styles.iconContainer}>
@@ -22,8 +55,19 @@ const BookingScreen = () => {
         image="https://dizajn-interera.ru-land.com/sites/default/files/i/32419/4-11/646d958f7b8f.jpg"
       />
       <Text style={styles.title}>Как доехать</Text>
-      <View style={styles.map}>
-        <Text>Здесь будет карта</Text>
+      <View style={styles.mapContainer}>
+        {!isRouteReady && (
+          <LottieView
+            style={styles.loading}
+            source={loadingAnimation}
+            colorFilters={[{ keypath: "Shape Layer 2", color: "dodgerblue" }]}
+            autoPlay
+          />
+        )}
+        <Map style={styles.map} route={route} setRoute={setRoute} />
+        <View style={styles.mapButtonContainer}>
+          <SimpleButton style={styles.mapButton} onPress={openMap} title={routeDetails ? `Маршрут (${routeDetails})` : "Маршрут"} />
+        </View>
       </View>
     </Screen>
   );
@@ -31,10 +75,10 @@ const BookingScreen = () => {
 
 const FixedBottom = () => {
   return (
-    <View style={styles.fixedBottom}>
-      <Button title="Открыть дом" />
-      <Text style={styles.fixedBottomText}>Когда подъедете к воротам, нажмите кнопку и дом автоматичесик откроется.</Text>
-    </View>
+    <Button title="Открыть дом" />
+    // <View style={styles.fixedBottom}>
+    //   <Text style={styles.fixedBottomText}>Когда подъедете к воротам, нажмите кнопку и дом автоматически откроется.</Text>
+    // </View>
   );
 };
 
@@ -67,14 +111,34 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     height: 150,
   },
-  map: {
+  mapContainer: {
+    overflow: "hidden",
     justifyContent: "center",
     alignItems: "center",
+    borderColor: "#f0f0f0",
+    borderWidth: 1,
     borderRadius: 10,
-    height: 100,
-    backgroundColor: "lightgreen",
+    height: 160,
+  },
+  loading: {
+    position: "absolute",
+    zIndex: 2,
+    height: "100%",
+    width: "100%",
+    backgroundColor: "white",
+  },
+  map: {
+    flexShrink: 1,
+  },
+  mapButtonContainer: {
+    width: "100%",
+    backgroundColor: "#f0f0f0",
+  },
+  mapButton: {
+    width: "100%",
   },
   fixedBottom: {
+    borderRadius: 10,
     backgroundColor: "white",
   },
   fixedBottomText: {
