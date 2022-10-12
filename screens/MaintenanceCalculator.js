@@ -5,7 +5,7 @@ import { WebView } from "react-native-webview";
 const MaintenanceCalculatorScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
-      <WebView source={{ uri: "https://fgsever.ru/calculator" }} />
+      <WebView source={{ uri: "https://fgsever.ru/mobile-calculator" }} />
     </SafeAreaView>
   );
 };
