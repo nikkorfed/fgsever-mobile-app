@@ -2,7 +2,7 @@ import * as Linking from "expo-linking";
 import * as Location from "expo-location";
 import LottieView from "lottie-react-native";
 import { useState, useEffect } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Alert } from "react-native";
 
 import TickIcon from "../assets/icons/tick.svg";
 import Block from "../components/Block";
@@ -40,6 +40,13 @@ const BookingScreen = () => {
     await Linking.openURL(url).catch(() => Linking.openURL(url.replace("yandexmaps://", "https://")));
   };
 
+  const FixedBottom = () => (
+    <Button
+      title="Открыть дом"
+      onPress={() => Alert.alert("Внимание", `Вы находитесь в ${route.distance} от дома. Пожалуйста, подъедьте к дому, чтобы открыть его.`)}
+    />
+  );
+
   return (
     <Screen fixedBottom={<FixedBottom />}>
       <View style={styles.iconContainer}>
@@ -69,16 +76,9 @@ const BookingScreen = () => {
           <SimpleButton style={styles.mapButton} onPress={openMap} title={routeDetails ? `Маршрут (${routeDetails})` : "Маршрут"} />
         </View>
       </View>
+      <Text style={styles.title}>Важно знать</Text>
+      <Text style={styles.description}>Чтобы открыть дом, подъедьте к нему, нажмите на кнопку и ворота автоматически открются.</Text>
     </Screen>
-  );
-};
-
-const FixedBottom = () => {
-  return (
-    <Button title="Открыть дом" />
-    // <View style={styles.fixedBottom}>
-    //   <Text style={styles.fixedBottomText}>Когда подъедете к воротам, нажмите кнопку и дом автоматически откроется.</Text>
-    // </View>
   );
 };
 
@@ -87,8 +87,9 @@ const styles = StyleSheet.create({
   iconContainer: {
     justifyContent: "center",
     alignItems: "center",
+    marginTop: 15,
     marginBottom: 15,
-    height: 250,
+    // height: 200,
   },
   icon: {
     justifyContent: "center",
@@ -115,6 +116,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: 15,
     borderColor: "#f0f0f0",
     borderWidth: 1,
     borderRadius: 10,

@@ -28,7 +28,7 @@ const MainMavigator = () => {
       <Tab.Screen
         name="ServicesNavigator"
         component={Chat}
-        options={{ title: "Услуги", tabBarIcon: ({ color }) => <MaterialCommunityIcons name="wrench" color={color} size={22} /> }}
+        options={{ title: "Работы", tabBarIcon: ({ color }) => <MaterialCommunityIcons name="wrench" color={color} size={22} /> }}
       />
       <Tab.Screen
         name="GarageNavigator"
