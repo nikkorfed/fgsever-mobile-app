@@ -38,7 +38,8 @@ const styles = StyleSheet.create({
   },
   input: {
     borderRadius: 10,
-    padding: 15,
+    paddingHorizontal: 15,
+    height: 40,
     fontFamily: "Montserrat_500Medium",
     fontSize: 13,
     backgroundColor: "#f8f8f8",

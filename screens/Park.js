@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 import Block from "../components/Block";
 import { Button } from "../components/Button";
@@ -15,9 +15,15 @@ const ParkScreen = ({ navigation }) => {
   const [guests, setGuests] = useState(2);
 
   return (
-    <Screen style={{ paddingHorizontal: 20 }} fixedBottom={<Button title="Далее" onPress={() => navigation.navigate("Booking")} />}>
-      <Text style={styles.intro}>Выберите необходимый дом, дату посещения и количество гостей</Text>
-      <Text style={styles.title}>Дом</Text>
+    <Screen
+      style={{ paddingHorizontal: 20, backgroundColor: "white" }}
+      fixedBottom={<Button title="Далее" onPress={() => navigation.navigate("Booking")} />}
+      noWrapper
+    >
+      <View style={{ paddingHorizontal: 20 }}>
+        <Text style={styles.intro}>Выберите необходимый дом, дату посещения и количество гостей</Text>
+        <Text style={styles.title}>Дом</Text>
+      </View>
       <Carousel>
         <Block
           style={styles.block}
@@ -48,9 +54,11 @@ const ParkScreen = ({ navigation }) => {
           onPress={() => setHouse(3)}
         />
       </Carousel>
-      <Text style={styles.title}>День</Text>
-      <DateTimePicker style={styles.input} value={date} onChange={setDate} placeholder="Дата" />
-      <NumberInput style={styles.numberInput} title="Количество гостей" value={guests} onChange={setGuests} />
+      <View style={{ paddingHorizontal: 20 }}>
+        <Text style={styles.title}>День</Text>
+        <DateTimePicker style={styles.input} value={date} onChange={setDate} placeholder="Дата" />
+        <NumberInput style={styles.numberInput} title="Количество гостей" value={guests} onChange={setGuests} />
+      </View>
     </Screen>
   );
 };
@@ -68,7 +76,6 @@ const styles = StyleSheet.create({
   block: {
     marginBottom: 15,
     justifyContent: "flex-end",
-    height: 140,
     shadowRadius: 0,
   },
   input: {

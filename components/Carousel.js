@@ -22,7 +22,6 @@ const Carousel = ({ style, children }) => {
 const styles = StyleSheet.create({
   container: {
     marginVertical: -5,
-    marginHorizontal: -20,
   },
   scrollView: {
     paddingVertical: 5,
@@ -30,7 +29,8 @@ const styles = StyleSheet.create({
   },
   card: {
     paddingHorizontal: 7.5,
-    width: (windowWidth - 20) / 2.5,
+    height: (windowWidth - 20) / 2.2,
+    width: (windowWidth - 20) / 2.2,
   },
 });
 

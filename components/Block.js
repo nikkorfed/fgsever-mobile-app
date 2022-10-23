@@ -1,13 +1,13 @@
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
 
 import Pressable from "../components/Pressable";
 import globalStyles from "../styles";
 
 const Block = ({ style, onPress, image, icon, title, titleStyle, description, descriptionStyle, sideIcon, buttons, selected }) => {
   return (
-    <Pressable style={[styles.block, style]} onPress={onPress}>
+    <Pressable containerStyle={{ flex: 1 }} style={[styles.block, style]} onPress={onPress}>
       {image && <Image style={styles.image} source={{ uri: image }} />}
       {image && <LinearGradient style={styles.overlay} colors={["transparent", "rgba(0, 0, 0, 0.5)"]} start={{ x: 0.5, y: 0.5 }} />}
       <View style={styles.row}>
@@ -26,11 +26,14 @@ const Block = ({ style, onPress, image, icon, title, titleStyle, description, de
 
 const styles = StyleSheet.create({
   block: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: "#eee",
     borderRadius: 10,
-    padding: 15,
+    padding: Dimensions.get("window").width > 400 ? 15 : 12,
     width: "100%",
     backgroundColor: "white",
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.05,
     shadowOffset: { height: 0, width: 0 },
     shadowRadius: 10,
   },
@@ -48,7 +51,7 @@ const styles = StyleSheet.create({
   sideIcon: {
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: "100%",
+    borderRadius: 30,
     height: 60,
     width: 60,
     backgroundColor: "#f8f8f8",

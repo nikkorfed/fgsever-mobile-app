@@ -26,7 +26,7 @@ const HomeScreen = ({ navigation }) => {
             onPress={() => navigation.navigate("MaintenanceCalculator")}
             icon={<FontAwesome5 name="calculator" color="dodgerblue" size={30} />}
             title="Калькулятор ТО"
-            description="Рассчитать стоимость техобслуживания по VIN автомобиля"
+            description="Расчёт стоимости техобслуживания по VIN автомобиля"
           />
         </View>
         <View style={styles.column}>
@@ -35,7 +35,7 @@ const HomeScreen = ({ navigation }) => {
             onPress={() => navigation.navigate("UpgradeCalculator")}
             icon={<FontAwesome5 name="calculator" color="dodgerblue" size={30} />}
             title="Калькулятор дооснащения"
-            description="Рассчитать стоимость дооснащения по VIN"
+            description="Расчёт стоимости дооснащения по VIN"
           />
         </View>
       </View>

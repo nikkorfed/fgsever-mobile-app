@@ -1,8 +1,10 @@
+import * as Device from "expo-device";
 import * as Linking from "expo-linking";
 import * as Location from "expo-location";
 import LottieView from "lottie-react-native";
 import { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Alert } from "react-native";
+// import { getDeviceName } from "react-native-device-info";
 
 import TickIcon from "../assets/icons/tick.svg";
 import Block from "../components/Block";
@@ -43,12 +45,14 @@ const BookingScreen = () => {
   const FixedBottom = () => (
     <Button
       title="Открыть дом"
-      onPress={() => Alert.alert("Внимание", `Вы находитесь в ${route.distance} от дома. Пожалуйста, подъедьте к дому, чтобы открыть его.`)}
+      onPress={() =>
+        Alert.alert("Внимание", `Вы находитесь в ${route.distance} от дома. Пожалуйста, подъедьте к воротам, чтобы открыть его.`)
+      }
     />
   );
 
   return (
-    <Screen fixedBottom={<FixedBottom />}>
+    <Screen style={{ backgroundColor: "white" }} fixedBottom={<FixedBottom />}>
       <View style={styles.iconContainer}>
         <View style={styles.icon}>
           <TickIcon size={30} />
@@ -76,6 +80,7 @@ const BookingScreen = () => {
           <SimpleButton style={styles.mapButton} onPress={openMap} title={routeDetails ? `Маршрут (${routeDetails})` : "Маршрут"} />
         </View>
       </View>
+      <Text style={styles.description}>{Device.deviceName}</Text>
       <Text style={styles.title}>Важно знать</Text>
       <Text style={styles.description}>Чтобы открыть дом, подъедьте к нему, нажмите на кнопку и ворота автоматически открются.</Text>
     </Screen>
@@ -95,7 +100,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 15,
-    borderRadius: "100%",
+    borderRadius: 50,
     height: 100,
     width: 100,
     backgroundColor: "#f8f8f8",
