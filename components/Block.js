@@ -5,10 +5,24 @@ import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
 import Pressable from "../components/Pressable";
 import globalStyles from "../styles";
 
-const Block = ({ style, onPress, image, icon, title, titleStyle, description, descriptionStyle, sideIcon, buttons, selected }) => {
+const Block = ({
+  style,
+  onPress,
+  image,
+  imageStyle,
+  imageResizeMode,
+  icon,
+  title,
+  titleStyle,
+  description,
+  descriptionStyle,
+  sideIcon,
+  buttons,
+  selected,
+}) => {
   return (
     <Pressable containerStyle={{ flex: 1 }} style={[styles.block, style]} onPress={onPress}>
-      {image && <Image style={styles.image} source={{ uri: image }} />}
+      {image && <Image style={[styles.image, imageStyle]} resizeMode={imageResizeMode} source={{ uri: image }} />}
       {image && <LinearGradient style={styles.overlay} colors={["transparent", "rgba(0, 0, 0, 0.5)"]} start={{ x: 0.5, y: 0.5 }} />}
       <View style={styles.row}>
         <View style={styles.text}>

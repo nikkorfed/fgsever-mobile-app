@@ -56,7 +56,7 @@ const ParkScreen = ({ navigation }) => {
       </Carousel>
       <View style={{ paddingHorizontal: 20 }}>
         <Text style={styles.title}>День</Text>
-        <DateTimePicker style={styles.input} value={date} onChange={setDate} placeholder="Дата" />
+        <DateTimePicker style={styles.input} value={date} onChange={setDate} />
         <NumberInput style={styles.numberInput} title="Количество гостей" value={guests} onChange={setGuests} />
       </View>
     </Screen>

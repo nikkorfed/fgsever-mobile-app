@@ -15,7 +15,7 @@ const DateTimePicker = ({ style, value, onChange, placeholder }) => {
       <TextInput
         style={style}
         value={value && moment(value).format("ll")}
-        placeholder={placeholder}
+        placeholder={placeholder ?? "Выберите дату"}
         editable={false}
         onPressIn={dateTimeModal.open}
       />
@@ -25,6 +25,7 @@ const DateTimePicker = ({ style, value, onChange, placeholder }) => {
           onChange={(_, date) => onChange(date)}
           mode="date"
           display="spinner"
+          themeVariant="light"
           locale={Localization.locale}
         />
       </Modal>
