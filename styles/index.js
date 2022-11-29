@@ -36,6 +36,12 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     color: "#888",
   },
+  text: {
+    fontFamily: "Montserrat_500Medium",
+    fontSize: 13,
+    lineHeight: 18,
+    color: "#333",
+  },
   input: {
     borderRadius: 10,
     paddingHorizontal: 15,

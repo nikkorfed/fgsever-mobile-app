@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 
 import Block from "../components/Block";
@@ -51,6 +51,8 @@ const AppointmentScreen = ({ navigation }) => {
     >
       <View style={{ paddingHorizontal: 20 }}>
         <Text style={styles.intro}>Выберите автомобиль, необходимый вид работ и дату посещения, чтобы записаться на ремонт</Text>
+        <Text style={styles.title}>Клиент</Text>
+        <Text style={styles.text}>Иванов Иван Иванович</Text>
         <Text style={styles.title}>Автомобиль</Text>
       </View>
       <Carousel>
@@ -102,7 +104,8 @@ const styles = StyleSheet.create({
     ...globalStyles.input,
     marginBottom: 15,
   },
-  numberInput: {
+  text: {
+    ...globalStyles.text,
     marginBottom: 15,
   },
 });
