@@ -9,12 +9,14 @@ const Modal = ({ modal, children }) => {
       <TouchableWithoutFeedback onPress={modal.close}>
         <Animated.View style={[styles.modalContainer, { backgroundColor: modal.backgroundColor }]}>
           <Animated.View style={[styles.modal, { top: modal.top }]}>
-            <SafeAreaView>
-              <View style={styles.modalContent}>
-                {children}
-                <Button title="Далее" onPress={modal.close} />
-              </View>
-            </SafeAreaView>
+            <TouchableWithoutFeedback onPress={null}>
+              <SafeAreaView>
+                <View style={styles.modalContent}>
+                  {children}
+                  <Button title="Далее" onPress={modal.close} />
+                </View>
+              </SafeAreaView>
+            </TouchableWithoutFeedback>
           </Animated.View>
         </Animated.View>
       </TouchableWithoutFeedback>
