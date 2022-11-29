@@ -16,9 +16,9 @@ const ParkScreen = ({ navigation }) => {
 
   return (
     <Screen
-      style={{ paddingHorizontal: 20, backgroundColor: "white" }}
+      style={{ paddingHorizontal: 0, backgroundColor: "white" }}
       fixedBottom={<Button title="Далее" onPress={() => navigation.navigate("Booking")} />}
-      noWrapper
+      fixedBottomStyle={{ paddingHorizontal: 20 }}
     >
       <View style={{ paddingHorizontal: 20 }}>
         <Text style={styles.intro}>Выберите необходимый дом, дату посещения и количество гостей</Text>

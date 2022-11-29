@@ -45,9 +45,9 @@ const AppointmentScreen = ({ navigation }) => {
 
   return (
     <Screen
-      style={{ paddingHorizontal: 20, backgroundColor: "white" }}
+      style={{ paddingHorizontal: 0, backgroundColor: "white" }}
       fixedBottom={<Button title="Далее" onPress={() => navigation.navigate("Booking")} />}
-      noWrapper
+      fixedBottomStyle={{ paddingHorizontal: 20 }}
     >
       <View style={{ paddingHorizontal: 20 }}>
         <Text style={styles.intro}>Выберите автомобиль, необходимый вид работ и дату посещения, чтобы записаться на ремонт</Text>

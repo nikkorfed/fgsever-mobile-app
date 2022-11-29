@@ -7,27 +7,21 @@ import { useKeyboardVisible } from "../hooks/keyboard";
 
 // Этот вид прокрутки работает немного плавнее, но некорректно отображает колесо прокрутки и имеет лишний отступ при открытой клавиатуре.
 
-const Screen = ({ style, children, fixedBottom, noWrapper }) => {
+const Screen = ({ style, children, fixedBottom, fixedBottomStyle }) => {
   const isKeyboardVisible = useKeyboardVisible();
   const headerHeight = useHeaderHeight();
-
-  const paddingHorizontal = style?.paddingHorizontal ?? styles.wrapper.paddingHorizontal;
 
   return (
     <>
       <KeyboardAwareScrollView
-        style={[
-          styles.wrapper,
-          style,
-          { paddingTop: Platform.OS === "android" ? headerHeight : 0, paddingHorizontal: noWrapper ? 0 : paddingHorizontal },
-        ]}
+        style={[styles.wrapper, style, { paddingTop: Platform.OS === "android" ? headerHeight : 0 }]}
         contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={{ paddingBottom: 49 }}
         scrollIndicatorInsets={{ bottom: 49 }}
       >
         {children}
       </KeyboardAwareScrollView>
-      {fixedBottom && <View style={{ ...styles.fixedBottom, padding: paddingHorizontal, bottom: 0 }}>{fixedBottom}</View>}
+      {fixedBottom && <View style={[styles.fixedBottom, fixedBottomStyle]}>{fixedBottom}</View>}
     </>
   );
 };
@@ -43,6 +37,7 @@ const styles = StyleSheet.create({
   },
   fixedBottom: {
     position: "absolute",
+    bottom: 0,
     width: "100%",
     padding: Dimensions.get("window").width > 400 ? 15 : 12,
   },
