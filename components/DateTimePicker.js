@@ -2,7 +2,7 @@ import ReactNativeDateTimePicker from "@react-native-community/datetimepicker";
 import * as Localization from "expo-localization";
 import moment from "moment";
 import React from "react";
-import { View, TextInput } from "react-native";
+import { View, Pressable, TextInput } from "react-native";
 
 import { useModal } from "../hooks/modal";
 import Modal from "./Modal";
@@ -12,13 +12,15 @@ const DateTimePicker = ({ style, value, onChange, placeholder }) => {
 
   return (
     <View>
-      <TextInput
-        style={style}
-        value={value && moment(value).format("ll")}
-        placeholder={placeholder ?? "Выберите дату"}
-        editable={false}
-        onPressIn={dateTimeModal.open}
-      />
+      <Pressable onPress={dateTimeModal.open}>
+        <TextInput
+          style={style}
+          value={value && moment(value).format("ll")}
+          placeholder={placeholder ?? "Выберите дату"}
+          pointerEvents="none"
+          editable={false}
+        />
+      </Pressable>
       <Modal modal={dateTimeModal}>
         <ReactNativeDateTimePicker
           value={value ?? new Date()}
