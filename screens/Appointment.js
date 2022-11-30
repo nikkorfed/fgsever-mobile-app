@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import Block from "../components/Block";
 import { Button } from "../components/Button";
@@ -36,9 +37,14 @@ const cars = [
 const services = [
   { id: 1, key: "maintenance", title: "Техническое обслуживание" },
   { id: 2, key: "upgrade", title: "Дооснащение" },
+  { id: 3, key: "repair", title: "Ремонт" },
+  { id: 4, key: "update", title: "Обновление ПО" },
+  { id: 5, key: "coding", title: "Кодирование" },
 ];
 
 const AppointmentScreen = ({ navigation }) => {
+  const { bottom } = useSafeAreaInsets();
+
   const [car, setCar] = useState();
   const [service, setService] = useState();
   const [date, setDate] = useState();
@@ -47,7 +53,7 @@ const AppointmentScreen = ({ navigation }) => {
     <Screen
       style={{ paddingHorizontal: 0, backgroundColor: "white" }}
       fixedBottom={<Button title="Далее" onPress={() => navigation.navigate("Booking")} />}
-      fixedBottomStyle={{ paddingHorizontal: 20 }}
+      fixedBottomStyle={{ paddingHorizontal: 20, paddingBottom: bottom }}
     >
       <View style={{ paddingHorizontal: 20 }}>
         <Text style={styles.intro}>Выберите автомобиль, необходимый вид работ и дату посещения, чтобы записаться на ремонт</Text>

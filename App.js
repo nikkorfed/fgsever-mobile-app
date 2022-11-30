@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import * as Localization from "expo-localization";
 import moment from "moment";
 import React from "react";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import "moment/locale/ru";
 
 import MainNavigator from "./navigators/Main";
@@ -17,9 +18,11 @@ const App = () => {
     return null;
   }
   return (
-    <NavigationContainer>
-      <MainNavigator />
-    </NavigationContainer>
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <MainNavigator />
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 };
 

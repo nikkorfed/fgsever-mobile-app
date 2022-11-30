@@ -1,17 +1,21 @@
 import { StyleSheet, Text } from "react-native";
 
 import CodingIcon from "../assets/icons/coding.svg";
+import EngineIcon from "../assets/icons/engine.svg";
 import MaintenanceIcon from "../assets/icons/maintenance.svg";
-import RepairIcon from "../assets/icons/repair.svg";
 import UpdateIcon from "../assets/icons/update.svg";
 import UpgradeIcon from "../assets/icons/upgrade.svg";
+import { Button } from "../components/Button";
 import Screen from "../components/Screen";
 import Work from "../components/Work";
 import globalStyles from "../styles";
 
 const WorkScreen = ({ navigation }) => {
   return (
-    <Screen style={{ paddingTop: 10, paddingHorizontal: 20, backgroundColor: "white" }}>
+    <Screen
+      style={{ paddingTop: 10, paddingHorizontal: 20, backgroundColor: "white" }}
+      fixedBottom={<Button title="Записаться" onPress={() => navigation.navigate("Appointment")} />}
+    >
       <Text style={styles.section}>Сегодня</Text>
       <Work
         icon={<MaintenanceIcon size={30} />}
@@ -22,7 +26,7 @@ const WorkScreen = ({ navigation }) => {
       />
       <Work icon={<UpgradeIcon size={30} />} title="Дооснащение" description="BMW X7, 123 000 км" price={145900} date={new Date()} />
       <Text style={styles.section}>Вчера</Text>
-      <Work icon={<RepairIcon size={30} />} title="Ремонт двигателя" description="BMW 4, 18 500 км" price={76250} date={new Date()} />
+      <Work icon={<EngineIcon size={30} />} title="Ремонт двигателя" description="BMW 4, 18 500 км" price={76250} date={new Date()} />
       <Text style={styles.section}>8 ноября</Text>
       <Work icon={<CodingIcon size={30} />} title="Кодирование" description="BMW 4, 14 000 км" price={9000} date={new Date()} />
       <Work icon={<UpdateIcon size={30} />} title="Обновление ПО" description="BMW M5, 23 000 км" price={4800} date={new Date()} />

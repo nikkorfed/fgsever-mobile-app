@@ -20,7 +20,7 @@ const HomeNavigator = () => {
       />
       <Stack.Screen name="MaintenanceCalculator" component={MaintenanceCalculatorScreen} options={{ title: "Калькулятор ТО" }} />
       <Stack.Screen name="UpgradeCalculator" component={UpgradeCalculatorScreen} options={{ title: "Калькулятор дооснащения" }} />
-      <Stack.Screen name="Appointment" component={AppointmentScreen} options={{ title: "Записаться" }} />
+      <Stack.Screen name="Appointment" component={AppointmentScreen} options={{ title: "Записаться", presentation: "modal" }} />
       <Stack.Screen name="SearchParts" component={SearchPartsScreen} options={{ title: "Покупка запчастей" }} />
     </Stack.Navigator>
   );
