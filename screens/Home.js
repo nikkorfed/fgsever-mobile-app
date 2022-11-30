@@ -1,5 +1,5 @@
-import { FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
-import React from "react";
+import { FontAwesome5 } from "@expo/vector-icons";
+import React, { useState } from "react";
 import { StyleSheet, View, TextInput } from "react-native";
 
 import RepairIcon from "../assets/icons/repair.svg";
@@ -10,6 +10,8 @@ import Screen from "../components/Screen";
 import globalStyles from "../styles";
 
 const HomeScreen = ({ navigation }) => {
+  const [partNumbers, setPartNumbers] = useState();
+
   return (
     <Screen>
       <Block
@@ -54,8 +56,13 @@ const HomeScreen = ({ navigation }) => {
         sideIcon={<Suspension size={30} />}
         buttons={
           <View>
-            <TextInput style={styles.input} placeholder="Номера запчастей (через запятую)" />
-            <Button style={styles.button} title="Заказать запчасти" onPress={() => navigation.navigate("Parts")} />
+            <TextInput
+              style={styles.input}
+              value={partNumbers}
+              onChangeText={setPartNumbers}
+              placeholder="Номера запчастей (через запятую)"
+            />
+            <Button style={styles.button} title="Заказать запчасти" onPress={() => navigation.navigate("SearchParts", { partNumbers })} />
           </View>
         }
       />
