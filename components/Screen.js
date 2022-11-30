@@ -11,10 +11,13 @@ const Screen = ({ style, children, fixedBottom, fixedBottomStyle }) => {
   const isKeyboardVisible = useKeyboardVisible();
   const headerHeight = useHeaderHeight();
 
+  let paddingTop = style?.paddingTop ?? 0;
+  Platform.OS === "android" && (paddingTop += headerHeight);
+
   return (
     <>
       <KeyboardAwareScrollView
-        style={[styles.wrapper, style, { paddingTop: Platform.OS === "android" ? headerHeight : 0 }]}
+        style={[styles.wrapper, style, { paddingTop }]}
         contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={{ paddingBottom: 49 }}
         scrollIndicatorInsets={{ bottom: 49 }}

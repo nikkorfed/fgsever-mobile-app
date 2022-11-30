@@ -24,6 +24,11 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     color: "#888",
   },
+  section: {
+    fontFamily: "Montserrat_600SemiBold",
+    fontSize: 18,
+    lineHeight: 20,
+  },
   title: {
     fontFamily: "Montserrat_600SemiBold",
     fontSize: 15,
