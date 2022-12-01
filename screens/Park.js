@@ -79,7 +79,6 @@ const styles = StyleSheet.create({
     shadowRadius: 0,
   },
   input: {
-    ...globalStyles.input,
     marginBottom: 15,
   },
   numberInput: {

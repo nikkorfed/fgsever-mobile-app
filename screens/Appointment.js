@@ -8,39 +8,8 @@ import Carousel from "../components/Carousel";
 import DateTimePicker from "../components/DateTimePicker";
 import Screen from "../components/Screen";
 import Select from "../components/Select";
+import { cars, services } from "../mocks";
 import globalStyles from "../styles";
-
-const cars = [
-  {
-    id: 1,
-    key: "5-series",
-    title: "BMW 5",
-    image: "https://fgsever.ru/images/models/5-series/g30.png",
-    licensePlate: "А001АА799",
-  },
-  {
-    id: 2,
-    key: "x7",
-    title: "BMW X7",
-    image: "https://fgsever.ru/images/models/x7/g07.png",
-    licensePlate: "А002АА799",
-  },
-  {
-    id: 3,
-    key: "m8",
-    title: "BMW M8",
-    image: "https://fgsever.ru/images/models/8-series/g15.png",
-    licensePlate: "А002АА799",
-  },
-];
-
-const services = [
-  { id: 1, key: "maintenance", title: "Техническое обслуживание" },
-  { id: 2, key: "upgrade", title: "Дооснащение" },
-  { id: 3, key: "repair", title: "Ремонт" },
-  { id: 4, key: "update", title: "Обновление ПО" },
-  { id: 5, key: "coding", title: "Кодирование" },
-];
 
 const AppointmentScreen = ({ navigation }) => {
   const { bottom } = useSafeAreaInsets();
@@ -107,7 +76,6 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   input: {
-    ...globalStyles.input,
     marginBottom: 15,
   },
   text: {

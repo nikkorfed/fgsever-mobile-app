@@ -5,6 +5,7 @@ import React from "react";
 import { View, Pressable, TextInput } from "react-native";
 
 import { useModal } from "../hooks/modal";
+import globalStyles from "../styles";
 import Modal from "./Modal";
 
 const DateTimePicker = ({ style, value, onChange, placeholder }) => {
@@ -14,7 +15,7 @@ const DateTimePicker = ({ style, value, onChange, placeholder }) => {
     <View>
       <Pressable onPress={dateTimeModal.open}>
         <TextInput
-          style={style}
+          style={[globalStyles.input, style]}
           value={value && moment(value).format("ll")}
           placeholder={placeholder ?? "Выберите дату"}
           pointerEvents="none"
