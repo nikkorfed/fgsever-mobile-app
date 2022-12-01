@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   description: {
-    marginTop: 5,
     fontFamily: "Montserrat_500Medium",
     fontSize: 13,
     lineHeight: 18,

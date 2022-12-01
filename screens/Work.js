@@ -23,19 +23,49 @@ const WorkScreen = ({ navigation }) => {
         description="BMW X3, 76 600 км"
         price={24900}
         date={new Date()}
+        onPress={() => navigation.navigate("WorkDetails", { workId: 123 })}
       />
-      <Work icon={<UpgradeIcon size={30} />} title="Дооснащение" description="BMW X7, 123 000 км" price={145900} date={new Date()} />
+      <Work
+        icon={<UpgradeIcon size={30} />}
+        title="Дооснащение"
+        description="BMW X7, 123 000 км"
+        price={145900}
+        date={new Date()}
+        onPress={() => navigation.navigate("WorkDetails", { workId: 234 })}
+      />
       <Text style={styles.section}>Вчера</Text>
-      <Work icon={<EngineIcon size={30} />} title="Ремонт двигателя" description="BMW 4, 18 500 км" price={76250} date={new Date()} />
+      <Work
+        icon={<EngineIcon size={30} />}
+        title="Ремонт двигателя"
+        description="BMW 4, 18 500 км"
+        price={76250}
+        date={new Date()}
+        onPress={() => navigation.navigate("WorkDetails", { workId: 43 })}
+      />
       <Text style={styles.section}>8 ноября</Text>
-      <Work icon={<CodingIcon size={30} />} title="Кодирование" description="BMW 4, 14 000 км" price={9000} date={new Date()} />
-      <Work icon={<UpdateIcon size={30} />} title="Обновление ПО" description="BMW M5, 23 000 км" price={4800} date={new Date()} />
+      <Work
+        icon={<CodingIcon size={30} />}
+        title="Кодирование"
+        description="BMW 4, 14 000 км"
+        price={9000}
+        date={new Date()}
+        onPress={() => navigation.navigate("WorkDetails", { workId: 67 })}
+      />
+      <Work
+        icon={<UpdateIcon size={30} />}
+        title="Обновление ПО"
+        description="BMW M5, 23 000 км"
+        price={4800}
+        date={new Date()}
+        onPress={() => navigation.navigate("WorkDetails", { workId: 80 })}
+      />
       <Work
         icon={<MaintenanceIcon size={30} />}
         title="Техническое обслуживание"
         description="BMW X7, 115 000 км"
         price={24900}
         date={new Date()}
+        onPress={() => navigation.navigate("WorkDetails", { workId: 95 })}
       />
     </Screen>
   );

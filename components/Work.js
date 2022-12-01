@@ -62,7 +62,10 @@ const styles = StyleSheet.create({
     ...globalStyles.title,
     lineHeight: 18,
   },
-  description: globalStyles.description,
+  description: {
+    ...globalStyles.description,
+    marginTop: 5,
+  },
   additional: {
     justifyContent: "center",
     alignItems: "flex-end",
@@ -71,6 +74,7 @@ const styles = StyleSheet.create({
   price: globalStyles.text,
   date: {
     ...globalStyles.description,
+    marginTop: 5,
     textAlign: "right",
   },
 });

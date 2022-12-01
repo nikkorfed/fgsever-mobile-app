@@ -106,7 +106,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#f8f8f8",
   },
   intro: {
-    ...globalStyles.title,
+    ...globalStyles.intro,
+    maxWidth: 350,
     textAlign: "center",
   },
   title: {
