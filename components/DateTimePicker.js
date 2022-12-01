@@ -18,6 +18,7 @@ const DateTimePicker = ({ style, value, onChange, placeholder }) => {
           style={[globalStyles.input, style]}
           value={value && moment(value).format("ll")}
           placeholder={placeholder ?? "Выберите дату"}
+          placeholderTextColor="#aaa"
           pointerEvents="none"
           editable={false}
         />

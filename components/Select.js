@@ -17,6 +17,7 @@ const Select = ({ style, items, value, onChange, placeholder }) => {
           style={styles.input}
           value={items.find((item) => item.key === value)?.label}
           placeholder={placeholder}
+          placeholderTextColor="#aaa"
           pointerEvents="none"
           editable={false}
         />

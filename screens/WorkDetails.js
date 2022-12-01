@@ -9,7 +9,7 @@ import globalStyles from "../styles";
 
 const WorkDetailsScreen = ({ navigation }) => {
   return (
-    <Screen style={{ backgroundColor: "white" }}>
+    <Screen>
       <View style={styles.iconContainer}>
         <View style={styles.icon}>
           <UpgradeIcon size={50} />

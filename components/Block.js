@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     padding: Dimensions.get("window").width > 400 ? 15 : 12,
     width: "100%",
     backgroundColor: "white",
-    shadowOpacity: 0.05,
+    shadowOpacity: 0.1,
     shadowOffset: { height: 0, width: 0 },
     shadowRadius: 10,
   },

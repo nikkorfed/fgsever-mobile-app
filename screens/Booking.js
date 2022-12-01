@@ -52,7 +52,7 @@ const BookingScreen = () => {
   );
 
   return (
-    <Screen style={{ backgroundColor: "white" }} fixedBottom={<FixedBottom />}>
+    <Screen fixedBottom={<FixedBottom />}>
       <View style={styles.iconContainer}>
         <View style={styles.icon}>
           <TickIcon size={30} />

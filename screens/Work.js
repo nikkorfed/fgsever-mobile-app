@@ -18,7 +18,7 @@ const WorkScreen = ({ navigation }) => {
 
   return (
     <Screen
-      style={{ paddingHorizontal: 20, backgroundColor: "white" }}
+      style={{ paddingHorizontal: 20 }}
       fixedBottom={<Button title="Записаться" onPress={() => navigation.navigate("Appointment")} />}
     >
       <Select style={styles.car} items={cars} value={car} onChange={setCar} placeholder="Все машины" />

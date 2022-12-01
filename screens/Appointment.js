@@ -20,7 +20,7 @@ const AppointmentScreen = ({ navigation }) => {
 
   return (
     <Screen
-      style={{ paddingHorizontal: 0, backgroundColor: "white" }}
+      style={{ paddingHorizontal: 0 }}
       fixedBottom={<Button title="Далее" onPress={() => navigation.navigate("Booking")} />}
       fixedBottomStyle={{ paddingHorizontal: 20, paddingBottom: bottom }}
     >

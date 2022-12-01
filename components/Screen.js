@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     paddingHorizontal: Dimensions.get("window").width > 400 ? 15 : 12,
-    backgroundColor: "#f8f8f8",
+    backgroundColor: "white",
   },
   fixedBottom: {
     position: "absolute",
