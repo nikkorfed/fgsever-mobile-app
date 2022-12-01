@@ -38,8 +38,9 @@ const AppointmentScreen = ({ navigation }) => {
             image={item.image}
             imageStyle={styles.blockImage}
             imageResizeMode="contain"
-            title={item.title}
-            description={item.description}
+            title={item.label}
+            description={item.licensePlate}
+            descriptionStyle={styles.blockDescription}
             selected={item.key === car}
             onPress={() => setCar(item.key)}
           />
@@ -74,6 +75,10 @@ const styles = StyleSheet.create({
   },
   blockImage: {
     margin: 5,
+  },
+  blockDescription: {
+    marginTop: 0,
+    marginBottom: -5,
   },
   input: {
     marginBottom: 15,

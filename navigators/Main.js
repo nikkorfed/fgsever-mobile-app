@@ -4,6 +4,7 @@ import React from "react";
 
 import ChatScreen from "../screens/Chat";
 import ProfileScreen from "../screens/Profile";
+import GarageNavigator from "./Garage";
 import HomeNavigator from "./Home";
 import ParkNavigator from "./Park";
 import WorkNavigator from "./Work";
@@ -25,7 +26,7 @@ const MainMavigator = () => {
       />
       <Tab.Screen
         name="GarageNavigator"
-        component={ChatScreen}
+        component={GarageNavigator}
         options={{ title: "Гараж", tabBarIcon: ({ color }) => <Ionicons name="car" color={color} size={28} /> }}
       />
       <Tab.Screen
