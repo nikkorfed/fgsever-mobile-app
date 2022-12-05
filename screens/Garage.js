@@ -1,17 +1,18 @@
 import { StyleSheet } from "react-native";
 
-import { Button } from "../components/Button";
+import AddCar from "../components/AddCar";
 import Car from "../components/Car";
 import Screen from "../components/Screen";
 import { cars } from "../mocks";
 import globalStyles from "../styles";
 
-const GarageScreen = ({ navigation }) => {
+const GarageScreen = ({ navigation, modal }) => {
   return (
     <Screen>
       {cars.map((car) => (
         <Car style={styles.car} {...car} />
       ))}
+      <AddCar modal={modal} />
     </Screen>
   );
 };

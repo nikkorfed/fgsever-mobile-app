@@ -1,23 +1,24 @@
 import React from "react";
-import { StyleSheet, Modal as ReactNativeModal, Animated, SafeAreaView, View, TouchableWithoutFeedback } from "react-native";
+import { StyleSheet, Modal as ReactNativeModal, Animated, KeyboardAvoidingView, View, TouchableWithoutFeedback } from "react-native";
 
 import { Button } from "./Button";
 
-const Modal = ({ modal, children }) => {
+// TODO: Try to reimplement with 'react-native-bottom-sheet' by Gorhom.
+const Modal = ({ modal, noButton, children }) => {
   return (
     <ReactNativeModal visible={modal.shown} transparent>
       <TouchableWithoutFeedback onPress={modal.close}>
         <Animated.View style={[styles.modalContainer, { backgroundColor: modal.backgroundColor }]}>
-          <Animated.View style={[styles.modal, { top: modal.top }]}>
-            <TouchableWithoutFeedback onPress={null}>
-              <SafeAreaView>
+          <KeyboardAvoidingView style={{ marginTop: "auto" }} behavior="padding">
+            <Animated.View style={[styles.modal, { top: modal.top, paddingBottom: modal.paddingBottom }]}>
+              <TouchableWithoutFeedback onPress={null}>
                 <View style={styles.modalContent}>
                   {children}
-                  <Button title="Далее" onPress={modal.close} />
+                  {!noButton && <Button title="Далее" onPress={modal.close} />}
                 </View>
-              </SafeAreaView>
-            </TouchableWithoutFeedback>
-          </Animated.View>
+              </TouchableWithoutFeedback>
+            </Animated.View>
+          </KeyboardAvoidingView>
         </Animated.View>
       </TouchableWithoutFeedback>
     </ReactNativeModal>
@@ -29,7 +30,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   modal: {
-    marginTop: "auto",
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     backgroundColor: "white",

@@ -22,7 +22,7 @@ const AppointmentScreen = ({ navigation }) => {
     <Screen
       style={{ paddingHorizontal: 0 }}
       fixedBottom={<Button title="Далее" onPress={() => navigation.navigate("Booking")} />}
-      fixedBottomStyle={{ paddingHorizontal: 20, paddingBottom: bottom }}
+      fixedBottomStyle={{ paddingHorizontal: 20, bottom }}
     >
       <View style={{ paddingHorizontal: 20 }}>
         <Text style={styles.intro}>Выберите автомобиль, необходимый вид работ и дату посещения, чтобы записаться на ремонт</Text>
@@ -67,6 +67,10 @@ const styles = StyleSheet.create({
     ...globalStyles.title,
     marginBottom: 15,
   },
+  text: {
+    ...globalStyles.text,
+    marginBottom: 15,
+  },
   block: {
     marginBottom: 15,
     justifyContent: "flex-end",
@@ -81,10 +85,6 @@ const styles = StyleSheet.create({
     marginBottom: -5,
   },
   input: {
-    marginBottom: 15,
-  },
-  text: {
-    ...globalStyles.text,
     marginBottom: 15,
   },
 });

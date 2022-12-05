@@ -5,29 +5,30 @@ import React from "react";
 
 import Pressable from "../components/Pressable";
 import { stackNavigatorOptions } from "../config/stackNavigator";
-import AddCarScreen from "../screens/AddCar";
+import { useModal } from "../hooks/modal";
 import GarageScreen from "../screens/Garage";
 
 const Stack = createNativeStackNavigator();
 
 const GarageNavigator = () => {
-  const navigation = useNavigation();
+  const addCarModal = useModal();
+
   return (
     <Stack.Navigator screenOptions={stackNavigatorOptions}>
       <Stack.Screen
         name="Garage"
-        component={GarageScreen}
         options={{
           headerLargeTitle: true,
           title: "Гараж",
           headerRight: () => (
-            <Pressable onPress={() => navigation.navigate("AddCar")}>
+            <Pressable style={{ padding: 5 }} onPress={addCarModal.open}>
               <FontAwesome5 name="plus-circle" color="dodgerblue" size={20} />
             </Pressable>
           ),
         }}
-      />
-      <Stack.Screen name="AddCar" component={AddCarScreen} options={{ title: "Добавить автомобиль", presentation: "modal" }} />
+      >
+        {(props) => <GarageScreen modal={addCarModal} {...props} />}
+      </Stack.Screen>
     </Stack.Navigator>
   );
 };
