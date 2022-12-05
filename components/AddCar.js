@@ -25,8 +25,8 @@ const AddCar = ({ modal }) => {
   return (
     <Modal modal={modal} noButton>
       <Text style={styles.section}>Добавить автомобиль</Text>
-      <TextInput style={styles.input} value={name} onChangeText={setName} placeholder="Название" />
-      <TextInput style={styles.input} value={vin} onChangeText={setVin} placeholder="VIN" />
+      <TextInput style={styles.input} value={name} onChangeText={setName} placeholder="Название" placeholderTextColor="#aaa" />
+      <TextInput style={styles.input} value={vin} onChangeText={setVin} placeholder="VIN" placeholderTextColor="#aaa" />
       <Button title="Добавить" onPress={handleAddCar} />
     </Modal>
   );

@@ -3,10 +3,10 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 
 import ChatScreen from "../screens/Chat";
-import ProfileScreen from "../screens/Profile";
 import GarageNavigator from "./Garage";
 import HomeNavigator from "./Home";
 import ParkNavigator from "./Park";
+import ProfileNavigator from "./Profile";
 import WorkNavigator from "./Work";
 
 const Tab = createBottomTabNavigator();
@@ -36,7 +36,7 @@ const MainMavigator = () => {
       />
       <Tab.Screen
         name="ProfileNavigator"
-        component={ProfileScreen}
+        component={ProfileNavigator}
         options={{ title: "Профиль", tabBarIcon: ({ color }) => <FontAwesome5 name="user-alt" color={color} size={22} /> }}
       />
       <Tab.Screen
