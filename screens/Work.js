@@ -1,7 +1,8 @@
 import axios from "axios";
 import { encode } from "js-base64";
+import moment from "moment";
 import { useEffect, useState } from "react";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 
 import CodingIcon from "../assets/icons/coding.svg";
 import EngineIcon from "../assets/icons/engine.svg";
@@ -12,8 +13,31 @@ import { Button } from "../components/Button";
 import Screen from "../components/Screen";
 import Select from "../components/Select";
 import Work from "../components/Work";
-import { cars, work as workMocks } from "../mocks";
+import { cars, work as workMocks, workResponse, workTypesResponse } from "../mocks";
 import globalStyles from "../styles";
+
+const groupWorkByDate = (items) => {
+  const result = [];
+
+  items.map((work) => {
+    const latestGroup = result[result.length - 1];
+    const latestItem = latestGroup && latestGroup[latestGroup.length - 1];
+
+    if (!latestGroup || !moment(latestItem.date).isSame(work.date, "day")) result.push([work]);
+    else latestGroup.push(work);
+  });
+
+  return result;
+};
+
+const formatDate = (date) => {
+  const value = moment(date);
+
+  if (value.isSame(moment(), "day")) return "Сегодня";
+  else if (value.isSame(moment().subtract(1, "day"), "day")) return "Вчера";
+  else if (value.isSame(moment(), "year")) return moment(date).format("D MMMM");
+  else return moment(date).format("D MMMM YYYY");
+};
 
 const WorkScreen = ({ navigation }) => {
   const [car, setCar] = useState();
@@ -23,26 +47,27 @@ const WorkScreen = ({ navigation }) => {
   const fetchWork = async () => {
     setLoading(true);
 
-    const workTypesResponse = await axios.get(
-      `http://213.109.27.99:27/AutoserviceFgsever/odata/standard.odata/Catalog_%D0%B0%D1%81%D0%92%D0%B8%D0%B4%D1%8B%D0%A0%D0%B5%D0%BC%D0%BE%D0%BD%D1%82%D0%B0?$format=json`,
-      { headers: { Authorization: `Basic ${encode("КурочкинМ:789")}` } }
-    );
-    const workTypes = workTypesResponse.data.value;
+    // const workTypesResponse = await axios.get(
+    //   `http://213.109.27.99:27/AutoserviceFgsever/odata/standard.odata/Catalog_%D0%B0%D1%81%D0%92%D0%B8%D0%B4%D1%8B%D0%A0%D0%B5%D0%BC%D0%BE%D0%BD%D1%82%D0%B0?$format=json`,
+    //   { headers: { Authorization: `Basic ${encode("КурочкинМ:789")}` } }
+    // );
+    // const workTypes = workTypesResponse.data.value;
+    const workTypes = workTypesResponse.value;
 
-    const workResponse = await axios.get(
-      `http://213.109.27.99:27/AutoserviceFgsever/odata/standard.odata/Document_асЗаказНаряд?$filter=Автомобиль_Key eq guid'${cars[0].guid}'&$top=10&$format=json`,
-      { headers: { Authorization: `Basic ${encode("КурочкинМ:789")}` } }
-    );
-    const data = workResponse.data.value.map((item) => ({
+    // const workResponse = await axios.get(
+    //   `http://213.109.27.99:27/AutoserviceFgsever/odata/standard.odata/Document_асЗаказНаряд?$filter=Автомобиль_Key eq guid'${cars[0].guid}'&$orderby=Date desc&$format=json`,
+    //   { headers: { Authorization: `Basic ${encode("КурочкинМ:789")}` } }
+    // );
+    // const data = workResponse.data.value.map((item) => ({
+    const data = workResponse.value.map((item) => ({
       guid: item.Ref_Key,
-      type: item.ВидРемонта_Key,
       title: workTypes.find((workType) => workType.Ref_Key === item.ВидРемонта_Key).Description,
       carGuid: item.Автомобиль_Key,
-      mileage: item.Пробег,
+      mileage: +item.Пробег,
       price: item.СуммаДокумента,
       date: item.Date,
     }));
-    setWork(data);
+    setWork(groupWorkByDate(data, "date"));
     setLoading(false);
   };
 
@@ -54,25 +79,29 @@ const WorkScreen = ({ navigation }) => {
     <Screen
       style={{ paddingHorizontal: 20 }}
       fixedBottom={<Button title="Записаться" onPress={() => navigation.navigate("Appointment")} />}
+      loading={loading}
     >
       <Select style={styles.car} items={cars} value={car} onChange={setCar} placeholder="Все машины" />
-      <Text style={styles.section}>API</Text>
-      {work.map((work) => (
-        <Work
-          key={work.guid}
-          type={work.type}
-          title={work.title}
-          description={`${cars.find(({ guid }) => guid === work.carGuid).label}, ${work.mileage.toLocaleString()} км`}
-          price={work.price}
-          date={work.date}
-          onPress={() => navigation.navigate("WorkDetails", { workId: work.id })}
-        />
+      {work.map((group) => (
+        <View key={group[0].date}>
+          <Text style={styles.section}>{formatDate(group[0].date)}</Text>
+          {group.map((work) => (
+            <Work
+              key={work.guid}
+              title={work.title}
+              description={`${cars.find(({ guid }) => guid === work.carGuid).label}, ${work.mileage.toLocaleString()} км`}
+              price={work.price}
+              date={work.date}
+              onPress={() => navigation.navigate("WorkDetails", { workId: work.id })}
+            />
+          ))}
+        </View>
       ))}
       <Text style={styles.section}>Сегодня</Text>
       {workMocks.map((work) => (
         <Work
           key={work.id}
-          type={work.type}
+          icon={work.icon}
           title={work.title}
           description={`${cars.find(({ guid }) => guid === work.carGuid).label}, ${work.mileage.toLocaleString()} км`}
           price={work.price}
@@ -126,6 +155,7 @@ const styles = StyleSheet.create({
   section: {
     ...globalStyles.section,
     marginBottom: 15,
+    lineHeight: 30,
   },
   block: {
     marginBottom: 10,
