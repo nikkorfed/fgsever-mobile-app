@@ -4,10 +4,11 @@ import { StyleSheet, View, Platform, Dimensions } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { useKeyboardVisible } from "../hooks/keyboard";
+import Spinner from "./Spinner";
 
 // Этот вид прокрутки работает немного плавнее, но некорректно отображает колесо прокрутки и имеет лишний отступ при открытой клавиатуре.
 
-const Screen = ({ style, children, fixedBottom, fixedBottomStyle }) => {
+const Screen = ({ style, loading, children, fixedBottom, fixedBottomStyle }) => {
   const isKeyboardVisible = useKeyboardVisible();
   const headerHeight = useHeaderHeight();
 
@@ -25,6 +26,7 @@ const Screen = ({ style, children, fixedBottom, fixedBottomStyle }) => {
         {children}
       </KeyboardAwareScrollView>
       {fixedBottom && <View style={[styles.fixedBottom, fixedBottomStyle]}>{fixedBottom}</View>}
+      {loading && <Spinner />}
     </>
   );
 };

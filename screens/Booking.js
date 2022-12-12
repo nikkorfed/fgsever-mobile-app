@@ -1,7 +1,6 @@
 import * as Device from "expo-device";
 import * as Linking from "expo-linking";
 import * as Location from "expo-location";
-import LottieView from "lottie-react-native";
 import { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Alert } from "react-native";
 // import { getDeviceName } from "react-native-device-info";
@@ -11,9 +10,8 @@ import Block from "../components/Block";
 import { Button, SimpleButton } from "../components/Button";
 import Map from "../components/Map";
 import Screen from "../components/Screen";
+import Spinner from "../components/Spinner";
 import globalStyles from "../styles";
-
-const loadingAnimation = require("../assets/animations/loading.json");
 
 const parkCoordinates = {
   longitude: 37.819658,
@@ -67,14 +65,7 @@ const BookingScreen = () => {
       />
       <Text style={styles.title}>Как доехать</Text>
       <View style={styles.mapContainer}>
-        {!isRouteReady && (
-          <LottieView
-            style={styles.loading}
-            source={loadingAnimation}
-            colorFilters={[{ keypath: "Shape Layer 2", color: "dodgerblue" }]}
-            autoPlay
-          />
-        )}
+        {!isRouteReady && <Spinner />}
         <Map style={styles.map} route={route} setRoute={setRoute} />
         <View style={styles.mapButtonContainer}>
           <SimpleButton style={styles.mapButton} onPress={openMap} title={routeDetails ? `Маршрут (${routeDetails})` : "Маршрут"} />
@@ -127,13 +118,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     height: 160,
-  },
-  loading: {
-    position: "absolute",
-    zIndex: 2,
-    height: "100%",
-    width: "100%",
-    backgroundColor: "white",
   },
   map: {
     flexShrink: 1,
