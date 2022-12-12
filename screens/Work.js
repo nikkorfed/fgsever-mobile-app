@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, Text } from "react-native";
 
 import CodingIcon from "../assets/icons/coding.svg";
@@ -10,11 +10,13 @@ import { Button } from "../components/Button";
 import Screen from "../components/Screen";
 import Select from "../components/Select";
 import Work from "../components/Work";
-import { cars } from "../mocks";
+import { cars, work } from "../mocks";
 import globalStyles from "../styles";
 
 const WorkScreen = ({ navigation }) => {
   const [car, setCar] = useState();
+
+  useEffect(() => {}, [car]);
 
   return (
     <Screen
@@ -23,22 +25,16 @@ const WorkScreen = ({ navigation }) => {
     >
       <Select style={styles.car} items={cars} value={car} onChange={setCar} placeholder="Все машины" />
       <Text style={styles.section}>Сегодня</Text>
-      <Work
-        icon={<MaintenanceIcon size={30} />}
-        title="Техническое обслуживание"
-        description="BMW X3, 76 600 км"
-        price={24900}
-        date={new Date()}
-        onPress={() => navigation.navigate("WorkDetails", { workId: 123 })}
-      />
-      <Work
-        icon={<UpgradeIcon size={30} />}
-        title="Дооснащение"
-        description="BMW X7, 123 000 км"
-        price={145900}
-        date={new Date()}
-        onPress={() => navigation.navigate("WorkDetails", { workId: 234 })}
-      />
+      {work.map((work) => (
+        <Work
+          type={work.type}
+          title={work.title}
+          description={`${cars.find(({ guid }) => guid === work.carGuid).label}, ${work.mileage.toLocaleString()} км`}
+          price={work.price}
+          date={work.date}
+          onPress={() => navigation.navigate("WorkDetails", { workId: work.id })}
+        />
+      ))}
       <Text style={styles.section}>Вчера</Text>
       <Work
         icon={<EngineIcon size={30} />}

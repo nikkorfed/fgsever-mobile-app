@@ -2,13 +2,25 @@ import moment from "moment";
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
+import CodingIcon from "../assets/icons/coding.svg";
+import EngineIcon from "../assets/icons/engine.svg";
+import MaintenanceIcon from "../assets/icons/maintenance.svg";
+import UpdateIcon from "../assets/icons/update.svg";
+import UpgradeIcon from "../assets/icons/upgrade.svg";
 import globalStyles from "../styles";
 import Pressable from "./Pressable";
 
-const Work = ({ style, onPress, icon, title, titleStyle, description, descriptionStyle, price, priceStyle, date, dateStyle }) => {
+const getWorkIcon = (type) =>
+  (type === "maintenance" && <MaintenanceIcon size={30} />) ||
+  (type === "upgrade" && <UpgradeIcon size={30} />) ||
+  (type === "coding" && <CodingIcon size={30} />) ||
+  (type === "update" && <UpdateIcon size={30} />) ||
+  (type === "engine-repair" && <EngineIcon size={30} />);
+
+const Work = ({ style, onPress, type, icon, title, titleStyle, description, descriptionStyle, price, priceStyle, date, dateStyle }) => {
   return (
     <Pressable style={[styles.block, style]} onPress={onPress}>
-      {icon && <View style={styles.icon}>{icon}</View>}
+      {(type || icon) && <View style={styles.icon}>{icon || getWorkIcon(type)}</View>}
       <View style={styles.text}>
         {title && (
           <Text style={[styles.title, titleStyle]} numberOfLines={1}>
