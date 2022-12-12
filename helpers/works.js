@@ -1,5 +1,27 @@
 import moment from "moment";
 
+import BodyRepairIcon from "../assets/icons/body-repair.svg";
+import CodingIcon from "../assets/icons/coding.svg";
+import DiagnosticsIcon from "../assets/icons/diagnostics.svg";
+import EngineIcon from "../assets/icons/engine.svg";
+import MaintenanceIcon from "../assets/icons/maintenance.svg";
+import UpdateIcon from "../assets/icons/update.svg";
+import UpgradeIcon from "../assets/icons/upgrade.svg";
+
+export const prepareWork = (item) => ({
+  guid: item.Ref_Key,
+  number: item.Number,
+  status: getWorkStatus(item.Состояние),
+  workTypeGuid: item.ВидРемонта_Key,
+  date: item.Date,
+  carGuid: item.Автомобиль_Key,
+  mileage: +item.Пробег,
+  details: item.СписокНоменклатуры,
+  partsPrice: item.СуммаНоменклатурыДокумента,
+  worksPrice: item.СуммаРаботДокумента,
+  price: item.СуммаДокумента,
+});
+
 export const groupWorksByDate = (items) => {
   const result = [];
 
@@ -22,3 +44,15 @@ export const formatDate = (date) => {
   else if (value.isSame(moment(), "year")) return moment(date).format("D MMMM");
   else return moment(date).format("D MMMM YYYY");
 };
+
+export const getWorkIcon = (title) => (props) =>
+  ((title === "Слесарный" || title === "Установка") && <MaintenanceIcon {...props} />) ||
+  (title === "Дооснащение" && <UpgradeIcon {...props} />) ||
+  (title === "Кодирование" && <CodingIcon {...props} />) ||
+  (title === "Диагностика" && <DiagnosticsIcon {...props} />) ||
+  (title === "Обновление ПО" && <UpdateIcon {...props} />) ||
+  (title === "Ремонт двигателя" && <EngineIcon {...props} />) ||
+  ((title === "Кузовной" || title === "Покраска") && <BodyRepairIcon {...props} />);
+
+export const getWorkStatus = (value) =>
+  (value === "Заявка" && "Принят") || (value === "ВРаботе" && "В работе") || (value === "Закрыт" && "Выполнен") || value;

@@ -15,7 +15,7 @@ const WorksNavigator = () => {
       <Stack.Screen
         name="Work"
         component={WorkScreen}
-        options={({ route }) => ({ title: `Заказ № ${route.params.workId}`, presentation: "modal" })}
+        options={({ route }) => ({ title: `Заказ-наряд № ${route.params.work.number}`, presentation: "modal" })}
       />
       <Stack.Screen name="Appointment" component={AppointmentScreen} options={{ title: "Записаться", presentation: "modal" }} />
     </Stack.Navigator>

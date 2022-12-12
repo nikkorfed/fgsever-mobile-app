@@ -2,55 +2,61 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import moment from "moment";
 import { StyleSheet, View, Text } from "react-native";
 
-import UpgradeIcon from "../assets/icons/upgrade.svg";
 import Block from "../components/Block";
 import Screen from "../components/Screen";
+import { getWorkIcon } from "../helpers/works";
 import globalStyles from "../styles";
 
-const WorkScreen = ({ navigation }) => {
+const WorkScreen = ({ route, navigation }) => {
+  const { work } = route.params;
+  const Icon = getWorkIcon(work.name);
+
   return (
     <Screen>
       <View style={styles.iconContainer}>
         <View style={styles.icon}>
-          <UpgradeIcon size={50} />
+          <Icon size={50} />
         </View>
-        <Text style={styles.intro}>Дооснащение</Text>
-        <Text style={styles.introDescription}>{moment().format("lll")}</Text>
-        <View style={styles.status}>
-          <FontAwesome5 style={styles.statusIcon} name="check" color="green" size={10} />
-          <Text style={styles.text}>Выполнен</Text>
-        </View>
+        <Text style={styles.intro}>{work.name}</Text>
+        <Text style={styles.introDescription}>{moment(work.date).format("lll")}</Text>
+        {work.status && (
+          <View style={styles.status}>
+            {work.status === "В работе" && <FontAwesome5 style={styles.statusIcon} name="clock" color="orange" size={12} />}
+            {work.status === "Выполнен" && <FontAwesome5 style={styles.statusIcon} name="check" color="green" size={12} />}
+            <Text style={styles.text}>{work.status}</Text>
+          </View>
+        )}
       </View>
       <View style={styles.section}>
         <Text style={styles.title}>Вид работ</Text>
-        <Text style={styles.description}>Установка активного круиз-контроля (5DF)</Text>
+        <Text style={styles.description}>{work.details}</Text>
       </View>
       <View style={styles.section}>
         <Text style={styles.title}>Автомобиль</Text>
-        <Text style={styles.description}>BMW X5 (А001АА197)</Text>
+        <Text style={styles.description}>{work.car.label}</Text>
       </View>
       <View style={styles.section}>
         <Text style={styles.title}>Пробег</Text>
-        <Text style={styles.description}>75 120 км</Text>
+        <Text style={styles.description}>{work.mileage.toLocaleString()} км</Text>
       </View>
       <View style={styles.section}>
         <Text style={styles.title}>Дата посещения</Text>
-        <Text style={styles.description}>{moment.utc().format("lll")}</Text>
+        <Text style={styles.description}>{moment(work.date).format("lll")}</Text>
       </View>
       <View style={styles.section}>
         <Text style={styles.title}>Стоимость</Text>
         <View style={styles.prices}>
           <View style={styles.price}>
             <Text style={styles.priceName}>Детали</Text>
-            <Text style={styles.priceValue}>8 500 руб.</Text>
+            <Text style={styles.priceValue}>{work.partsPrice.toLocaleString()} ₽</Text>
           </View>
           <View style={styles.price}>
             <Text style={styles.priceName}>Работы</Text>
-            <Text style={styles.priceValue}>6 000 руб.</Text>
+            <Text style={styles.priceValue}>{work.worksPrice.toLocaleString()} ₽</Text>
           </View>
           <View style={styles.price}>
             <Text style={styles.priceName}>Общая стоимость</Text>
-            <Text style={styles.priceValue}>14 500 руб.</Text>
+            <Text style={styles.priceValue}>{work.price.toLocaleString()} ₽</Text>
           </View>
         </View>
       </View>

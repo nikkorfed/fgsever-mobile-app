@@ -54,7 +54,8 @@ export const works = [
   {
     id: 123,
     icon: <MaintenanceIcon size={30} />,
-    title: "Техническое обслуживание",
+    status: "В работе",
+    name: "Техническое обслуживание",
     carGuid: "4d08d576-1d22-11e8-8632-2c4d54ee8471",
     mileage: 76600,
     price: 24900,
@@ -63,7 +64,8 @@ export const works = [
   {
     id: 234,
     icon: <UpgradeIcon size={30} />,
-    title: "Дооснащение",
+    status: "Выполнен",
+    name: "Дооснащение",
     carGuid: "f625ad63-e764-11ea-9cee-6045cb9e7b38",
     mileage: 123000,
     price: 145900,
