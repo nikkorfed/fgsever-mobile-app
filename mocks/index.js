@@ -50,7 +50,7 @@ export const services = [
   { id: 5, key: "coding", label: "Кодирование" },
 ];
 
-export const work = [
+export const works = [
   {
     id: 123,
     icon: <MaintenanceIcon size={30} />,
@@ -71,7 +71,7 @@ export const work = [
   },
 ];
 
-export const workResponse = {
+export const worksResponse = {
   "odata.metadata": "http://213.109.27.99:27/AutoserviceFgsever/odata/standard.odata/$metadata#Document_асЗаказНаряд",
   value: [
     {

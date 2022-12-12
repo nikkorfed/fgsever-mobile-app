@@ -7,7 +7,7 @@ import GarageNavigator from "./Garage";
 import HomeNavigator from "./Home";
 import ParkNavigator from "./Park";
 import ProfileNavigator from "./Profile";
-import WorkNavigator from "./Work";
+import WorksNavigator from "./Works";
 
 const Tab = createBottomTabNavigator();
 
@@ -20,8 +20,8 @@ const MainMavigator = () => {
         options={{ title: "Главная", tabBarIcon: ({ color }) => <Ionicons name="ios-home" color={color} size={22} /> }}
       />
       <Tab.Screen
-        name="WorkNavigator"
-        component={WorkNavigator}
+        name="WorksNavigator"
+        component={WorksNavigator}
         options={{ title: "Работы", tabBarIcon: ({ color }) => <MaterialCommunityIcons name="wrench" color={color} size={22} /> }}
       />
       <Tab.Screen

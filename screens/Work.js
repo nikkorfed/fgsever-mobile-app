@@ -1,165 +1,144 @@
-import axios from "axios";
-import { encode } from "js-base64";
+import { FontAwesome5 } from "@expo/vector-icons";
 import moment from "moment";
-import { useEffect, useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 
-import CodingIcon from "../assets/icons/coding.svg";
-import EngineIcon from "../assets/icons/engine.svg";
-import MaintenanceIcon from "../assets/icons/maintenance.svg";
-import UpdateIcon from "../assets/icons/update.svg";
 import UpgradeIcon from "../assets/icons/upgrade.svg";
-import { Button } from "../components/Button";
+import Block from "../components/Block";
 import Screen from "../components/Screen";
-import Select from "../components/Select";
-import Work from "../components/Work";
-import { cars, work as workMocks, workResponse, workTypesResponse } from "../mocks";
 import globalStyles from "../styles";
 
-const groupWorkByDate = (items) => {
-  const result = [];
-
-  items.map((work) => {
-    const latestGroup = result[result.length - 1];
-    const latestItem = latestGroup && latestGroup[latestGroup.length - 1];
-
-    if (!latestGroup || !moment(latestItem.date).isSame(work.date, "day")) result.push([work]);
-    else latestGroup.push(work);
-  });
-
-  return result;
-};
-
-const formatDate = (date) => {
-  const value = moment(date);
-
-  if (value.isSame(moment(), "day")) return "Сегодня";
-  else if (value.isSame(moment().subtract(1, "day"), "day")) return "Вчера";
-  else if (value.isSame(moment(), "year")) return moment(date).format("D MMMM");
-  else return moment(date).format("D MMMM YYYY");
-};
-
 const WorkScreen = ({ navigation }) => {
-  const [car, setCar] = useState();
-  const [loading, setLoading] = useState(false);
-  const [work, setWork] = useState([]);
-
-  const fetchWork = async () => {
-    setLoading(true);
-
-    // const workTypesResponse = await axios.get(
-    //   `http://213.109.27.99:27/AutoserviceFgsever/odata/standard.odata/Catalog_%D0%B0%D1%81%D0%92%D0%B8%D0%B4%D1%8B%D0%A0%D0%B5%D0%BC%D0%BE%D0%BD%D1%82%D0%B0?$format=json`,
-    //   { headers: { Authorization: `Basic ${encode("КурочкинМ:789")}` } }
-    // );
-    // const workTypes = workTypesResponse.data.value;
-    const workTypes = workTypesResponse.value;
-
-    // const workResponse = await axios.get(
-    //   `http://213.109.27.99:27/AutoserviceFgsever/odata/standard.odata/Document_асЗаказНаряд?$filter=Автомобиль_Key eq guid'${cars[0].guid}'&$orderby=Date desc&$format=json`,
-    //   { headers: { Authorization: `Basic ${encode("КурочкинМ:789")}` } }
-    // );
-    // const data = workResponse.data.value.map((item) => ({
-    const data = workResponse.value.map((item) => ({
-      guid: item.Ref_Key,
-      title: workTypes.find((workType) => workType.Ref_Key === item.ВидРемонта_Key).Description,
-      carGuid: item.Автомобиль_Key,
-      mileage: +item.Пробег,
-      price: item.СуммаДокумента,
-      date: item.Date,
-    }));
-    setWork(groupWorkByDate(data, "date"));
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchWork();
-  }, [car]);
-
   return (
-    <Screen
-      style={{ paddingHorizontal: 20 }}
-      fixedBottom={<Button title="Записаться" onPress={() => navigation.navigate("Appointment")} />}
-      loading={loading}
-    >
-      <Select style={styles.car} items={cars} value={car} onChange={setCar} placeholder="Все машины" />
-      {work.map((group) => (
-        <View key={group[0].date}>
-          <Text style={styles.section}>{formatDate(group[0].date)}</Text>
-          {group.map((work) => (
-            <Work
-              key={work.guid}
-              title={work.title}
-              description={`${cars.find(({ guid }) => guid === work.carGuid).label}, ${work.mileage.toLocaleString()} км`}
-              price={work.price}
-              date={work.date}
-              onPress={() => navigation.navigate("WorkDetails", { workId: work.id })}
-            />
-          ))}
+    <Screen>
+      <View style={styles.iconContainer}>
+        <View style={styles.icon}>
+          <UpgradeIcon size={50} />
         </View>
-      ))}
-      <Text style={styles.section}>Сегодня</Text>
-      {workMocks.map((work) => (
-        <Work
-          key={work.id}
-          icon={work.icon}
-          title={work.title}
-          description={`${cars.find(({ guid }) => guid === work.carGuid).label}, ${work.mileage.toLocaleString()} км`}
-          price={work.price}
-          date={work.date}
-          onPress={() => navigation.navigate("WorkDetails", { workId: work.id })}
-        />
-      ))}
-      <Text style={styles.section}>Вчера</Text>
-      <Work
-        icon={<EngineIcon size={30} />}
-        title="Ремонт двигателя"
-        description="BMW 4, 18 500 км"
-        price={76250}
-        date={new Date()}
-        onPress={() => navigation.navigate("WorkDetails", { workId: 43 })}
-      />
-      <Text style={styles.section}>8 ноября</Text>
-      <Work
-        icon={<CodingIcon size={30} />}
-        title="Кодирование"
-        description="BMW 4, 14 000 км"
-        price={9000}
-        date={new Date()}
-        onPress={() => navigation.navigate("WorkDetails", { workId: 67 })}
-      />
-      <Work
-        icon={<UpdateIcon size={30} />}
-        title="Обновление ПО"
-        description="BMW M5, 23 000 км"
-        price={4800}
-        date={new Date()}
-        onPress={() => navigation.navigate("WorkDetails", { workId: 80 })}
-      />
-      <Work
-        icon={<MaintenanceIcon size={30} />}
-        title="Техническое обслуживание"
-        description="BMW X7, 115 000 км"
-        price={24900}
-        date={new Date()}
-        onPress={() => navigation.navigate("WorkDetails", { workId: 95 })}
-      />
+        <Text style={styles.intro}>Дооснащение</Text>
+        <Text style={styles.introDescription}>{moment().format("lll")}</Text>
+        <View style={styles.status}>
+          <FontAwesome5 style={styles.statusIcon} name="check" color="green" size={10} />
+          <Text style={styles.text}>Выполнен</Text>
+        </View>
+      </View>
+      <View style={styles.section}>
+        <Text style={styles.title}>Вид работ</Text>
+        <Text style={styles.description}>Установка активного круиз-контроля (5DF)</Text>
+      </View>
+      <View style={styles.section}>
+        <Text style={styles.title}>Автомобиль</Text>
+        <Text style={styles.description}>BMW X5 (А001АА197)</Text>
+      </View>
+      <View style={styles.section}>
+        <Text style={styles.title}>Пробег</Text>
+        <Text style={styles.description}>75 120 км</Text>
+      </View>
+      <View style={styles.section}>
+        <Text style={styles.title}>Дата посещения</Text>
+        <Text style={styles.description}>{moment.utc().format("lll")}</Text>
+      </View>
+      <View style={styles.section}>
+        <Text style={styles.title}>Стоимость</Text>
+        <View style={styles.prices}>
+          <View style={styles.price}>
+            <Text style={styles.priceName}>Детали</Text>
+            <Text style={styles.priceValue}>8 500 руб.</Text>
+          </View>
+          <View style={styles.price}>
+            <Text style={styles.priceName}>Работы</Text>
+            <Text style={styles.priceValue}>6 000 руб.</Text>
+          </View>
+          <View style={styles.price}>
+            <Text style={styles.priceName}>Общая стоимость</Text>
+            <Text style={styles.priceValue}>14 500 руб.</Text>
+          </View>
+        </View>
+      </View>
+      <Text style={{ ...styles.title, marginBottom: 10 }}>Фотографии</Text>
+      <View style={styles.columns}>
+        <View style={styles.column}>
+          <Block style={{ paddingBottom: "75%" }} image="https://fgsever.ru/images/about/6.jpg" />
+        </View>
+        <View style={styles.column}>
+          <Block style={{ paddingBottom: "75%" }} image="https://fgsever.ru/images/about/8.jpg" />
+        </View>
+        <View style={styles.column}>
+          <Block style={{ paddingBottom: "75%" }} image="https://fgsever.ru/images/about/15.jpg" />
+        </View>
+      </View>
     </Screen>
   );
 };
 
 const styles = StyleSheet.create({
   ...globalStyles,
-  car: {
+  iconContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 15,
     marginBottom: 15,
   },
+  icon: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 15,
+    borderRadius: 50,
+    height: 100,
+    width: 100,
+    backgroundColor: "#f8f8f8",
+  },
+  intro: {
+    ...globalStyles.title,
+    textAlign: "center",
+  },
+  introDescription: {
+    ...globalStyles.description,
+    marginTop: 5,
+  },
+  status: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 10,
+    borderRadius: 5,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    backgroundColor: "#f8f8f8",
+  },
+  statusIcon: { marginRight: 5 },
   section: {
-    ...globalStyles.section,
-    marginBottom: 15,
-    lineHeight: 30,
-  },
-  block: {
     marginBottom: 10,
-    shadowRadius: 0,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
+    paddingBottom: 10,
+  },
+  title: {
+    ...globalStyles.description,
+  },
+  description: {
+    ...globalStyles.text,
+    marginTop: 5,
+  },
+  prices: {
+    // marginVertical: 10,
+  },
+  price: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 5,
+  },
+  priceName: {
+    ...globalStyles.text,
+  },
+  priceValue: {
+    ...globalStyles.text,
+    fontFamily: "Montserrat_600SemiBold",
+  },
+  totalCost: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingTop: 5,
+    borderTopWidth: 1,
+    borderTopColor: "#eee",
   },
 });
 
