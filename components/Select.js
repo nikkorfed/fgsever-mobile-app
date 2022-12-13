@@ -11,8 +11,8 @@ const Select = ({ style, items, value, onChange, placeholder }) => {
   const selectModal = useModal();
 
   return (
-    <View style={style}>
-      <Pressable onPress={selectModal.open}>
+    <View style={[styles.container, style]}>
+      <Pressable style={{ flexGrow: 1 }} onPress={selectModal.open}>
         <TextInput
           style={styles.input}
           value={items.find((item) => item.key === value)?.label}
@@ -22,8 +22,12 @@ const Select = ({ style, items, value, onChange, placeholder }) => {
           editable={false}
         />
       </Pressable>
-      {value != null && (
-        <Pressable style={styles.clearIcon} onPress={() => onChange()}>
+      {value == null ? (
+        <Pressable style={styles.icon} onPress={selectModal.open}>
+          <FontAwesome5 name="angle-down" color="#bbb" size={14} />
+        </Pressable>
+      ) : (
+        <Pressable style={styles.icon} onPress={() => onChange()}>
           <FontAwesome5 name="times" color="#888" size={12} />
         </Pressable>
       )}
@@ -40,15 +44,21 @@ const Select = ({ style, items, value, onChange, placeholder }) => {
 
 const styles = StyleSheet.create({
   ...globalStyles,
-  container: {},
-  input: globalStyles.input,
-  clearIcon: {
+  container: {
+    borderRadius: globalStyles.input.borderRadius,
+    height: globalStyles.input.height,
+    backgroundColor: globalStyles.input.backgroundColor,
+    flexDirection: "row",
+  },
+  input: {
+    ...globalStyles.input,
+    paddingRight: 0,
+    height: "100%",
+  },
+  icon: {
     justifyContent: "center",
     alignItems: "center",
-    position: "absolute",
-    top: 0,
-    right: 0,
-    bottom: 0,
+    height: "100%",
     width: 40,
   },
 });

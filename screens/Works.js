@@ -7,7 +7,7 @@ import Screen from "../components/Screen";
 import Select from "../components/Select";
 import Work from "../components/Work";
 import { groupWorksByDate, formatDate } from "../helpers/works";
-import { cars, worksResponse, workTypesResponse } from "../mocks";
+import { cars, workTypesResponse } from "../mocks";
 import globalStyles from "../styles";
 
 const WorksScreen = ({ navigation }) => {
@@ -22,11 +22,11 @@ const WorksScreen = ({ navigation }) => {
     // const workTypes = workTypesResponse.data.value;
     const workTypes = workTypesResponse.value;
 
-    // const workResponse = await api.worksByCar(cars[0].guid);
-    // const data = workResponse.data.value.map((item) => {
-    const data = worksResponse.value.map((item) => {
+    const worksResponse = await api.worksByCar(cars[0].guid);
+    const data = worksResponse.map((item) => {
       item.name = workTypes.find((workType) => workType.Ref_Key === item.workTypeGuid).Description;
       item.car = cars.find((car) => car.guid === item.carGuid);
+      return item;
     });
     setWorks(data);
     setLoading(false);
@@ -42,7 +42,9 @@ const WorksScreen = ({ navigation }) => {
       fixedBottom={<Button title="Записаться" onPress={() => navigation.navigate("Appointment")} />}
       loading={loading}
     >
-      <Select style={styles.car} items={cars} value={car} onChange={setCar} placeholder="Все машины" />
+      <View style={styles.row}>
+        <Select style={styles.select} items={cars} value={car} onChange={setCar} placeholder="Автомобиль" />
+      </View>
       {groupWorksByDate(works, "date").map((group) => (
         <View key={group[0].date}>
           <Text style={styles.section}>{formatDate(group[0].date)}</Text>
@@ -66,8 +68,12 @@ const WorksScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   ...globalStyles,
-  car: {
+  row: {
+    ...globalStyles.row,
     marginBottom: 15,
+  },
+  select: {
+    height: 34,
   },
   section: {
     ...globalStyles.section,
