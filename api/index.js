@@ -1,8 +1,7 @@
 import axios from "axios";
 import { encode } from "js-base64";
 
-import { prepareWork } from "../helpers/works";
-import { worksResponse } from "../mocks";
+import { prepareWorkType, prepareWork } from "../helpers/works";
 
 const serializer = (params) => {
   const entries = Object.entries(params);
@@ -16,7 +15,10 @@ const api = axios.create({
   paramsSerializer: { serialize: serializer },
 });
 
-const workTypes = () => api.get("/Catalog_асВидыРемонта");
+const workTypes = async () => {
+  const response = await api.get("/Catalog_асВидыРемонта");
+  return response.data.value.map(prepareWorkType);
+};
 
 const worksByCar = async (carGuid) => {
   const getFilterForGuid = (guid) => `Автомобиль_Key eq guid'${guid}'`;

@@ -7,7 +7,7 @@ import Screen from "../components/Screen";
 import Select from "../components/Select";
 import Work from "../components/Work";
 import { groupWorksByDate, formatDate } from "../helpers/works";
-import { cars, workTypesResponse } from "../mocks";
+import { cars } from "../mocks";
 import globalStyles from "../styles";
 
 const WorksScreen = ({ navigation }) => {
@@ -18,9 +18,7 @@ const WorksScreen = ({ navigation }) => {
   const fetchWorks = async () => {
     setLoading(true);
 
-    // const workTypesResponse = await api.workTypes();
-    // const workTypes = workTypesResponse.data.value;
-    const workTypes = workTypesResponse.value;
+    const workTypes = await api.workTypes();
 
     const carGuids = car ? cars.find((item) => item.key === car).guid : cars.map((item) => item.guid);
     const worksResponse = await api.worksByCar(carGuids);

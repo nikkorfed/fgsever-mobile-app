@@ -8,6 +8,11 @@ import MaintenanceIcon from "../assets/icons/maintenance.svg";
 import UpdateIcon from "../assets/icons/update.svg";
 import UpgradeIcon from "../assets/icons/upgrade.svg";
 
+export const prepareWorkType = (item) => ({
+  guid: item.Ref_Key,
+  name: item.Description,
+});
+
 export const prepareWork = (item) => ({
   guid: item.Ref_Key,
   number: item.Number,
