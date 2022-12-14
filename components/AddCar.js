@@ -1,24 +1,23 @@
 import { useState } from "react";
 import { StyleSheet, Text, TextInput } from "react-native";
 
+import api from "../api";
 import Modal from "../components/Modal";
 import { cars } from "../mocks";
 import globalStyles from "../styles";
 import { Button } from "./Button";
 
-const AddCar = ({ modal }) => {
+const AddCar = ({ modal, setCars }) => {
   const [name, setName] = useState();
   const [vin, setVin] = useState();
 
-  const handleAddCar = () => {
-    cars.push({
-      id: cars[cars.length - 1].id,
-      key: name?.toLowerCase().replace(/\s/g, "-"),
-      label: name,
-      image: "https://a.d-cd.net/zsAAAgAzGeA-960.jpg",
-      licensePlate: "Е305КН123",
-      vin: "W4C12345678231221",
-    });
+  const handleAddCar = async () => {
+    const { guid } = await api.carGuid(vin);
+    const { vin: fullVin, image, model, modelCode, productionDate } = await api.carInfo(vin);
+
+    const car = { key: fullVin, guid, label: name, image, vin: fullVin, model, modelCode, productionDate };
+    setCars((prev) => [...prev, car]);
+
     modal.close();
   };
 

@@ -23,7 +23,7 @@ const WorksScreen = ({ navigation }) => {
     const carGuids = car ? cars.find((item) => item.key === car).guid : cars.map((item) => item.guid);
     const worksResponse = await api.worksByCar(carGuids);
     const data = worksResponse.map((item) => {
-      item.name = workTypes.find((workType) => workType.Ref_Key === item.workTypeGuid).Description;
+      item.name = workTypes.find((workType) => workType.guid === item.workTypeGuid).name;
       item.car = cars.find((car) => car.guid === item.carGuid);
       return item;
     });

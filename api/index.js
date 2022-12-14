@@ -1,7 +1,9 @@
 import axios from "axios";
 import { encode } from "js-base64";
 
+import { prepareCar } from "../helpers/cars";
 import { prepareWorkType, prepareWork } from "../helpers/works";
+import { carsResponse, worksResponse, workTypesResponse } from "../mocks";
 
 const serializer = (params) => {
   const entries = Object.entries(params);
@@ -15,12 +17,29 @@ const api = axios.create({
   paramsSerializer: { serialize: serializer },
 });
 
+const carInfo = async (vin) => {
+  const response = await axios.post("https://fgsever.ru/scripts/php/calculators/car-info.php", null, { params: { vin } }).catch((error) => {
+    console.log("ERROR RESPONSE", error.response);
+  });
+  return response.data;
+};
+
+const carGuid = async (vin) => {
+  // return carsResponse.value.map(prepareCar)[0];
+  const response = await api.get("/Catalog_асАвтомобили", { params: { $filter: `like(VIN,'%${vin}')` } }).catch((error) => {
+    console.log("ERROR RESPONSE", error.response);
+  });
+  return response.data.value.map(prepareCar)[0];
+};
+
 const workTypes = async () => {
+  // return workTypesResponse.value.map(prepareWorkType);
   const response = await api.get("/Catalog_асВидыРемонта");
   return response.data.value.map(prepareWorkType);
 };
 
 const worksByCar = async (carGuid) => {
+  // return worksResponse.value.map(prepareWork);
   const getFilterForGuid = (guid) => `Автомобиль_Key eq guid'${guid}'`;
   const response = await api.get(`/Document_асЗаказНаряд`, {
     params: {
@@ -31,4 +50,4 @@ const worksByCar = async (carGuid) => {
   return response.data.value.map(prepareWork);
 };
 
-export default { workTypes, worksByCar };
+export default { carInfo, carGuid, workTypes, worksByCar };
