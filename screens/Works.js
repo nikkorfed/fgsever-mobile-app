@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 
@@ -7,10 +8,10 @@ import Screen from "../components/Screen";
 import Select from "../components/Select";
 import Work from "../components/Work";
 import { groupWorksByDate, formatDate } from "../helpers/works";
-import { cars } from "../mocks";
 import globalStyles from "../styles";
 
 const WorksScreen = ({ navigation }) => {
+  const [cars, setCars] = useState([]);
   const [car, setCar] = useState();
   const [loading, setLoading] = useState(false);
   const [works, setWorks] = useState([]);
@@ -18,10 +19,14 @@ const WorksScreen = ({ navigation }) => {
   const fetchWorks = async () => {
     setLoading(true);
 
+    setCars(JSON.parse(await AsyncStorage.getItem("cars")) ?? []);
+    console.log("Получили машины!");
     const workTypes = await api.workTypes();
 
     const carGuids = car ? cars.find((item) => item.key === car).guid : cars.map((item) => item.guid);
+    console.log({ carGuids });
     const worksResponse = await api.worksByCar(carGuids);
+    console.log({ worksResponse });
     const data = worksResponse.map((item) => {
       item.name = workTypes.find((workType) => workType.guid === item.workTypeGuid).name;
       item.car = cars.find((car) => car.guid === item.carGuid);
