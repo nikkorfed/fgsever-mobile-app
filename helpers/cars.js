@@ -1,5 +1,5 @@
 export const prepareCar = (item) => ({
-  vin: item.VIN,
   guid: item.Ref_Key,
+  vin: item.VIN,
   name: item.Description,
 });

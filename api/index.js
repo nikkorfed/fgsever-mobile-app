@@ -38,16 +38,17 @@ const workTypes = async () => {
   return response.data.value.map(prepareWorkType);
 };
 
-const worksByCar = async (carGuid) => {
+const works = async ({ carGuids, workTypeGuids = [] }) => {
   // return worksResponse.value.map(prepareWork);
-  const getFilterForGuid = (guid) => `Автомобиль_Key eq guid'${guid}'`;
-  const response = await api.get(`/Document_асЗаказНаряд`, {
-    params: {
-      $filter: Array.isArray(carGuid) ? carGuid.map(getFilterForGuid).join(" or ") : getFilterForGuid(carGuid),
-      $orderby: "Date desc",
-    },
-  });
+
+  const carsFilter = carGuids.map((guid) => `Автомобиль_Key eq guid'${guid}'`).join(" or ");
+  const workTypeFilter = workTypeGuids.map((guid) => `ВидРемонта_Key eq guid'${guid}'`).join(" or ");
+
+  let filters = [carsFilter, workTypeFilter].filter((i) => i);
+  filters.length > 1 && (filters = filters.map((filter) => `(${filter})`).join(" and "));
+
+  const response = await api.get(`/Document_асЗаказНаряд`, { params: { $filter: filters, $orderby: "Date desc" } });
   return response.data.value.map(prepareWork);
 };
 
-export default { carInfo, carGuid, workTypes, worksByCar };
+export default { carInfo, carGuid, workTypes, works };
