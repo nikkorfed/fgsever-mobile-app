@@ -20,15 +20,10 @@ const WorksScreen = ({ navigation }) => {
   const fetchWorks = async () => {
     setLoading(true);
 
-    const workTypes = await api.workTypes();
-
-    // TODO: Возможно, при использовании в селекторе guid в качестве value, сразу использовать здесь state (без поиска).
-    const carGuids = car ? cars.find((item) => item.key === car).guid : cars.map((item) => item.guid);
-    const workTypeGuids = workType && workTypes.find(({ guid }) => guid === workType).guid;
-
-    console.log({ carGuids, workTypeGuids });
-
+    const carGuids = car ? [car] : cars.map((item) => item.guid);
+    const workTypeGuids = workType && [workType];
     const worksResponse = await api.works({ carGuids, workTypeGuids });
+
     const data = worksResponse.map((item) => {
       item.name = workTypes.find((workType) => workType.guid === item.workTypeGuid).name;
       item.car = cars.find((car) => car.guid === item.carGuid);
@@ -40,7 +35,7 @@ const WorksScreen = ({ navigation }) => {
 
   useEffect(() => {
     fetchWorks();
-  }, [car]);
+  }, [car, workType]);
 
   return (
     <Screen
@@ -49,8 +44,8 @@ const WorksScreen = ({ navigation }) => {
       loading={loading}
     >
       <View style={styles.row}>
-        <Select style={styles.select} items={cars} value={car} onChange={setCar} placeholder="Автомобиль" />
-        <Select style={styles.select} items={workTypes} value={workType} onChange={setWorkType} placeholder="Вид работ" />
+        <Select style={styles.select} items={cars} value={car} onChange={setCar} valueProp="guid" placeholder="Автомобиль" />
+        <Select style={styles.select} items={workTypes} value={workType} onChange={setWorkType} valueProp="guid" placeholder="Вид работ" />
       </View>
       {groupWorksByDate(works, "date").map((group) => (
         <View key={group[0].date}>

@@ -7,7 +7,7 @@ import { useModal } from "../hooks/modal";
 import globalStyles from "../styles";
 import Modal from "./Modal";
 
-const Select = ({ style, items, value, onChange, placeholder }) => {
+const Select = ({ style, items, value, onChange, labelProp = "name", valueProp = "key", placeholder }) => {
   const selectModal = useModal();
 
   return (
@@ -15,7 +15,7 @@ const Select = ({ style, items, value, onChange, placeholder }) => {
       <Pressable style={{ flexGrow: 1 }} onPress={selectModal.open}>
         <TextInput
           style={styles.input}
-          value={items.find((item) => item.key === value)?.label}
+          value={items.find((item) => item[valueProp] === value)?.[labelProp]}
           placeholder={placeholder}
           placeholderTextColor="#aaa"
           pointerEvents="none"
@@ -34,7 +34,7 @@ const Select = ({ style, items, value, onChange, placeholder }) => {
       <Modal modal={selectModal}>
         <Picker selectedValue={value} onValueChange={onChange}>
           {items.map((item) => (
-            <Picker.Item key={item.key} label={item.label} value={item.key} />
+            <Picker.Item key={item[valueProp]} label={item[labelProp]} value={item[valueProp]} />
           ))}
         </Picker>
       </Modal>

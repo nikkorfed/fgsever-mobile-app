@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import "moment/locale/ru";
 
+import api from "./api";
 import StoreContext from "./context/store";
 import MainNavigator from "./navigators/Main";
 
@@ -30,8 +31,14 @@ const App = () => {
     await AsyncStorage.setItem("cars", JSON.stringify(cars));
   };
 
+  const getWorkTypes = async () => {
+    const workTypes = await api.workTypes();
+    setWorkTypes(workTypes);
+  };
+
   useEffect(() => {
     getCars();
+    getWorkTypes();
   }, []);
 
   useEffect(() => {
