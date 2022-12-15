@@ -33,7 +33,7 @@ const WorkScreen = ({ route, navigation }) => {
       </View>
       <View style={styles.section}>
         <Text style={styles.title}>Автомобиль</Text>
-        <Text style={styles.description}>{work.car.label}</Text>
+        <Text style={styles.description}>{work.car.name}</Text>
       </View>
       <View style={styles.section}>
         <Text style={styles.title}>Пробег</Text>

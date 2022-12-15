@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { StyleSheet } from "react-native";
 
 import AddCar from "../components/AddCar";
@@ -9,10 +8,9 @@ import globalStyles from "../styles";
 
 const GarageScreen = ({ navigation, modal }) => {
   const { cars, setCars } = useStore();
-  const [loading, setLoading] = useState(false);
 
   return (
-    <Screen loading={loading}>
+    <Screen>
       {cars.map((car) => (
         <Car key={car.key} style={styles.car} {...car} />
       ))}

@@ -3,13 +3,12 @@ import { StyleSheet, Image, View, Text, Dimensions } from "react-native";
 
 import globalStyles from "../styles";
 
-const Car = ({ style, image, label, licensePlate, vin, model, modelCode, productionDate }) => {
+const Car = ({ style, image, name, vin, model, modelCode, productionDate }) => {
   return (
     <View style={[styles.block, style]}>
       <Image style={styles.image} resizeMode="contain" source={{ uri: image }} />
       <View style={styles.header}>
-        <Text style={styles.title}>{label}</Text>
-        <Text style={styles.description}>{licensePlate}</Text>
+        <Text style={styles.title}>{name}</Text>
       </View>
       <View style={styles.row}>
         <Text style={styles.description}>VIN: </Text>

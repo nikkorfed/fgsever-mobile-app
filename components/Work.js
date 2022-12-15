@@ -21,7 +21,7 @@ const Work = ({ style, onPress, icon, status, name, car, mileage, price, date })
           {status === "Выполнен" && <FontAwesome5 style={styles.statusIcon} name="check" color="green" size={12} />}
         </View>
         <Text style={styles.description} numberOfLines={1}>
-          {`${car.label}, ${mileage.toLocaleString()} км`}
+          {`${car.name}, ${mileage.toLocaleString()} км`}
         </Text>
       </View>
       <View style={styles.additional}>

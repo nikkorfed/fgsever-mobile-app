@@ -3,7 +3,6 @@ import { StyleSheet, Text, TextInput } from "react-native";
 
 import api from "../api";
 import Modal from "../components/Modal";
-import { cars } from "../mocks";
 import globalStyles from "../styles";
 import { Button } from "./Button";
 
@@ -15,7 +14,7 @@ const AddCar = ({ modal, setCars }) => {
     const { guid } = await api.carGuid(vin);
     const { vin: fullVin, image, model, modelCode, productionDate } = await api.carInfo(vin);
 
-    const car = { key: fullVin, guid, label: name, image, vin: fullVin, model, modelCode, productionDate };
+    const car = { key: fullVin, guid, name, image, vin: fullVin, model, modelCode, productionDate };
     setCars((prev) => [...prev, car]);
 
     modal.close();
