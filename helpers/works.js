@@ -10,7 +10,7 @@ import UpgradeIcon from "../assets/icons/upgrade.svg";
 
 export const prepareWorkType = (item) => ({
   guid: item.Ref_Key,
-  name: item.Description,
+  name: getWorkName(item.Description),
 });
 
 export const prepareWork = (item) => ({
@@ -51,13 +51,15 @@ export const formatDate = (date) => {
 };
 
 export const getWorkIcon = (title) => (props) =>
-  ((title === "Слесарный" || title === "Установка") && <MaintenanceIcon {...props} />) ||
+  ((title === "Слесарный ремонт" || title === "Установка") && <MaintenanceIcon {...props} />) ||
   (title === "Дооснащение" && <UpgradeIcon {...props} />) ||
   (title === "Кодирование" && <CodingIcon {...props} />) ||
   (title === "Диагностика" && <DiagnosticsIcon {...props} />) ||
   (title === "Обновление ПО" && <UpdateIcon {...props} />) ||
   (title === "Ремонт двигателя" && <EngineIcon {...props} />) ||
   ((title === "Кузовной" || title === "Покраска") && <BodyRepairIcon {...props} />);
+
+export const getWorkName = (value) => (value === "Слесарный" && "Слесарный ремонт") || value;
 
 export const getWorkStatus = (value) =>
   (value === "Заявка" && "Принят") || (value === "ВРаботе" && "В работе") || (value === "Закрыт" && "Выполнен") || value;
