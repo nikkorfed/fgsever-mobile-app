@@ -1,7 +1,9 @@
 import { FontAwesome5 } from "@expo/vector-icons";
 import moment from "moment";
-import { StyleSheet, View, Text } from "react-native";
+import { useEffect } from "react";
+import { StyleSheet, Dimensions, View, Text } from "react-native";
 
+import api from "../api";
 import Block from "../components/Block";
 import Screen from "../components/Screen";
 import { getWorkIcon } from "../helpers/works";
@@ -11,9 +13,18 @@ const WorkScreen = ({ route, navigation }) => {
   const { work } = route.params;
   const Icon = getWorkIcon(work.name);
 
+  const fetchParts = async () => {
+    const parts = await api.parts(work.parts.map((part) => part.guid));
+    for (const part of parts) work.parts.find((item) => item.guid === part.guid).name = part.name;
+  };
+
+  useEffect(() => {
+    fetchParts();
+  }, []);
+
   return (
-    <Screen>
-      <View style={styles.iconContainer}>
+    <Screen style={{ paddingHorizontal: 0 }}>
+      <View style={styles.header}>
         <View style={styles.icon}>
           <Icon size={50} />
         </View>
@@ -28,48 +39,104 @@ const WorkScreen = ({ route, navigation }) => {
         )}
       </View>
       <View style={styles.section}>
-        <Text style={styles.title}>Вид работ</Text>
-        <Text style={styles.description}>{work.details}</Text>
+        <Text style={styles.title}>
+          Автомобиль <Text style={styles.titleAdditional}>{work.car.name}</Text>
+        </Text>
+        <View style={styles.row}>
+          <Text style={styles.label}>VIN</Text>
+          <Text style={styles.text}>{work.car.vin}</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.label}>Пробег</Text>
+          <Text style={styles.text}>{work.mileage.toLocaleString()} км</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.label}>Модель</Text>
+          <Text style={styles.text}>{work.car.model}</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.label}>Обозначение кузова</Text>
+          <Text style={styles.text}>{work.car.modelCode}</Text>
+        </View>
+        <View style={[styles.row, styles.lastRow]}>
+          <Text style={styles.label}>Дата производства</Text>
+          <Text style={styles.text}>{work.car.productionDate}</Text>
+        </View>
       </View>
       <View style={styles.section}>
-        <Text style={styles.title}>Автомобиль</Text>
-        <Text style={styles.description}>{work.car.name}</Text>
+        <Text style={styles.title}>Заказ</Text>
+        <View style={styles.row}>
+          <Text style={styles.label}>Дата и время</Text>
+          <Text style={styles.text}>{moment(work.date).format("lll")}</Text>
+        </View>
+        <View style={[styles.row, styles.lastRow]}>
+          <Text style={styles.label}>Услуги</Text>
+          <Text style={styles.text}>{work.details}</Text>
+        </View>
       </View>
       <View style={styles.section}>
-        <Text style={styles.title}>Пробег</Text>
-        <Text style={styles.description}>{work.mileage.toLocaleString()} км</Text>
+        <Text style={styles.title}>Работы</Text>
+        {work.works.map((item, index) => (
+          <View key={item.guid} style={index === work.works.length - 1 ? [styles.row, styles.lastRow] : styles.row}>
+            <Text style={styles.text}>{item.name}</Text>
+            <Text style={styles.label}>
+              {item.price.toLocaleString()} ₽ x {item.time.toLocaleString()} н/ч = {item.totalPrice.toLocaleString()} ₽
+            </Text>
+          </View>
+        ))}
       </View>
-      <View style={styles.section}>
-        <Text style={styles.title}>Дата посещения</Text>
-        <Text style={styles.description}>{moment(work.date).format("lll")}</Text>
-      </View>
+      {work.parts?.length > 0 && (
+        <View style={styles.section}>
+          <Text style={styles.title}>Запчасти</Text>
+          {work.parts.map((item, index) => (
+            <View key={item.guid} style={index === work.parts.length - 1 ? [styles.row, styles.lastRow] : styles.row}>
+              <Text style={styles.text}>{item.name}</Text>
+              <Text style={styles.label}>
+                {item.price.toLocaleString()} ₽ x {item.quantity.toLocaleString()} шт. = {item.totalPrice.toLocaleString()} ₽
+              </Text>
+            </View>
+          ))}
+        </View>
+      )}
       <View style={styles.section}>
         <Text style={styles.title}>Стоимость</Text>
-        <View style={styles.prices}>
-          <View style={styles.price}>
-            <Text style={styles.priceName}>Детали</Text>
-            <Text style={styles.priceValue}>{work.partsPrice.toLocaleString()} ₽</Text>
-          </View>
+        <View style={styles.row}>
           <View style={styles.price}>
             <Text style={styles.priceName}>Работы</Text>
             <Text style={styles.priceValue}>{work.worksPrice.toLocaleString()} ₽</Text>
           </View>
-          <View style={styles.price}>
+          <View style={[styles.price, styles.priceLast]}>
+            <Text style={styles.priceName}>Запчасти</Text>
+            <Text style={styles.priceValue}>{work.partsPrice.toLocaleString()} ₽</Text>
+          </View>
+        </View>
+        <View style={[styles.row, styles.lastRow]}>
+          <View style={[styles.price, styles.priceLast]}>
             <Text style={styles.priceName}>Общая стоимость</Text>
             <Text style={styles.priceValue}>{work.price.toLocaleString()} ₽</Text>
           </View>
         </View>
       </View>
-      <Text style={{ ...styles.title, marginBottom: 10 }}>Фотографии</Text>
-      <View style={styles.columns}>
-        <View style={styles.column}>
-          <Block style={{ paddingBottom: "75%" }} image="https://fgsever.ru/images/about/6.jpg" />
+      {work.recommendations && (
+        <View style={styles.section}>
+          <Text style={styles.title}>Рекомендации</Text>
+          <View style={[styles.row, styles.lastRow]}>
+            <Text style={styles.text}>{work.recommendations}</Text>
+          </View>
         </View>
-        <View style={styles.column}>
-          <Block style={{ paddingBottom: "75%" }} image="https://fgsever.ru/images/about/8.jpg" />
-        </View>
-        <View style={styles.column}>
-          <Block style={{ paddingBottom: "75%" }} image="https://fgsever.ru/images/about/15.jpg" />
+      )}
+      <View style={[styles.section, styles.lastSection]}>
+        <Text style={styles.title}>Фотографии</Text>
+        <View style={styles.columns}>
+          <View style={styles.column}>
+            <Block style={{ paddingBottom: "75%" }} image="https://fgsever.ru/images/about/6.jpg" />
+          </View>
+          <View style={styles.column}>
+            <Block style={{ paddingBottom: "75%" }} image="https://fgsever.ru/images/about/8.jpg" />
+          </View>
+          <View style={styles.column}>
+            <Block style={{ paddingBottom: "75%" }} image="https://fgsever.ru/images/about/15.jpg" />
+          </View>
         </View>
       </View>
     </Screen>
@@ -78,11 +145,15 @@ const WorkScreen = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
   ...globalStyles,
-  iconContainer: {
+  header: {
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 15,
-    marginBottom: 15,
+    // marginBottom: 10,
+    borderBottomWidth: 10,
+    borderBottomColor: "#f8f8f8",
+    paddingTop: 15,
+    paddingBottom: 15,
+    backgroundColor: "white",
   },
   icon: {
     justifyContent: "center",
@@ -112,25 +183,47 @@ const styles = StyleSheet.create({
   },
   statusIcon: { marginRight: 5 },
   section: {
+    // marginBottom: 10,
+    borderBottomWidth: 10,
+    borderBottomColor: "#f8f8f8",
+    padding: Dimensions.get("window").width > 400 ? 15 : 12,
+    backgroundColor: "white",
+  },
+  lastSection: {
+    borderBottomWidth: 0,
+  },
+  title: {
+    ...globalStyles.title,
+    marginBottom: 10,
+  },
+  titleAdditional: {
+    ...globalStyles.title,
+    color: "#888",
+  },
+  row: {
     marginBottom: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#eee",
     paddingBottom: 10,
   },
-  title: {
+  lastRow: {
+    marginBottom: 0,
+    borderBottomWidth: 0,
+    paddingBottom: 0,
+  },
+  label: {
     ...globalStyles.description,
   },
-  description: {
+  text: {
     ...globalStyles.text,
-    marginTop: 5,
-  },
-  prices: {
-    // marginVertical: 10,
   },
   price: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 5,
+    marginBottom: 5,
+  },
+  priceLast: {
+    marginBottom: 0,
   },
   priceName: {
     ...globalStyles.text,

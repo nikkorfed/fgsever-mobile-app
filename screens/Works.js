@@ -49,7 +49,7 @@ const WorksScreen = ({ navigation }) => {
       </View>
       {groupWorksByDate(works, "date").map((group) => (
         <View key={group[0].date}>
-          <Text style={styles.section}>{formatDate(group[0].date)}</Text>
+          <Text style={styles.sectionTitle}>{formatDate(group[0].date)}</Text>
           {group.map((work) => (
             <Work
               key={work.guid}
@@ -78,8 +78,8 @@ const styles = StyleSheet.create({
     marginRight: 5,
     height: 34,
   },
-  section: {
-    ...globalStyles.section,
+  sectionTitle: {
+    ...globalStyles.sectionTitle,
     marginBottom: 15,
     lineHeight: 30,
   },

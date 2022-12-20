@@ -22,7 +22,7 @@ const AddCar = ({ modal, setCars }) => {
 
   return (
     <Modal modal={modal} noButton>
-      <Text style={styles.section}>Добавить автомобиль</Text>
+      <Text style={styles.sectionTitle}>Добавить автомобиль</Text>
       <TextInput style={styles.input} value={name} onChangeText={setName} placeholder="Название" placeholderTextColor="#aaa" />
       <TextInput style={styles.input} value={vin} onChangeText={setVin} placeholder="VIN" placeholderTextColor="#aaa" />
       <Button title="Добавить" onPress={handleAddCar} />
@@ -32,8 +32,8 @@ const AddCar = ({ modal, setCars }) => {
 
 const styles = StyleSheet.create({
   ...globalStyles,
-  section: {
-    ...globalStyles.section,
+  sectionTitle: {
+    ...globalStyles.sectionTitle,
     marginBottom: 15,
   },
   input: {

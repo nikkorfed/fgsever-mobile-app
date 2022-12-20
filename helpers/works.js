@@ -22,9 +22,26 @@ export const prepareWork = (item) => ({
   carGuid: item.Автомобиль_Key,
   mileage: +item.Пробег,
   details: item.СписокНоменклатуры,
-  partsPrice: item.СуммаНоменклатурыДокумента,
   worksPrice: item.СуммаРаботДокумента,
+  partsPrice: item.СуммаНоменклатурыДокумента,
   price: item.СуммаДокумента,
+  works: item.Работы.map((work) => ({
+    guid: work.Номенклатура_Key,
+    name: work.Содержание,
+    price: work.Цена,
+    quantity: work.Количество,
+    time: work.Коэффициент,
+    totalPrice: work.Сумма,
+  })),
+  parts: item.Запасы.map((work) => ({
+    guid: work.Номенклатура_Key,
+    name: work.Содержание,
+    price: work.Цена,
+    quantity: work.Количество,
+    totalPrice: work.Сумма,
+  })),
+  warranty: item.Гарантии,
+  recommendations: item.Рекомендации,
 });
 
 export const groupWorksByDate = (items) => {
