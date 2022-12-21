@@ -12,7 +12,7 @@ import DateTimePicker from "../components/DateTimePicker";
 import Screen from "../components/Screen";
 import Select from "../components/Select";
 import { useStore } from "../hooks/store";
-import { services } from "../mocks";
+import { models, services } from "../mocks";
 import globalStyles from "../styles";
 
 const AppointmentScreen = ({ navigation }) => {
@@ -38,7 +38,7 @@ const AppointmentScreen = ({ navigation }) => {
           ["Обозначение кузова:", selectedCar.modelCode],
           ["Дата производства:", selectedCar.productionDate],
         ]
-      : [["Модель:", car]];
+      : [["Модель:", models.find((item) => item.key === car).name]];
     const serviceData = services.find((item) => item.key === service).name;
     const data = { name, phone, car: carData, service: serviceData, date };
 
@@ -95,26 +95,32 @@ const AppointmentScreen = ({ navigation }) => {
         />
         <Text style={styles.title}>Автомобиль</Text>
       </View>
-      <Carousel>
-        {cars.map((item) => (
-          <Block
-            key={item.key}
-            style={styles.block}
-            image={item.image}
-            imageStyle={styles.blockImage}
-            imageResizeMode="contain"
-            title={item.name}
-            descriptionStyle={styles.blockDescription}
-            selected={item.guid === car}
-            onPress={() => setCar(item.guid)}
-          />
-        ))}
-      </Carousel>
+      {cars.length > 0 ? (
+        <Carousel>
+          {cars.map((item) => (
+            <Block
+              key={item.key}
+              style={styles.block}
+              image={item.image}
+              imageStyle={styles.blockImage}
+              imageResizeMode="contain"
+              title={item.name}
+              descriptionStyle={styles.blockDescription}
+              selected={item.guid === car}
+              onPress={() => setCar(item.guid)}
+            />
+          ))}
+        </Carousel>
+      ) : (
+        <View style={{ paddingHorizontal: 20 }}>
+          <Select style={styles.selectInput} items={models} value={car} onChange={setCar} placeholder="Выберите автомобиль" />
+        </View>
+      )}
       <View style={{ paddingHorizontal: 20 }}>
         <Text style={styles.title}>Вид работ</Text>
-        <Select style={styles.dateInput} items={services} value={service} onChange={setService} placeholder="Выберите услугу" />
+        <Select style={styles.selectInput} items={services} value={service} onChange={setService} placeholder="Выберите услугу" />
         <Text style={styles.title}>Дата посещения</Text>
-        <DateTimePicker style={styles.dateInput} value={date} onChange={setDate} />
+        <DateTimePicker style={styles.selectInput} value={date} onChange={setDate} />
       </View>
     </Screen>
   );
@@ -177,7 +183,7 @@ const styles = StyleSheet.create({
     ...globalStyles.input,
     marginBottom: 15,
   },
-  dateInput: {
+  selectInput: {
     marginBottom: 15,
   },
 });
