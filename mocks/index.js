@@ -3,6 +3,25 @@ import moment from "moment";
 import MaintenanceIcon from "../assets/icons/maintenance.svg";
 import UpgradeIcon from "../assets/icons/upgrade.svg";
 
+export const models = [
+  { key: "1-series", name: "BMW 1" },
+  { key: "2-series", name: "BMW 2" },
+  { key: "3-series", name: "BMW 3" },
+  { key: "4-series", name: "BMW 4" },
+  { key: "5-series", name: "BMW 5" },
+  { key: "6-series", name: "BMW 6" },
+  { key: "7-series", name: "BMW 7" },
+  { key: "8-series", name: "BMW 8" },
+  { key: "x1", name: "BMW X1" },
+  { key: "x2", name: "BMW X2" },
+  { key: "x3", name: "BMW X3" },
+  { key: "x4", name: "BMW X4" },
+  { key: "x5", name: "BMW X5" },
+  { key: "x6", name: "BMW X6" },
+  { key: "x7", name: "BMW X7" },
+  { key: "z4", name: "BMW Z4" },
+];
+
 export const cars = [
   {
     guid: "4d08d576-1d22-11e8-8632-2c4d54ee8471",

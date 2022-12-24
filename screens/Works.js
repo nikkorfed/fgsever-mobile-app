@@ -18,6 +18,8 @@ const WorksScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
 
   const fetchWorks = async () => {
+    if (!cars.length) return;
+
     setLoading(true);
 
     const carGuids = car ? [car] : cars.map((item) => item.guid);
@@ -35,7 +37,7 @@ const WorksScreen = ({ navigation }) => {
 
   useEffect(() => {
     fetchWorks();
-  }, [car, workType]);
+  }, [cars, car, workType]);
 
   return (
     <Screen
@@ -43,27 +45,42 @@ const WorksScreen = ({ navigation }) => {
       fixedBottom={<Button title="Записаться" onPress={() => navigation.navigate("Appointment")} />}
       loading={loading}
     >
-      <View style={styles.row}>
-        <Select style={styles.select} items={cars} value={car} onChange={setCar} valueProp="guid" placeholder="Автомобиль" />
-        <Select style={styles.select} items={workTypes} value={workType} onChange={setWorkType} valueProp="guid" placeholder="Вид работ" />
-      </View>
-      {groupWorksByDate(works, "date").map((group) => (
-        <View key={group[0].date}>
-          <Text style={styles.sectionTitle}>{formatDate(group[0].date)}</Text>
-          {group.map((work) => (
-            <Work
-              key={work.guid}
-              status={work.status}
-              name={work.name}
-              date={work.date}
-              car={work.car}
-              mileage={work.mileage}
-              price={work.price}
-              onPress={() => navigation.navigate("Work", { work })}
+      {cars.length > 0 ? (
+        <>
+          <View style={styles.row}>
+            <Select style={styles.select} items={cars} value={car} onChange={setCar} valueProp="guid" placeholder="Автомобиль" />
+            <Select
+              style={styles.select}
+              items={workTypes}
+              value={workType}
+              onChange={setWorkType}
+              valueProp="guid"
+              placeholder="Вид работ"
             />
+          </View>
+          {groupWorksByDate(works).map((group) => (
+            <View key={group[0].date}>
+              <Text style={styles.sectionTitle}>{formatDate(group[0].date)}</Text>
+              {group.map((work) => (
+                <Work
+                  key={work.guid}
+                  status={work.status}
+                  name={work.name}
+                  date={work.date}
+                  car={work.car}
+                  mileage={work.mileage}
+                  price={work.price}
+                  onPress={() => navigation.navigate("Work", { work })}
+                />
+              ))}
+            </View>
           ))}
+        </>
+      ) : (
+        <View style={styles.container}>
+          <Text style={styles.description}>Чтобы смотреть историю работ по автомобилям, добавьте их в гараже.</Text>
         </View>
-      ))}
+      )}
     </Screen>
   );
 };

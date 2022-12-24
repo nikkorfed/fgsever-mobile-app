@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 
 import AddCar from "../components/AddCar";
 import Car from "../components/Car";
@@ -11,9 +11,13 @@ const GarageScreen = ({ navigation, modal }) => {
 
   return (
     <Screen>
-      {cars.map((car) => (
-        <Car key={car.key} style={styles.car} {...car} />
-      ))}
+      {cars.length > 0 ? (
+        cars.map((car) => <Car key={car.key} style={styles.car} {...car} />)
+      ) : (
+        <View style={styles.container}>
+          <Text style={styles.description}>В гараже пока нет автомобилей. Добавьте их с помощью кнопки вверху.</Text>
+        </View>
+      )}
       <AddCar modal={modal} setCars={setCars} />
     </Screen>
   );
@@ -23,6 +27,9 @@ const styles = StyleSheet.create({
   ...globalStyles,
   car: {
     marginBottom: 15,
+  },
+  container: {
+    paddingHorizontal: 5,
   },
 });
 
