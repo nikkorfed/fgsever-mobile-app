@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
     height: 40,
     fontFamily: "Montserrat_500Medium",
     fontSize: 13,
+    color: "#333",
     backgroundColor: "#f8f8f8",
   },
 });

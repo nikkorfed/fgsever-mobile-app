@@ -7,14 +7,14 @@ import { Button } from "./Button";
 const Modal = ({ modal, noButton, children }) => {
   return (
     <ReactNativeModal visible={modal.shown} transparent>
-      <TouchableWithoutFeedback onPress={modal.close}>
+      <TouchableWithoutFeedback onPress={modal.cancel}>
         <Animated.View style={[styles.modalContainer, { backgroundColor: modal.backgroundColor }]}>
           <KeyboardAvoidingView style={{ marginTop: "auto" }} behavior="padding">
             <Animated.View style={[styles.modal, { top: modal.top, paddingBottom: modal.paddingBottom }]}>
               <TouchableWithoutFeedback onPress={null}>
                 <View style={styles.modalContent}>
                   {children}
-                  {!noButton && <Button title="Далее" onPress={modal.close} />}
+                  {!noButton && <Button title="Далее" onPress={modal.confirm} />}
                 </View>
               </TouchableWithoutFeedback>
             </Animated.View>

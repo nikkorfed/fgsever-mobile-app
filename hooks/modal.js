@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useKeyboardVisible } from "./keyboard";
 
-export const useModal = () => {
+export const useModal = ({ onCancel, onConfirm } = {}) => {
   const { bottom } = useSafeAreaInsets();
   const [shown, setShown] = useState(false);
 
@@ -20,10 +20,17 @@ export const useModal = () => {
     Animated.timing(progress, { toValue: 1, duration: 300, useNativeDriver: false }).start();
   };
 
-  const close = () => {
+  const cancel = () => {
+    onCancel?.();
     Animated.timing(progress, { toValue: 0, duration: 300, useNativeDriver: false }).start();
     setTimeout(() => setShown(false), 300);
   };
 
-  return { shown, setShown, backgroundColor, top, paddingBottom, open, close };
+  const confirm = () => {
+    onConfirm?.();
+    Animated.timing(progress, { toValue: 0, duration: 300, useNativeDriver: false }).start();
+    setTimeout(() => setShown(false), 300);
+  };
+
+  return { shown, setShown, backgroundColor, top, paddingBottom, open, cancel, confirm };
 };
