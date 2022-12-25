@@ -1,18 +1,23 @@
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
-import React from "react";
-import { StyleSheet, View, Pressable, TextInput } from "react-native";
+import React, { useState, useRef } from "react";
+import { Platform, StyleSheet, View, Pressable, TextInput } from "react-native";
 
 import { useModal } from "../hooks/modal";
 import globalStyles from "../styles";
 import Modal from "./Modal";
 
 const Select = ({ style, items, value, onChange, labelProp = "name", valueProp = "key", placeholder }) => {
-  const selectModal = useModal();
+  const [tempValue, setTempValue] = useState(value);
+  const pickerRef = useRef();
+
+  const selectModal = useModal({ onConfirm: () => onChange(tempValue) });
+
+  const openAndroid = () => pickerRef.current.focus();
 
   return (
     <View style={[styles.container, style]}>
-      <Pressable style={{ flexGrow: 1 }} onPress={selectModal.open}>
+      <Pressable style={{ flexGrow: 1 }} onPress={Platform.OS === "ios" ? selectModal.open : openAndroid}>
         <TextInput
           style={styles.input}
           value={items.find((item) => item[valueProp] === value)?.[labelProp]}
@@ -31,13 +36,21 @@ const Select = ({ style, items, value, onChange, labelProp = "name", valueProp =
           <FontAwesome5 name="times" color="#888" size={12} />
         </Pressable>
       )}
-      <Modal modal={selectModal}>
-        <Picker selectedValue={value} onValueChange={onChange}>
+      {Platform.OS === "ios" ? (
+        <Modal modal={selectModal}>
+          <Picker selectedValue={tempValue} onValueChange={setTempValue}>
+            {items.map((item) => (
+              <Picker.Item key={item[valueProp]} label={item[labelProp]} value={item[valueProp]} />
+            ))}
+          </Picker>
+        </Modal>
+      ) : (
+        <Picker ref={pickerRef} style={styles.pickerAndroid} selectedValue={value} onValueChange={onChange}>
           {items.map((item) => (
             <Picker.Item key={item[valueProp]} label={item[labelProp]} value={item[valueProp]} />
           ))}
         </Picker>
-      </Modal>
+      )}
     </View>
   );
 };
@@ -60,6 +73,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: "100%",
     width: 40,
+  },
+  pickerAndroid: {
+    display: "none",
   },
 });
 
