@@ -1,7 +1,10 @@
 import React from "react";
 import { Dimensions, StyleSheet, ScrollView, View } from "react-native";
 
+import { screenHorizontalPadding } from "../constants/paddings";
+
 const windowWidth = Dimensions.get("window").width;
+const cardsOffset = 15;
 
 const Carousel = ({ style, children }) => {
   return (
@@ -25,12 +28,12 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     paddingVertical: 5,
-    paddingHorizontal: 12.5,
+    paddingHorizontal: screenHorizontalPadding - cardsOffset / 2,
   },
   card: {
-    paddingHorizontal: 7.5,
-    height: (windowWidth - 20) / 2.2,
-    width: (windowWidth - 20) / 2.2,
+    paddingHorizontal: cardsOffset / 2,
+    height: (windowWidth - screenHorizontalPadding) / 2.2,
+    width: (windowWidth - screenHorizontalPadding) / 2.2,
   },
 });
 

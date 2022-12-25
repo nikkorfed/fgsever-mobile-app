@@ -6,6 +6,7 @@ import { StyleSheet, Dimensions, View, Text } from "react-native";
 import api from "../api";
 import Block from "../components/Block";
 import Screen from "../components/Screen";
+import { screenHorizontalPadding } from "../constants/paddings";
 import { getWorkIcon } from "../helpers/works";
 import globalStyles from "../styles";
 
@@ -153,6 +154,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#f8f8f8",
     paddingTop: 15,
     paddingBottom: 15,
+    paddingHorizontal: screenHorizontalPadding,
     backgroundColor: "white",
   },
   icon: {
@@ -186,7 +188,8 @@ const styles = StyleSheet.create({
     // marginBottom: 10,
     borderBottomWidth: 10,
     borderBottomColor: "#f8f8f8",
-    padding: Dimensions.get("window").width > 400 ? 15 : 12,
+    paddingVertical: 15,
+    paddingHorizontal: screenHorizontalPadding,
     backgroundColor: "white",
   },
   lastSection: {

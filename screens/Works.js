@@ -40,11 +40,7 @@ const WorksScreen = ({ navigation }) => {
   }, [cars, car, workType]);
 
   return (
-    <Screen
-      style={{ paddingHorizontal: 20 }}
-      fixedBottom={<Button title="Записаться" onPress={() => navigation.navigate("Appointment")} />}
-      loading={loading}
-    >
+    <Screen fixedBottom={<Button title="Записаться" onPress={() => navigation.navigate("Appointment")} />} loading={loading}>
       {cars.length > 0 ? (
         <>
           <View style={styles.row}>

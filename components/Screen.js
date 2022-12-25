@@ -1,8 +1,9 @@
 import { useHeaderHeight } from "@react-navigation/elements";
 import React from "react";
-import { StyleSheet, View, Platform, Dimensions } from "react-native";
+import { StyleSheet, View, Platform } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
+import { screenHorizontalPadding } from "../constants/paddings";
 import { useKeyboardVisible } from "../hooks/keyboard";
 import Spinner from "./Spinner";
 
@@ -37,14 +38,14 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     flex: 1,
-    paddingHorizontal: Dimensions.get("window").width > 400 ? 15 : 12,
+    paddingHorizontal: screenHorizontalPadding,
     backgroundColor: "white",
   },
   fixedBottom: {
     position: "absolute",
     bottom: 0,
     width: "100%",
-    padding: Dimensions.get("window").width > 400 ? 15 : 12,
+    padding: screenHorizontalPadding,
   },
 });
 

@@ -6,7 +6,7 @@ import globalStyles from "../styles";
 
 const ProfileScreen = ({ navigation }) => {
   return (
-    <Screen style={{ paddingHorizontal: 20 }}>
+    <Screen>
       <View style={styles.section}>
         <Text style={styles.title}>Ваше имя</Text>
         <Text style={styles.description}>Иванов Иван Иванович</Text>

@@ -11,6 +11,7 @@ import Carousel from "../components/Carousel";
 import DateTimePicker from "../components/DateTimePicker";
 import Screen from "../components/Screen";
 import Select from "../components/Select";
+import { screenHorizontalPadding } from "../constants/paddings";
 import { useStore } from "../hooks/store";
 import { models, services } from "../mocks";
 import globalStyles from "../styles";
@@ -70,7 +71,7 @@ const AppointmentScreen = ({ navigation }) => {
           </Text>
         </View>
       )}
-      <View style={{ paddingHorizontal: 20 }}>
+      <View style={{ paddingHorizontal: screenHorizontalPadding }}>
         <Text style={styles.intro}>
           Укажите свои контакты, выберите автомобиль, необходимый вид работ и дату посещения, чтобы записаться на ремонт
         </Text>
@@ -112,11 +113,11 @@ const AppointmentScreen = ({ navigation }) => {
           ))}
         </Carousel>
       ) : (
-        <View style={{ paddingHorizontal: 20 }}>
+        <View style={{ paddingHorizontal: screenHorizontalPadding }}>
           <Select style={styles.selectInput} items={models} value={car} onChange={setCar} placeholder="Выберите автомобиль" />
         </View>
       )}
-      <View style={{ paddingHorizontal: 20 }}>
+      <View style={{ paddingHorizontal: screenHorizontalPadding }}>
         <Text style={styles.title}>Вид работ</Text>
         <Select style={styles.selectInput} items={services} value={service} onChange={setService} placeholder="Выберите услугу" />
         <Text style={styles.title}>Дата посещения</Text>

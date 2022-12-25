@@ -7,6 +7,7 @@ import Carousel from "../components/Carousel";
 import DateTimePicker from "../components/DateTimePicker";
 import NumberInput from "../components/NumberInput";
 import Screen from "../components/Screen";
+import { screenHorizontalPadding } from "../constants/paddings";
 import globalStyles from "../styles";
 
 const ParkScreen = ({ navigation }) => {
@@ -18,9 +19,9 @@ const ParkScreen = ({ navigation }) => {
     <Screen
       style={{ paddingHorizontal: 0 }}
       fixedBottom={<Button title="Далее" onPress={() => navigation.navigate("Booking")} />}
-      fixedBottomStyle={{ paddingHorizontal: 20 }}
+      fixedBottomStyle={{ paddingHorizontal: screenHorizontalPadding }}
     >
-      <View style={{ paddingHorizontal: 20 }}>
+      <View style={{ paddingHorizontal: screenHorizontalPadding }}>
         <Text style={styles.intro}>Выберите необходимый дом, дату посещения и количество гостей</Text>
         <Text style={styles.title}>Дом</Text>
       </View>
@@ -54,7 +55,7 @@ const ParkScreen = ({ navigation }) => {
           onPress={() => setHouse(3)}
         />
       </Carousel>
-      <View style={{ paddingHorizontal: 20 }}>
+      <View style={{ paddingHorizontal: screenHorizontalPadding }}>
         <Text style={styles.title}>День</Text>
         <DateTimePicker style={styles.input} value={date} onChange={setDate} />
         <NumberInput style={styles.numberInput} title="Количество гостей" value={guests} onChange={setGuests} />
