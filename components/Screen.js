@@ -21,8 +21,7 @@ const Screen = ({ style, loading, children, fixedBottom, fixedBottomStyle }) => 
       <KeyboardAwareScrollView
         style={[styles.wrapper, style, { paddingTop }]}
         contentInsetAdjustmentBehavior="automatic"
-        contentContainerStyle={{ paddingBottom: 49 }}
-        scrollIndicatorInsets={{ bottom: 49 }}
+        contentContainerStyle={fixedBottom && { paddingBottom: 80 }}
       >
         {children}
       </KeyboardAwareScrollView>

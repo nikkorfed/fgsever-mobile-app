@@ -12,6 +12,7 @@ import globalStyles from "../styles";
 
 const WorksScreen = ({ navigation }) => {
   const { cars, workTypes, works, setWorks } = useStore();
+  const groupedWorks = groupWorksByDate(works);
 
   const [car, setCar] = useState();
   const [workType, setWorkType] = useState();
@@ -54,21 +55,25 @@ const WorksScreen = ({ navigation }) => {
               placeholder="Вид работ"
             />
           </View>
-          {groupWorksByDate(works).map((group) => (
+          {groupedWorks.map((group, groupIndex) => (
             <View key={group[0].date}>
               <Text style={styles.sectionTitle}>{formatDate(group[0].date)}</Text>
-              {group.map((work) => (
-                <Work
-                  key={work.guid}
-                  status={work.status}
-                  name={work.name}
-                  date={work.date}
-                  car={work.car}
-                  mileage={work.mileage}
-                  price={work.price}
-                  onPress={() => navigation.navigate("Work", { work })}
-                />
-              ))}
+              {group.map((work, workIndex) => {
+                const last = groupIndex === groupedWorks.length - 1 && workIndex === group.length - 1;
+                return (
+                  <Work
+                    key={work.guid}
+                    style={last && { marginBottom: 0 }}
+                    status={work.status}
+                    name={work.name}
+                    date={work.date}
+                    car={work.car}
+                    mileage={work.mileage}
+                    price={work.price}
+                    onPress={() => navigation.navigate("Work", { work })}
+                  />
+                );
+              })}
             </View>
           ))}
         </>
