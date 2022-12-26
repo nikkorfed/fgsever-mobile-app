@@ -57,7 +57,7 @@ const AppointmentScreen = ({ navigation }) => {
     <Screen
       style={{ paddingHorizontal: 0 }}
       fixedBottom={<Button title={success ? "Готово" : "Отправить"} onPress={success ? handleBack : handleSubmit} />}
-      fixedBottomStyle={{ paddingHorizontal: 20, bottom }}
+      fixedBottomStyle={{ bottom }}
       loading={loading}
     >
       {success && (
@@ -152,7 +152,6 @@ const styles = StyleSheet.create({
   },
   intro: {
     ...globalStyles.intro,
-    marginTop: 15,
     marginBottom: 15,
   },
   title: {

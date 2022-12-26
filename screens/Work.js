@@ -152,7 +152,6 @@ const styles = StyleSheet.create({
     // marginBottom: 10,
     borderBottomWidth: 10,
     borderBottomColor: "#f8f8f8",
-    paddingTop: 15,
     paddingBottom: 15,
     paddingHorizontal: screenHorizontalPadding,
     backgroundColor: "white",

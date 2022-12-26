@@ -1,6 +1,9 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
+  headerButton: {
+    fontSize: 16,
+  },
   columns: {
     flexDirection: "row",
     flexWrap: "wrap",
