@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
-import { Text, TouchableOpacity } from "react-native";
+import { Platform, Text, TouchableOpacity } from "react-native";
 
 import { stackNavigatorOptions } from "../config/stackNavigator";
 import AppointmentScreen from "../screens/Appointment";
@@ -18,13 +18,14 @@ const WorksNavigator = () => {
         name="Work"
         component={WorkScreen}
         options={({ route, navigation }) => ({
-          title: `Заказ-наряд № ${route.params.work.number}`,
+          title: `Заказ-наряд`, // № ${route.params.work.number}
           presentation: "modal",
-          headerLeft: ({ tintColor }) => (
-            <TouchableOpacity style={{ paddingVertical: 10 }} onPress={() => navigation.goBack()}>
-              <Text style={[styles.headerButton, { color: tintColor }]}>Закрыть</Text>
-            </TouchableOpacity>
-          ),
+          headerLeft: ({ tintColor }) =>
+            Platform.OS === "ios" ? (
+              <TouchableOpacity style={{ paddingVertical: 10 }} onPress={() => navigation.goBack()}>
+                <Text style={[styles.headerButton, { color: tintColor }]}>Закрыть</Text>
+              </TouchableOpacity>
+            ) : null,
         })}
       />
       <Stack.Screen
@@ -33,11 +34,12 @@ const WorksNavigator = () => {
         options={({ navigation }) => ({
           title: "Записаться",
           presentation: "modal",
-          headerLeft: ({ tintColor }) => (
-            <TouchableOpacity style={{ paddingVertical: 10 }} onPress={() => navigation.goBack()}>
-              <Text style={[styles.headerButton, { color: tintColor }]}>Закрыть</Text>
-            </TouchableOpacity>
-          ),
+          headerLeft: ({ tintColor }) =>
+            Platform.OS === "ios" ? (
+              <TouchableOpacity style={{ paddingVertical: 10 }} onPress={() => navigation.goBack()}>
+                <Text style={[styles.headerButton, { color: tintColor }]}>Закрыть</Text>
+              </TouchableOpacity>
+            ) : null,
         })}
       />
     </Stack.Navigator>
