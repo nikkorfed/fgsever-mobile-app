@@ -1,5 +1,13 @@
 import React from "react";
-import { StyleSheet, Modal as ReactNativeModal, Animated, KeyboardAvoidingView, View, TouchableWithoutFeedback } from "react-native";
+import {
+  Platform,
+  StyleSheet,
+  Modal as ReactNativeModal,
+  Animated,
+  KeyboardAvoidingView,
+  View,
+  TouchableWithoutFeedback,
+} from "react-native";
 
 import { Button } from "./Button";
 
@@ -9,7 +17,7 @@ const Modal = ({ modal, noButton, children }) => {
     <ReactNativeModal visible={modal.shown} transparent>
       <TouchableWithoutFeedback onPress={modal.cancel}>
         <Animated.View style={[styles.modalContainer, { backgroundColor: modal.backgroundColor }]}>
-          <KeyboardAvoidingView style={{ marginTop: "auto" }} behavior="padding">
+          <KeyboardAvoidingView style={{ marginTop: "auto" }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
             <Animated.View style={[styles.modal, { top: modal.top, paddingBottom: modal.paddingBottom }]}>
               <TouchableWithoutFeedback onPress={null}>
                 <View style={styles.modalContent}>
