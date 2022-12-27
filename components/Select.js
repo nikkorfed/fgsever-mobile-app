@@ -17,18 +17,19 @@ const Select = ({ style, items, value, onChange, labelProp = "name", valueProp =
 
   return (
     <View style={[styles.container, style]}>
-      <Pressable style={{ flexGrow: 1 }} onPress={Platform.OS === "ios" ? selectModal.open : openAndroid}>
+      <Pressable style={{ flexGrow: 1, minWidth: 120 }} onPress={Platform.OS === "ios" ? selectModal.open : openAndroid}>
         <TextInput
           style={styles.input}
           value={items.find((item) => item[valueProp] === value)?.[labelProp]}
           placeholder={placeholder}
           placeholderTextColor="#aaa"
           pointerEvents="none"
+          numberOfLines={1}
           editable={false}
         />
       </Pressable>
       {value == null ? (
-        <Pressable style={styles.icon} onPress={selectModal.open}>
+        <Pressable style={styles.icon} onPress={Platform.OS === "ios" ? selectModal.open : openAndroid}>
           <FontAwesome5 name="angle-down" color="#bbb" size={14} />
         </Pressable>
       ) : (
@@ -58,14 +59,15 @@ const Select = ({ style, items, value, onChange, labelProp = "name", valueProp =
 const styles = StyleSheet.create({
   ...globalStyles,
   container: {
+    flexDirection: "row",
     borderRadius: globalStyles.input.borderRadius,
     height: globalStyles.input.height,
     backgroundColor: globalStyles.input.backgroundColor,
-    flexDirection: "row",
   },
   input: {
     ...globalStyles.input,
-    paddingRight: 0,
+    textAlign: "left",
+    paddingRight: 10,
     height: "100%",
   },
   icon: {
