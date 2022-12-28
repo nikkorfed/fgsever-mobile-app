@@ -17,7 +17,9 @@ const AddCar = ({ modal, setCars }) => {
     const car = { key: fullVin, guid, name, image, vin: fullVin, model, modelCode, productionDate };
     setCars((prev) => [...prev, car]);
 
-    modal.close();
+    modal.confirm();
+    setName();
+    setVin();
   };
 
   return (
