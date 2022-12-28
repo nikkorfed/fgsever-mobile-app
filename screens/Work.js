@@ -1,7 +1,7 @@
 import { FontAwesome5 } from "@expo/vector-icons";
 import moment from "moment";
-import { useEffect } from "react";
-import { StyleSheet, Dimensions, View, Text } from "react-native";
+import { useState, useEffect } from "react";
+import { StyleSheet, View, Text } from "react-native";
 
 import api from "../api";
 import Block from "../components/Block";
@@ -11,12 +11,18 @@ import { getWorkIcon } from "../helpers/works";
 import globalStyles from "../styles";
 
 const WorkScreen = ({ route, navigation }) => {
+  const [loading, setLoading] = useState(false);
   const { work } = route.params;
   const Icon = getWorkIcon(work.name);
 
   const fetchParts = async () => {
+    const hasNames = work.parts.every((item) => item.name);
+    if (hasNames) return;
+
+    setLoading(true);
     const parts = await api.parts(work.parts.map((part) => part.guid));
     for (const part of parts) work.parts.find((item) => item.guid === part.guid).name = part.name;
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -24,7 +30,7 @@ const WorkScreen = ({ route, navigation }) => {
   }, []);
 
   return (
-    <Screen style={{ paddingHorizontal: 0 }}>
+    <Screen style={{ paddingHorizontal: 0 }} loading={loading}>
       <View style={styles.header}>
         <View style={styles.icon}>
           <Icon size={50} />
