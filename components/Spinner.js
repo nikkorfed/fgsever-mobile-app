@@ -4,7 +4,7 @@ import { StyleSheet, View } from "react-native";
 
 const loadingAnimation = require("../assets/animations/loading.json");
 
-const Spinner = ({ containerStyle, style }) => {
+const Spinner = ({ style }) => {
   const ref = useRef(null);
 
   useEffect(() => {
@@ -13,9 +13,9 @@ const Spinner = ({ containerStyle, style }) => {
   }, []);
 
   return (
-    <View style={[styles.container, containerStyle]}>
+    <View style={[styles.container, style]}>
       <LottieView
-        style={[styles.loading, style]}
+        style={[styles.icon]}
         source={loadingAnimation}
         colorFilters={[{ keypath: "Shape Layer 2", color: "dodgerblue" }]}
         autoPlay
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "white",
   },
-  loading: {
+  icon: {
     height: 100,
     width: 100,
   },

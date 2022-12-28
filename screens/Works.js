@@ -5,6 +5,7 @@ import api from "../api";
 import { Button } from "../components/Button";
 import Screen from "../components/Screen";
 import Select from "../components/Select";
+import Spinner from "../components/Spinner";
 import Work from "../components/Work";
 import { screenHorizontalPadding } from "../constants/paddings";
 import { groupWorksByDate, formatDate } from "../helpers/works";
@@ -42,11 +43,7 @@ const WorksScreen = ({ navigation }) => {
   }, [cars, car, workType]);
 
   return (
-    <Screen
-      style={{ paddingHorizontal: 0 }}
-      fixedBottom={<Button title="Записаться" onPress={() => navigation.navigate("Appointment")} />}
-      loading={loading}
-    >
+    <Screen style={{ paddingHorizontal: 0 }} fixedBottom={<Button title="Записаться" onPress={() => navigation.navigate("Appointment")} />}>
       {cars.length > 0 ? (
         <>
           <ScrollView
@@ -58,25 +55,29 @@ const WorksScreen = ({ navigation }) => {
             <Select style={styles.select} items={cars} value={car} onChange={setCar} valueProp="guid" placeholder="Автомобиль" />
             <Select style={styles.select} items={workTypes} value={workType} onChange={setWorkType} valueProp="guid" placeholder="Работы" />
           </ScrollView>
-          <View style={{ paddingHorizontal: screenHorizontalPadding }}>
-            {groupedWorks.map((group) => (
-              <View key={group[0].date}>
-                <Text style={styles.sectionTitle}>{formatDate(group[0].date)}</Text>
-                {group.map((work) => (
-                  <Work
-                    key={work.guid}
-                    status={work.status}
-                    name={work.name}
-                    date={work.date}
-                    car={work.car}
-                    mileage={work.mileage}
-                    price={work.price}
-                    onPress={() => navigation.navigate("Work", { work })}
-                  />
-                ))}
-              </View>
-            ))}
-          </View>
+          {loading ? (
+            <Spinner style={{ position: "static", height: 400 }} />
+          ) : (
+            <View style={{ marginTop: 15, paddingHorizontal: screenHorizontalPadding }}>
+              {groupedWorks.map((group) => (
+                <View key={group[0].date}>
+                  <Text style={styles.sectionTitle}>{formatDate(group[0].date)}</Text>
+                  {group.map((work) => (
+                    <Work
+                      key={work.guid}
+                      status={work.status}
+                      name={work.name}
+                      date={work.date}
+                      car={work.car}
+                      mileage={work.mileage}
+                      price={work.price}
+                      onPress={() => navigation.navigate("Work", { work })}
+                    />
+                  ))}
+                </View>
+              ))}
+            </View>
+          )}
         </>
       ) : (
         <View style={styles.container}>
@@ -91,7 +92,6 @@ const styles = StyleSheet.create({
   ...globalStyles,
   row: {
     ...globalStyles.row,
-    marginBottom: 15,
   },
   select: {
     marginRight: 5,
