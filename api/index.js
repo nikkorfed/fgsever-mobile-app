@@ -1,5 +1,6 @@
 import axios from "axios";
 import { encode } from "js-base64";
+import { uniqBy } from "lodash";
 
 import { prepareCar } from "../helpers/cars";
 import { preparePart } from "../helpers/parts";
@@ -37,6 +38,22 @@ const carGuid = async (vin) => {
   return response.data.value.map(prepareCar)[0];
 };
 
+const carCustomers = async (carGuid) => {
+  const carFilter = `Автомобиль_Key eq guid'${carGuid}'`;
+  const worksResponse = await api.get(`/Document_асЗаказНаряд`, {
+    params: { $filter: carFilter, $select: "Заказчик_Key", $orderby: "Date desc" },
+  });
+
+  let customers = worksResponse.data.value.map((item) => ({ guid: item.Заказчик_Key }));
+  customers = uniqBy(customers, "guid");
+
+  const customersFilter = customers.map(({ guid }) => `Ref_Key eq guid'${guid}'`).join(" or ");
+  const customersResponse = await api.get("/Catalog_Контрагенты", { params: { $filter: customersFilter } });
+
+  for (const customer of customersResponse.data.value) customers.find((item) => item.guid === customer.Ref_Key).name = customer.Description;
+  return customers;
+};
+
 const workTypes = async () => {
   // return workTypesResponse.value.map(prepareWorkType);
 
@@ -51,7 +68,8 @@ const works = async ({ carGuids, workTypeGuids = [] }) => {
   const workTypeFilter = workTypeGuids.map((guid) => `ВидРемонта_Key eq guid'${guid}'`).join(" or ");
 
   let filters = [carsFilter, workTypeFilter].filter((i) => i);
-  filters.length > 1 && (filters = filters.map((filter) => `(${filter})`).join(" and "));
+  filters.length > 1 && (filters = filters.map((filter) => `(${filter})`));
+  filters = filters.join(" and ");
 
   const response = await api.get(`/Document_асЗаказНаряд`, { params: { $filter: filters, $orderby: "Date desc" } });
   return response.data.value.map(prepareWork);
@@ -65,4 +83,4 @@ const parts = async (guids) => {
   return response.data.value.map(preparePart);
 };
 
-export default { appointment, carInfo, carGuid, workTypes, works, parts };
+export default { appointment, carInfo, carGuid, carCustomers, workTypes, works, parts };

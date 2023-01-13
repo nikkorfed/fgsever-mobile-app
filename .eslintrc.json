@@ -1,6 +1,7 @@
 {
   "extends": ["universe/native", "prettier"],
   "rules": {
-    "prettier/prettier": "off"
+    "prettier/prettier": "off",
+    "no-sequences": "off"
   }
 }

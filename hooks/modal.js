@@ -15,22 +15,26 @@ export const useModal = ({ onCancel, onConfirm } = {}) => {
   const top = progress.interpolate({ inputRange: [0, 1], outputRange: ["100%", "0%"] });
   const paddingBottom = keyboardProgress.interpolate({ inputRange: [0, 1], outputRange: [bottom, 0] });
 
-  const open = () => {
-    setShown(true);
-    Animated.timing(progress, { toValue: 1, duration: 300, useNativeDriver: false }).start();
-  };
+  const open = () =>
+    new Promise((resolve) => {
+      setShown(true);
+      Animated.timing(progress, { toValue: 1, duration: 300, useNativeDriver: false }).start();
+      setTimeout(resolve, 300);
+    });
 
-  const cancel = () => {
-    onCancel?.();
-    Animated.timing(progress, { toValue: 0, duration: 300, useNativeDriver: false }).start();
-    setTimeout(() => setShown(false), 300);
-  };
+  const cancel = () =>
+    new Promise((resolve) => {
+      onCancel?.();
+      Animated.timing(progress, { toValue: 0, duration: 300, useNativeDriver: false }).start();
+      setTimeout(() => (setShown(false), resolve()), 300);
+    });
 
-  const confirm = () => {
-    onConfirm?.();
-    Animated.timing(progress, { toValue: 0, duration: 300, useNativeDriver: false }).start();
-    setTimeout(() => setShown(false), 300);
-  };
+  const confirm = () =>
+    new Promise((resolve) => {
+      onConfirm?.();
+      Animated.timing(progress, { toValue: 0, duration: 300, useNativeDriver: false }).start();
+      setTimeout(() => (setShown(false), resolve()), 300);
+    });
 
   return { shown, setShown, backgroundColor, top, paddingBottom, open, cancel, confirm };
 };
