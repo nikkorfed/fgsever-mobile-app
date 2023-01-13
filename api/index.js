@@ -3,6 +3,7 @@ import { encode } from "js-base64";
 import { uniqBy } from "lodash";
 
 import { prepareCar } from "../helpers/cars";
+import { prepareCustomer } from "../helpers/customer";
 import { preparePart } from "../helpers/parts";
 import { prepareWorkType, prepareWork } from "../helpers/works";
 // import { carsResponse, worksResponse, workTypesResponse, partsResponse } from "../mocks";
@@ -75,12 +76,18 @@ const works = async ({ carGuids, workTypeGuids = [] }) => {
   return response.data.value.map(prepareWork);
 };
 
+const customers = async (guids) => {
+  const filters = guids.map((guid) => `Ref_Key eq guid'${guid}'`).join(" or ");
+  const response = await api.get(`/Catalog_Контрагенты`, { params: { $filter: filters } });
+  return response.data.value.map(prepareCustomer);
+};
+
 const parts = async (guids) => {
   // return partsResponse.value.map(preparePart);
 
-  const filters = [guids.map((guid) => `Ref_Key eq guid'${guid}'`).join(" or ")];
+  const filters = guids.map((guid) => `Ref_Key eq guid'${guid}'`).join(" or ");
   const response = await api.get(`/Catalog_Номенклатура`, { params: { $filter: filters } });
   return response.data.value.map(preparePart);
 };
 
-export default { appointment, carInfo, carGuid, carCustomers, workTypes, works, parts };
+export default { appointment, carInfo, carGuid, carCustomers, workTypes, works, customers, parts };

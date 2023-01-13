@@ -21,6 +21,7 @@ export const prepareWork = (item) => ({
   date: item.Date,
   carGuid: item.Автомобиль_Key,
   mileage: +item.Пробег,
+  customerGuid: item.Заказчик_Key,
   details: item.СписокНоменклатуры,
   worksPrice: item.СуммаРаботДокумента,
   partsPrice: item.СуммаНоменклатурыДокумента,

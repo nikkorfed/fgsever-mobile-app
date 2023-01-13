@@ -15,18 +15,26 @@ const WorkScreen = ({ route, navigation }) => {
   const { work } = route.params;
   const Icon = getWorkIcon(work.name);
 
-  const fetchParts = async () => {
-    const hasNames = work.parts.every((item) => item.name);
-    if (hasNames) return;
+  const fetchData = async () => {
+    const hasCustomer = work.customer;
+    const hasParts = work.parts.every((item) => item.name);
+    if (hasCustomer && hasParts) return;
 
     setLoading(true);
-    const parts = await api.parts(work.parts.map((part) => part.guid));
-    for (const part of parts) work.parts.find((item) => item.guid === part.guid).name = part.name;
+
+    const [customer] = await api.customers([work.customerGuid]);
+    work.customer = customer.name;
+
+    if (work.parts.length) {
+      const parts = await api.parts(work.parts.map((part) => part.guid));
+      for (const part of parts) work.parts.find((item) => item.guid === part.guid).name = part.name;
+    }
+
     setLoading(false);
   };
 
   useEffect(() => {
-    fetchParts();
+    fetchData();
   }, []);
 
   return (
@@ -75,6 +83,10 @@ const WorkScreen = ({ route, navigation }) => {
         <View style={styles.row}>
           <Text style={styles.label}>Дата и время</Text>
           <Text style={styles.text}>{moment(work.date).format("lll")}</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.label}>Заказчик</Text>
+          <Text style={styles.text}>{work.customer}</Text>
         </View>
         <View style={[styles.row, styles.lastRow]}>
           <Text style={styles.label}>Услуги</Text>
