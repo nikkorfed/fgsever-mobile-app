@@ -2,11 +2,11 @@ import { MaterialCommunityIcons, MaterialIcons, Ionicons, FontAwesome5 } from "@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 
-import ChatScreen from "../screens/Chat";
+// import ChatScreen from "../screens/Chat";
 import GarageNavigator from "./Garage";
 import HomeNavigator from "./Home";
-import ParkNavigator from "./Park";
-import ProfileNavigator from "./Profile";
+// import ParkNavigator from "./Park";
+// import ProfileNavigator from "./Profile";
 import WorksNavigator from "./Works";
 
 const Tab = createBottomTabNavigator();
@@ -29,7 +29,7 @@ const MainMavigator = () => {
         component={GarageNavigator}
         options={{ title: "Гараж", tabBarIcon: ({ color }) => <Ionicons name="car" color={color} size={28} /> }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="ChatNavigator"
         component={ChatScreen}
         options={{ title: "Чат", tabBarIcon: ({ color }) => <Ionicons name="chatbubbles" color={color} size={24} /> }}
@@ -43,7 +43,7 @@ const MainMavigator = () => {
         name="ParkNavigator"
         component={ParkNavigator}
         options={{ title: "Парк", tabBarIcon: ({ color }) => <MaterialIcons name="park" color={color} size={26} /> }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 };

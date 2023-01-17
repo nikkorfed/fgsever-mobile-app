@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { StyleSheet, View, Text } from "react-native";
 
 import api from "../api";
-import Block from "../components/Block";
+// import Block from "../components/Block";
 import Screen from "../components/Screen";
 import { screenHorizontalPadding } from "../constants/paddings";
 import { getWorkIcon } from "../helpers/works";
@@ -144,7 +144,7 @@ const WorkScreen = ({ route, navigation }) => {
           </View>
         </View>
       )}
-      <View style={[styles.section, styles.lastSection]}>
+      {/* <View style={[styles.section, styles.lastSection]}>
         <Text style={styles.title}>Фотографии</Text>
         <View style={styles.columns}>
           <View style={styles.column}>
@@ -157,7 +157,7 @@ const WorkScreen = ({ route, navigation }) => {
             <Block style={{ paddingBottom: "75%" }} image="https://fgsever.ru/images/about/15.jpg" />
           </View>
         </View>
-      </View>
+      </View> */}
     </Screen>
   );
 };
