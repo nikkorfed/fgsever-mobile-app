@@ -43,7 +43,10 @@ const WorksScreen = ({ navigation }) => {
   }, [cars, car, workType]);
 
   return (
-    <Screen style={{ paddingHorizontal: 0 }} fixedBottom={<Button title="Записаться" onPress={() => navigation.navigate("Appointment")} />}>
+    <Screen
+      style={{ paddingHorizontal: cars.length > 0 ? 0 : screenHorizontalPadding }}
+      fixedBottom={<Button title="Записаться" onPress={() => navigation.navigate("Appointment")} />}
+    >
       {cars.length > 0 ? (
         <>
           <ScrollView
