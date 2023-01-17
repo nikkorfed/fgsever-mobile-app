@@ -54,7 +54,7 @@ const AddCar = ({ modal, setCars }) => {
       </Modal>
       <Modal modal={customerNameModal} noButton>
         <Text style={styles.sectionTitle}>Введите ФИО владельца</Text>
-        <Text style={styles.description}>Полное имя владельца, как в карточке СТС.</Text>
+        <Text style={styles.description}>Полное имя владельца, как в карточке СТС. Для юридических лиц — наименование юрлица.</Text>
         <TextInput
           style={styles.input}
           value={customer}
