@@ -12,6 +12,7 @@ const UpgradeCalculatorScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 100,
     flex: 1,
   },
 });

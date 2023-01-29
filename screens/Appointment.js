@@ -1,10 +1,11 @@
+import React, { useEffect, useState } from "react";
+import { StyleSheet, View, Text, TextInput, Alert, Image} from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
-import React, { useState } from "react";
-import { StyleSheet, View, Text, TextInput } from "react-native";
-import MaskInput from "react-native-mask-input";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import * as ImagePicker from 'expo-image-picker';
+import MaskInput from "react-native-mask-input";
+import axios from "axios";
 
-import api from "../api";
 import Block from "../components/Block";
 import { Button } from "../components/Button";
 import Carousel from "../components/Carousel";
@@ -15,11 +16,11 @@ import { screenHorizontalPadding } from "../constants/paddings";
 import { useStore } from "../hooks/store";
 import { models, services } from "../mocks";
 import globalStyles from "../styles";
+import api from "../api";
 
 const AppointmentScreen = ({ navigation }) => {
   const { bottom } = useSafeAreaInsets();
   const { cars } = useStore();
-
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [name, setName] = useState();
@@ -27,10 +28,60 @@ const AppointmentScreen = ({ navigation }) => {
   const [car, setCar] = useState(cars[0]?.guid);
   const [service, setService] = useState();
   const [date, setDate] = useState();
+  const [problem, setProblem] = useState();
+  const [images, setImages] = useState([]);
 
+  useEffect(() => {
+    setLoading(true);
+    api.carCustomers(cars[0]?.guid).then((d) => {
+      setName(d[0].name)
+    }).catch((e) => {
+      Alert.alert(e.message)
+    }).finally(() => {
+      setLoading(false)
+    })
+      
+  },[]);
+
+  const addFile = async() => {
+    const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if(status !== 'granted') {
+      Alert.alert('Premission granted');   
+    } else {
+          let result = await ImagePicker.launchImageLibraryAsync({mediaTypes: ImagePicker.MediaTypeOptions.All, allowsMultipleSelection: true})
+       if (!result.cancelled) {
+        if (result?.selected.length) {
+          setImages(result.selected);
+        } else {
+          setImages([result]);
+        }
+       }
+    }
+  }
+
+  const sendFile = async () => {
+    const formData =  new FormData();
+
+    const sendFileData = images.map(item => ({
+      type: item.type,
+      uri: item.uri,
+      id: item.uri + Date.now(), // !!! переделать
+    }))
+
+    formData.append('file', sendFileData);
+    
+    axios({
+      method: "post",
+      url: "http://localhost:5400/defectfile",
+      data: formData,
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+
+  }
+  
   const handleSubmit = async () => {
     setLoading(true);
-
+    
     const selectedCar = cars.find((item) => item.guid === car);
     const carData = selectedCar
       ? [
@@ -122,10 +173,26 @@ const AppointmentScreen = ({ navigation }) => {
         <Select style={styles.selectInput} items={services} value={service} onChange={setService} placeholder="Выберите услугу" />
         <Text style={styles.title}>Дата посещения</Text>
         <DateTimePicker style={styles.selectInput} value={date} onChange={setDate} />
+        <Text style={styles.title}>Описание проблемы</Text>
+        <TextInput
+          multiline
+          numberOfLines={4}
+          style={styles.multilineInput}
+          value={problem}
+          onChangeText={setProblem}
+          placeholder="Опишите возникшую неисправность"
+          placeholderTextColor="#aaa"
+        />
+        <View style={styles.filePreviewContainer}>
+          {images.length > 0 && images.map((image) => <Image source={{uri: image.uri}} style={styles.filePreview}/>)}
+        </View>
+        <Button title={'Прикрепить файл'} onPress={addFile} />
+        <Button title={'Отправить файл'} onPress={sendFile} />       
       </View>
     </Screen>
   );
 };
+
 
 const styles = StyleSheet.create({
   ...globalStyles,
@@ -186,6 +253,20 @@ const styles = StyleSheet.create({
   selectInput: {
     marginBottom: 15,
   },
+  multilineInput: {
+    ...globalStyles.input,
+    height:80,
+    textAlignVertical: 'top'
+  },filePreview: {
+    width: 90,
+    height: 90,
+    margin: 15,
+    marginLeft: 5
+  }, filePreviewContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    flexWrap: 'wrap',
+  }
 });
 
 export default AppointmentScreen;
