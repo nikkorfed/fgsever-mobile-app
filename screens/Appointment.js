@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text, TextInput, Alert, Image} from "react-native";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { StyleSheet, View, Text, TextInput, Alert, Image, TouchableHighlight } from "react-native";
+import { FontAwesome5, Feather } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from "expo-image-picker";
 import MaskInput from "react-native-mask-input";
 import axios from "axios";
+import mime from "mime";
 
 import Block from "../components/Block";
 import { Button } from "../components/Button";
@@ -33,55 +34,41 @@ const AppointmentScreen = ({ navigation }) => {
 
   useEffect(() => {
     setLoading(true);
-    api.carCustomers(cars[0]?.guid).then((d) => {
-      setName(d[0].name)
-    }).catch((e) => {
-      Alert.alert(e.message)
-    }).finally(() => {
-      setLoading(false)
-    })
-      
-  },[]);
+    api
+      .carCustomers(cars[0]?.guid)
+      .then((d) => {
+        setName(d[0].name);
+      })
+      .catch((e) => {
+        Alert.alert(e.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
 
-  const addFile = async() => {
-    const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if(status !== 'granted') {
-      Alert.alert('Premission granted');   
+  const addFile = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert("Premission granted");
     } else {
-          let result = await ImagePicker.launchImageLibraryAsync({mediaTypes: ImagePicker.MediaTypeOptions.All, allowsMultipleSelection: true})
-       if (!result.cancelled) {
-        if (result?.selected.length) {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsMultipleSelection: true,
+      });
+      if (!result.cancelled) {
+        if (result?.selected?.length) {
           setImages(result.selected);
         } else {
           setImages([result]);
         }
-       }
+      }
     }
-  }
+  };
 
-  const sendFile = async () => {
-    const formData =  new FormData();
-
-    const sendFileData = images.map(item => ({
-      type: item.type,
-      uri: item.uri,
-      id: item.uri + Date.now(), // !!! переделать
-    }))
-
-    formData.append('file', sendFileData);
-    
-    axios({
-      method: "post",
-      url: "http://localhost:5400/defectfile",
-      data: formData,
-      headers: { "Content-Type": "multipart/form-data" },
-    })
-
-  }
-  
   const handleSubmit = async () => {
     setLoading(true);
-    
+
     const selectedCar = cars.find((item) => item.guid === car);
     const carData = selectedCar
       ? [
@@ -92,9 +79,31 @@ const AppointmentScreen = ({ navigation }) => {
         ]
       : [["Модель:", models.find((item) => item.key === car).name]];
     const serviceData = services.find((item) => item.key === service).name;
-    const data = { name, phone, car: carData, service: serviceData, date };
+    const data = { name, phone, car: carData[0][0], service: serviceData, date: Date.now(date), problem };
 
-    await api.appointment(data);
+    // await api.appointment(data);
+
+    const formData = new FormData();
+    const sendFileData = images.map((item, index) => {
+      const fileUri = item.uri;
+      const newFileeUri = "file:///" + fileUri.split("file:/").join("");
+      formData.append(`image-${index}`, {
+        uri: fileUri,
+        type: mime.getType(fileUri),
+        name: newFileeUri.split("/").pop(),
+      });
+    });
+
+    formData.append("data", JSON.stringify(data));
+
+    axios({
+      method: "post",
+      url: "http://10.0.2.2:3002/defectfile",
+      data: formData,
+      headers: { Accept: "application/json", "Content-Type": "multipart/form-data" },
+    }).catch((e) => {
+      Alert.alert(e.response.data);
+    });
 
     setLoading(false);
     setSuccess(true);
@@ -184,15 +193,15 @@ const AppointmentScreen = ({ navigation }) => {
           placeholderTextColor="#aaa"
         />
         <View style={styles.filePreviewContainer}>
-          {images.length > 0 && images.map((image) => <Image source={{uri: image.uri}} style={styles.filePreview}/>)}
+          {images.length > 0 && images.map((image) => <Image key={image.uri} source={{ uri: image.uri }} style={styles.filePreview} />)}
+          <TouchableHighlight activeOpacity={0.6} underlayColor="#DDDDDD" style={styles.addImageButton} onPress={addFile}>
+            <Feather name="plus" size={35} color="black" />
+          </TouchableHighlight>
         </View>
-        <Button title={'Прикрепить файл'} onPress={addFile} />
-        <Button title={'Отправить файл'} onPress={sendFile} />       
       </View>
     </Screen>
   );
 };
-
 
 const styles = StyleSheet.create({
   ...globalStyles,
@@ -255,18 +264,31 @@ const styles = StyleSheet.create({
   },
   multilineInput: {
     ...globalStyles.input,
-    height:80,
-    textAlignVertical: 'top'
-  },filePreview: {
+    height: 80,
+    textAlignVertical: "top",
+  },
+  filePreview: {
     width: 90,
     height: 90,
     margin: 15,
-    marginLeft: 5
-  }, filePreviewContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    flexWrap: 'wrap',
-  }
+    marginLeft: 5,
+    borderRadius: 20,
+  },
+  filePreviewContainer: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    flexWrap: "wrap",
+  },
+  addImageButton: {
+    width: 90,
+    height: 90,
+    margin: 15,
+    marginLeft: 5,
+    backgroundColor: "#f0f0f0",
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
 
 export default AppointmentScreen;
