@@ -15,7 +15,7 @@ const serializer = (params) => {
 
 const api = axios.create({
   baseURL: "http://213.109.27.99:27/AutoserviceFgsever/odata/standard.odata/",
-  headers: { Authorization: `Basic ${encode("КурочкинМ:789")}` },
+  headers: { Authorization: `Basic ${encode("приложение:bmwf30")}` },
   params: { $format: "json" },
   paramsSerializer: { serialize: serializer },
 });
