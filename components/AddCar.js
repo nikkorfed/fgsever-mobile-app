@@ -40,6 +40,12 @@ const AddCar = ({ modal, setCars }) => {
     const car = { key: fullVin, guid, name, image, vin: fullVin, model, modelCode, productionDate };
     setCars((prev) => [...prev, car]);
 
+    if (pushToken) {
+      const existingTokens = await api.getPushTokens(guid);
+      const tokenExists = existingTokens.some(({ token }) => token === pushToken);
+      if (!tokenExists) await api.addPushToken(guid, pushToken);
+    }
+
     Alert.alert("Автомобиль добавлен", "Ваш автомобиль был успешно добавлен в гараж.");
     customerNameModal.confirm();
     setName();

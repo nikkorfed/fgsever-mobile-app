@@ -13,7 +13,7 @@ const serializer = (params) => {
   return entries.map(([key, value]) => `${key}=${value}`).join("&");
 };
 
-const api = axios.create({
+const oDataApi = axios.create({
   baseURL: "http://213.109.27.99:8080/Autoservice/odata/standard.odata/",
   headers: { Authorization: `Basic ${encode("приложение:bmwf30")}` },
   params: { $format: "json" },
@@ -35,13 +35,13 @@ const carInfo = async (vin) => {
 const carGuid = async (vin) => {
   // return carsResponse.value.map(prepareCar)[0];
 
-  const response = await api.get("/Catalog_асАвтомобили", { params: { $filter: `like(VIN,'%${vin}')` } });
+  const response = await oDataApi.get("/Catalog_асАвтомобили", { params: { $filter: `like(VIN,'%${vin}')` } });
   return response.data.value.map(prepareCar)[0];
 };
 
 const carCustomers = async (carGuid) => {
   const carFilter = `Автомобиль_Key eq guid'${carGuid}'`;
-  const worksResponse = await api.get(`/Document_асЗаказНаряд`, {
+  const worksResponse = await oDataApi.get(`/Document_асЗаказНаряд`, {
     params: { $filter: carFilter, $select: "Заказчик_Key", $orderby: "Date desc" },
   });
 
@@ -49,7 +49,7 @@ const carCustomers = async (carGuid) => {
   customers = uniqBy(customers, "guid");
 
   const customersFilter = customers.map(({ guid }) => `Ref_Key eq guid'${guid}'`).join(" or ");
-  const customersResponse = await api.get("/Catalog_Контрагенты", { params: { $filter: customersFilter } });
+  const customersResponse = await oDataApi.get("/Catalog_Контрагенты", { params: { $filter: customersFilter } });
 
   for (const customer of customersResponse.data.value) customers.find((item) => item.guid === customer.Ref_Key).name = customer.Description;
   return customers;
@@ -58,7 +58,7 @@ const carCustomers = async (carGuid) => {
 const workTypes = async () => {
   // return workTypesResponse.value.map(prepareWorkType);
 
-  const response = await api.get("/Catalog_асВидыРемонта");
+  const response = await oDataApi.get("/Catalog_асВидыРемонта");
   return response.data.value.map(prepareWorkType);
 };
 
@@ -72,13 +72,13 @@ const works = async ({ carGuids, workTypeGuids = [] }) => {
   filters.length > 1 && (filters = filters.map((filter) => `(${filter})`));
   filters = filters.join(" and ");
 
-  const response = await api.get(`/Document_асЗаказНаряд`, { params: { $filter: filters, $orderby: "Date desc" } });
+  const response = await oDataApi.get(`/Document_асЗаказНаряд`, { params: { $filter: filters, $orderby: "Date desc" } });
   return response.data.value.map(prepareWork);
 };
 
 const customers = async (guids) => {
   const filters = guids.map((guid) => `Ref_Key eq guid'${guid}'`).join(" or ");
-  const response = await api.get(`/Catalog_Контрагенты`, { params: { $filter: filters } });
+  const response = await oDataApi.get(`/Catalog_Контрагенты`, { params: { $filter: filters } });
   return response.data.value.map(prepareCustomer);
 };
 
@@ -86,8 +86,22 @@ const parts = async (guids) => {
   // return partsResponse.value.map(preparePart);
 
   const filters = guids.map((guid) => `Ref_Key eq guid'${guid}'`).join(" or ");
-  const response = await api.get(`/Catalog_Номенклатура`, { params: { $filter: filters } });
+  const response = await oDataApi.get(`/Catalog_Номенклатура`, { params: { $filter: filters } });
   return response.data.value.map(preparePart);
 };
 
-export default { appointment, carInfo, carGuid, carCustomers, workTypes, works, customers, parts };
+const API_URL = "http://192.168.1.124:3002/api";
+
+const api = axios.create({ baseURL: API_URL });
+
+const addPushToken = async (carGuid, token) => {
+  const response = await api.post("/push-tokens", { token, carGuid });
+  return response.data;
+};
+
+const getPushTokens = async (carGuid) => {
+  const response = await api.get("/push-tokens", { params: { carGuid } });
+  return response.data;
+};
+
+export default { appointment, carInfo, carGuid, carCustomers, workTypes, works, customers, parts, addPushToken, getPushTokens };
