@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     backgroundColor: "rgba(28, 105, 212, 0.10)",
     shadowRadius: 0,
+    shadowOpacity: 0,
   },
   introTitle: {
     fontSize: 16,
