@@ -5,10 +5,13 @@ import { compareTwoStrings as similarity } from "string-similarity";
 import api from "../api";
 import Modal from "../components/Modal";
 import { useModal } from "../hooks/modal";
+import { useStore } from "../hooks/store";
 import globalStyles from "../styles";
 import { Button } from "./Button";
 
 const AddCar = ({ modal, setCars }) => {
+  const { pushToken } = useStore();
+
   const [name, setName] = useState();
   const [vin, setVin] = useState();
   const [customer, setCustomer] = useState();

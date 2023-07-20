@@ -8,7 +8,9 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import "moment/locale/ru";
 
 import api from "./api";
+import Spinner from "./components/Spinner";
 import StoreContext from "./context/store";
+import { registerForPushNotifications } from "./helpers/push-token";
 import MainNavigator from "./navigators/Main";
 
 moment.locale(Localization.locale);
@@ -16,11 +18,13 @@ moment.locale(Localization.locale);
 
 const App = () => {
   const [fontsLoaded] = useFonts({ Montserrat_500Medium, Montserrat_600SemiBold, Montserrat_700Bold });
+
+  const [pushToken, setPushToken] = useState([]);
   const [cars, setCars] = useState([]);
   const [workTypes, setWorkTypes] = useState([]);
   const [works, setWorks] = useState([]);
 
-  const context = { cars, setCars, workTypes, setWorkTypes, works, setWorks };
+  const storeContext = { pushToken, setPushToken, cars, setCars, workTypes, setWorkTypes, works, setWorks };
 
   const getCars = async () => {
     const carsInStorage = JSON.parse(await AsyncStorage.getItem("cars"));
@@ -36,7 +40,13 @@ const App = () => {
     setWorkTypes(workTypes);
   };
 
+  const getPushToken = async () => {
+    const pushToken = await registerForPushNotifications();
+    pushToken && setPushToken(pushToken);
+  };
+
   useEffect(() => {
+    getPushToken();
     getCars();
     getWorkTypes();
   }, []);
@@ -45,12 +55,10 @@ const App = () => {
     updateCars();
   }, [cars]);
 
-  if (!fontsLoaded) {
-    return null;
-  }
+  if (!fontsLoaded || !workTypes.length) return <Spinner />;
 
   return (
-    <StoreContext.Provider value={context}>
+    <StoreContext.Provider value={storeContext}>
       <SafeAreaProvider>
         <NavigationContainer>
           <MainNavigator />
