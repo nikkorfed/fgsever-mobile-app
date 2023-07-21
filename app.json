@@ -24,7 +24,8 @@
         "backgroundColor": "#FFFFFF"
       },
       "softwareKeyboardLayoutMode": "pan",
-      "package": "com.nikkorfed.fgsevermobileapp"
+      "package": "com.fgsever.mobileapp",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
