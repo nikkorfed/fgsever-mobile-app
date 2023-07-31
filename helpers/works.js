@@ -15,7 +15,7 @@ export const prepareWorkType = (item) => ({
 
 export const prepareWork = (item) => ({
   guid: item.Ref_Key,
-  number: item.Number,
+  number: item.Number.replace("НФФР-", ""),
   status: getWorkStatus(item.Состояние),
   workTypeGuid: item.ВидРемонта_Key,
   date: item.Date,
@@ -79,5 +79,4 @@ export const getWorkIcon = (title) => (props) =>
 
 export const getWorkName = (value) => (value === "Слесарный" && "Слесарный ремонт") || value;
 
-export const getWorkStatus = (value) =>
-  (value === "Заявка" && "Принят") || (value === "ВРаботе" && "В работе") || (value === "Закрыт" && "Выполнен") || value;
+export const getWorkStatus = (value) => (value === "ВРаботе" && "В работе") || value;

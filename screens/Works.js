@@ -66,16 +66,7 @@ const WorksScreen = ({ navigation }) => {
                 <View key={group[0].date}>
                   <Text style={styles.sectionTitle}>{formatDate(group[0].date)}</Text>
                   {group.map((work) => (
-                    <Work
-                      key={work.guid}
-                      status={work.status}
-                      name={work.name}
-                      date={work.date}
-                      car={work.car}
-                      mileage={work.mileage}
-                      price={work.price}
-                      onPress={() => navigation.navigate("Work", { work })}
-                    />
+                    <Work key={work.guid} work={work} />
                   ))}
                 </View>
               ))}

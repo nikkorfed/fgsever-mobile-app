@@ -1,4 +1,5 @@
 import { FontAwesome5 } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import moment from "moment";
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
@@ -7,10 +8,16 @@ import { getWorkIcon } from "../helpers/works";
 import globalStyles from "../styles";
 import Pressable from "./Pressable";
 
-const Work = ({ style, onPress, icon, status, name, car, mileage, price, date }) => {
+const Work = ({ style, work }) => {
+  const navigation = useNavigation();
+
+  const { guid, icon, status, name, car, mileage, price, date } = work;
   const Icon = getWorkIcon(name);
+
+  const handlePress = () => navigation.navigate("Work", { guid });
+
   return (
-    <Pressable style={[styles.block, style]} onPress={onPress}>
+    <Pressable style={[styles.block, style]} onPress={handlePress}>
       <View style={styles.icon}>{icon || <Icon size={30} />}</View>
       <View style={styles.text}>
         <View style={styles.row}>
@@ -18,7 +25,9 @@ const Work = ({ style, onPress, icon, status, name, car, mileage, price, date })
             {name}
           </Text>
           {status === "В работе" && <FontAwesome5 style={styles.statusIcon} name="clock" color="orange" size={12} />}
-          {status === "Выполнен" && <FontAwesome5 style={styles.statusIcon} name="check" color="green" size={12} />}
+          {(status === "Выполнен" || status === "Закрыт") && (
+            <FontAwesome5 style={styles.statusIcon} name="check" color="green" size={12} />
+          )}
         </View>
         <Text style={styles.description} numberOfLines={1}>
           {`${car.name}, ${mileage.toLocaleString()} км`}

@@ -1,35 +1,57 @@
 import { FontAwesome5 } from "@expo/vector-icons";
+import { setStatusBarStyle } from "expo-status-bar";
 import moment from "moment";
 import { useState, useEffect } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Image, Platform } from "react-native";
 
 import api from "../api";
-// import Block from "../components/Block";
+import ImageViewer from "../components/ImageViewer";
+import Pressable from "../components/Pressable";
 import Screen from "../components/Screen";
+import Spinner from "../components/Spinner";
 import { screenHorizontalPadding } from "../constants/paddings";
 import { getWorkIcon } from "../helpers/works";
+import { useStore } from "../hooks/store";
 import globalStyles from "../styles";
 
 const WorkScreen = ({ route, navigation }) => {
-  const [loading, setLoading] = useState(false);
-  const { work } = route.params;
+  const { guid } = route.params;
+
+  const { cars, workTypes } = useStore();
+
+  const [loading, setLoading] = useState(true);
+  const [work, setWork] = useState({});
+  const [imageIndex, setImageIndex] = useState(null);
+  const [photos, setPhotos] = useState([]);
+
   const Icon = getWorkIcon(work.name);
 
   const fetchData = async () => {
-    const hasCustomer = work.customer;
-    const hasParts = work.parts.every((item) => item.name);
-    if (hasCustomer && hasParts) return;
-
     setLoading(true);
+
+    const work = await api.getWork(guid);
+    navigation.setParams({ number: work.number });
+
+    const hasPartNames = work.parts.every((item) => item.name);
+
+    const workType = workTypes.find((workType) => workType.guid === work.workTypeGuid);
+    work.name = workType.name;
 
     const [customer] = await api.customers([work.customerGuid]);
     work.customer = customer.name;
 
-    if (work.parts.length) {
+    const car = cars.find((car) => car.guid === work.carGuid);
+    work.car = car;
+
+    if (!hasPartNames) {
       const parts = await api.parts(work.parts.map((part) => part.guid));
       for (const part of parts) work.parts.find((item) => item.guid === part.guid).name = part.name;
     }
 
+    const photos = await api.getPhotos(work.guid);
+    photos.length && setPhotos(photos);
+
+    setWork(work);
     setLoading(false);
   };
 
@@ -37,8 +59,17 @@ const WorkScreen = ({ route, navigation }) => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (Platform.OS === "ios") {
+      setStatusBarStyle("light");
+      return () => setStatusBarStyle("auto");
+    }
+  }, []);
+
+  if (loading) return <Spinner />;
+
   return (
-    <Screen style={{ paddingHorizontal: 0 }} loading={loading}>
+    <Screen style={{ paddingHorizontal: 0 }}>
       <View style={styles.header}>
         <View style={styles.icon}>
           <Icon size={50} />
@@ -93,6 +124,21 @@ const WorkScreen = ({ route, navigation }) => {
           <Text style={styles.text}>{work.details}</Text>
         </View>
       </View>
+      {photos.length > 0 && (
+        <View style={styles.section}>
+          <Text style={styles.title}>Фотографии</Text>
+          <View style={styles.photoColumns}>
+            {photos.map((photo, index) => (
+              <View key={photo.url} style={styles.photoColumn}>
+                <Pressable onPress={() => setImageIndex(index)}>
+                  <Image style={styles.photo} source={{ uri: photo.url }} />
+                </Pressable>
+              </View>
+            ))}
+          </View>
+          <ImageViewer images={photos} setImages={setPhotos} imageIndex={imageIndex} setImageIndex={setImageIndex} />
+        </View>
+      )}
       <View style={styles.section}>
         <Text style={styles.title}>Работы</Text>
         {work.works.map((item, index) => (
@@ -117,7 +163,7 @@ const WorkScreen = ({ route, navigation }) => {
           ))}
         </View>
       )}
-      <View style={styles.section}>
+      <View style={[styles.section, ...(work.recommendations.length > 0 ? [] : [styles.lastSection])]}>
         <Text style={styles.title}>Стоимость</Text>
         <View style={styles.row}>
           <View style={styles.price}>
@@ -136,28 +182,12 @@ const WorkScreen = ({ route, navigation }) => {
           </View>
         </View>
       </View>
-      {work.recommendations && (
-        <View style={styles.section}>
+      {work.recommendations.length > 0 && (
+        <View style={[styles.section, styles.lastSection]}>
           <Text style={styles.title}>Рекомендации</Text>
-          <View style={[styles.row, styles.lastRow]}>
-            <Text style={styles.text}>{work.recommendations}</Text>
-          </View>
+          <Text style={styles.text}>{work.recommendations}</Text>
         </View>
       )}
-      {/* <View style={[styles.section, styles.lastSection]}>
-        <Text style={styles.title}>Фотографии</Text>
-        <View style={styles.columns}>
-          <View style={styles.column}>
-            <Block style={{ paddingBottom: "75%" }} image="https://fgsever.ru/images/about/6.jpg" />
-          </View>
-          <View style={styles.column}>
-            <Block style={{ paddingBottom: "75%" }} image="https://fgsever.ru/images/about/8.jpg" />
-          </View>
-          <View style={styles.column}>
-            <Block style={{ paddingBottom: "75%" }} image="https://fgsever.ru/images/about/15.jpg" />
-          </View>
-        </View>
-      </View> */}
     </Screen>
   );
 };
@@ -258,6 +288,22 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     borderTopWidth: 1,
     borderTopColor: "#eee",
+  },
+  photoColumns: {
+    ...globalStyles.columns,
+    marginHorizontal: -2.5,
+  },
+  photoColumn: {
+    ...globalStyles.column,
+    flex: undefined,
+    marginBottom: 5,
+    paddingHorizontal: 2.5,
+    width: "33.3%",
+  },
+  photo: {
+    borderRadius: 5,
+    paddingBottom: "75%",
+    backgroundColor: "#f8f8f8",
   },
 });
 

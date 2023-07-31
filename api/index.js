@@ -76,6 +76,13 @@ const works = async ({ carGuids, workTypeGuids = [] }) => {
   return response.data.value.map(prepareWork);
 };
 
+const getWork = async (guid) => {
+  // return prepareWork(worksResponse.value[0]);
+
+  const response = await oDataApi.get(`/Document_асЗаказНаряд(guid'${guid}')`);
+  return prepareWork(response.data);
+};
+
 const customers = async (guids) => {
   const filters = guids.map((guid) => `Ref_Key eq guid'${guid}'`).join(" or ");
   const response = await oDataApi.get(`/Catalog_Контрагенты`, { params: { $filter: filters } });
@@ -94,6 +101,11 @@ const API_URL = "http://192.168.1.124:3002/api";
 
 const api = axios.create({ baseURL: API_URL });
 
+const getPhotos = async (workGuid) => {
+  const response = await api.get("/photos", { params: { workGuid } });
+  return response.data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+};
+
 const addPushToken = async (carGuid, token) => {
   const response = await api.post("/push-tokens", { token, carGuid });
   return response.data;
@@ -104,4 +116,17 @@ const getPushTokens = async (carGuid) => {
   return response.data;
 };
 
-export default { appointment, carInfo, carGuid, carCustomers, workTypes, works, customers, parts, addPushToken, getPushTokens };
+export default {
+  appointment,
+  carInfo,
+  carGuid,
+  carCustomers,
+  workTypes,
+  works,
+  getWork,
+  customers,
+  parts,
+  getPhotos,
+  addPushToken,
+  getPushTokens,
+};

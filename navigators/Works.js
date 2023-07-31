@@ -1,12 +1,12 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
-import { Platform, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, Platform, View, Text, TouchableOpacity } from "react-native";
 
 import { stackNavigatorOptions } from "../config/stackNavigator";
 import AppointmentScreen from "../screens/Appointment";
 import WorkScreen from "../screens/Work";
 import WorksScreen from "../screens/Works";
-import styles from "../styles";
+import globalStyles from "../styles";
 
 const Stack = createNativeStackNavigator();
 
@@ -18,7 +18,7 @@ const WorksNavigator = () => {
         name="Work"
         component={WorkScreen}
         options={({ route, navigation }) => ({
-          title: `Заказ-наряд`, // № ${route.params.work.number}
+          title: `Заказ-наряд`,
           presentation: "modal",
           headerLeft: ({ tintColor }) =>
             Platform.OS === "ios" ? (
@@ -26,6 +26,12 @@ const WorksNavigator = () => {
                 <Text style={[styles.headerButton, { color: tintColor }]}>Закрыть</Text>
               </TouchableOpacity>
             ) : null,
+          headerTitle: ({ children }) => (
+            <View>
+              <Text style={styles.headerTitle}>{children}</Text>
+              {route.params.number && <Text style={styles.headerSubtitle}>№ {route.params.number}</Text>}
+            </View>
+          ),
         })}
       />
       <Stack.Screen
@@ -45,5 +51,20 @@ const WorksNavigator = () => {
     </Stack.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  ...globalStyles,
+  headerTitle: {
+    fontFamily: "Montserrat_600SemiBold",
+    fontSize: 16,
+    textAlign: Platform.OS === "ios" ? "center" : "left",
+  },
+  headerSubtitle: {
+    fontFamily: "Montserrat_500Medium",
+    fontSize: 12,
+    textAlign: Platform.OS === "ios" ? "center" : "left",
+    color: "#888",
+  },
+});
 
 export default WorksNavigator;
