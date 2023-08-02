@@ -12,7 +12,7 @@ import { Button } from "./Button";
 const AddCar = ({ modal, setCars }) => {
   const { pushToken } = useStore();
 
-  const [name, setName] = useState();
+  // const [name, setName] = useState();
   const [vin, setVin] = useState();
   const [customer, setCustomer] = useState();
 
@@ -24,8 +24,7 @@ const AddCar = ({ modal, setCars }) => {
   };
 
   const handleAddCar = async () => {
-    const { guid } = await api.carGuid(vin);
-    const { vin: fullVin, image, model, modelCode, productionDate } = await api.carInfo(vin);
+    const { guid, vin: fullVin, name } = await api.carGuid(vin);
 
     const customers = await api.carCustomers(guid);
     const customerNames = customers.map((customer) => customer.name.trim().toLowerCase());
@@ -37,8 +36,7 @@ const AddCar = ({ modal, setCars }) => {
       return Alert.alert("Неверные данные владельца", "Пожалуйста, попробуйте заново ввести полное имя владельца автомобиля.");
     }
 
-    const car = { key: fullVin, guid, name, image, vin: fullVin, model, modelCode, productionDate };
-    setCars((prev) => [...prev, car]);
+    setCars((prev) => [...prev, { key: fullVin, guid, name, vin: fullVin }]);
 
     if (pushToken) {
       const existingTokens = await api.getPushTokens(guid);
@@ -48,7 +46,7 @@ const AddCar = ({ modal, setCars }) => {
 
     Alert.alert("Автомобиль добавлен", "Ваш автомобиль был успешно добавлен в гараж.");
     customerNameModal.confirm();
-    setName();
+    // setName();
     setVin();
     setCustomer();
   };
@@ -57,7 +55,7 @@ const AddCar = ({ modal, setCars }) => {
     <>
       <Modal modal={modal} noButton>
         <Text style={styles.sectionTitle}>Добавить автомобиль</Text>
-        <TextInput style={styles.input} value={name} onChangeText={setName} placeholder="Название" placeholderTextColor="#aaa" />
+        {/* <TextInput style={styles.input} value={name} onChangeText={setName} placeholder="Название" placeholderTextColor="#aaa" /> */}
         <TextInput style={styles.input} value={vin} onChangeText={setVin} placeholder="VIN" placeholderTextColor="#aaa" />
         <Button title="Далее" onPress={handleNextStep} />
       </Modal>

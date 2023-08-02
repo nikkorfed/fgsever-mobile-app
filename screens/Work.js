@@ -86,17 +86,22 @@ const WorkScreen = ({ route, navigation }) => {
       </View>
       <View style={styles.section}>
         <Text style={styles.title}>
-          Автомобиль <Text style={styles.titleAdditional}>{work.car.name}</Text>
+          Автомобиль
+          {/* Автомобиль <Text style={styles.titleAdditional}>{work.car.name}</Text> */}
         </Text>
+        <View style={styles.row}>
+          <Text style={styles.label}>Модель</Text>
+          <Text style={styles.text}>{work.car.name}</Text>
+        </View>
         <View style={styles.row}>
           <Text style={styles.label}>VIN</Text>
           <Text style={styles.text}>{work.car.vin}</Text>
         </View>
-        <View style={styles.row}>
+        <View style={[styles.row, styles.lastRow]}>
           <Text style={styles.label}>Пробег</Text>
           <Text style={styles.text}>{work.mileage.toLocaleString()} км</Text>
         </View>
-        <View style={styles.row}>
+        {/* <View style={styles.row}>
           <Text style={styles.label}>Модель</Text>
           <Text style={styles.text}>{work.car.model}</Text>
         </View>
@@ -107,7 +112,7 @@ const WorkScreen = ({ route, navigation }) => {
         <View style={[styles.row, styles.lastRow]}>
           <Text style={styles.label}>Дата производства</Text>
           <Text style={styles.text}>{work.car.productionDate}</Text>
-        </View>
+        </View> */}
       </View>
       <View style={styles.section}>
         <Text style={styles.title}>Заказ</Text>

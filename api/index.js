@@ -83,6 +83,14 @@ const getWork = async (guid) => {
   return prepareWork(response.data);
 };
 
+const cars = async (guids) => {
+  // return carsResponse.value.map(prepareCar);
+
+  const filters = guids.map((guid) => `Ref_Key eq guid'${guid}'`).join(" or ");
+  const response = await oDataApi.get("/Catalog_асАвтомобили", { params: { $filter: filters } });
+  return response.data.value.map(prepareCar);
+};
+
 const customers = async (guids) => {
   const filters = guids.map((guid) => `Ref_Key eq guid'${guid}'`).join(" or ");
   const response = await oDataApi.get(`/Catalog_Контрагенты`, { params: { $filter: filters } });
@@ -124,6 +132,7 @@ export default {
   workTypes,
   works,
   getWork,
+  cars,
   customers,
   parts,
   getPhotos,

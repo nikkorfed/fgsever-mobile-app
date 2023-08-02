@@ -5,7 +5,7 @@ import { StyleSheet, Image, View, Text, Dimensions, Pressable, Alert } from "rea
 import { useStore } from "../hooks/store";
 import globalStyles from "../styles";
 
-const Car = ({ style, guid, name, image, vin, model, modelCode, productionDate }) => {
+const Car = ({ style, guid, name, vin }) => {
   const { setCars } = useStore();
 
   const handleDelete = () => {
@@ -17,15 +17,16 @@ const Car = ({ style, guid, name, image, vin, model, modelCode, productionDate }
 
   return (
     <View style={[styles.block, style]}>
-      <Image style={styles.image} resizeMode="contain" source={{ uri: image }} />
+      {/* <Image style={styles.image} resizeMode="contain" source={{ uri: image }} /> */}
       <View style={styles.header}>
         <Text style={styles.title}>{name}</Text>
       </View>
       <View style={styles.row}>
-        <Text style={styles.description}>VIN: </Text>
-        <Text style={styles.text}>{vin}</Text>
+        <Text style={styles.description}>{vin}</Text>
+        {/* <Text style={styles.description}>VIN: </Text>
+        <Text style={styles.text}>{vin}</Text> */}
       </View>
-      <View style={styles.row}>
+      {/* <View style={styles.row}>
         <Text style={styles.description}>Модель: </Text>
         <Text style={styles.text}>{model}</Text>
       </View>
@@ -36,7 +37,7 @@ const Car = ({ style, guid, name, image, vin, model, modelCode, productionDate }
       <View style={styles.row}>
         <Text style={styles.description}>Дата изготовления: </Text>
         <Text style={styles.text}>{productionDate}</Text>
-      </View>
+      </View> */}
       <Pressable style={styles.icon} onPress={handleDelete}>
         <FontAwesome5 name="trash" color="lightgrey" size={12} />
       </Pressable>
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
     height: 160,
   },
   header: {
-    marginBottom: 5,
+    // marginBottom: 5,
   },
   row: {
     ...globalStyles.row,
