@@ -1,4 +1,5 @@
 import axios from "axios";
+import Constants from "expo-constants";
 import { encode } from "js-base64";
 import { uniqBy } from "lodash";
 
@@ -8,13 +9,15 @@ import { preparePart } from "../helpers/parts";
 import { prepareWorkType, prepareWork } from "../helpers/works";
 // import { carsResponse, worksResponse, workTypesResponse, partsResponse } from "../mocks";
 
+const { apiUrl, odataApiUrl } = Constants.expoConfig.extra;
+
 const serializer = (params) => {
   const entries = Object.entries(params);
   return entries.map(([key, value]) => `${key}=${value}`).join("&");
 };
 
 const oDataApi = axios.create({
-  baseURL: "http://213.109.27.99:8080/Autoservice/odata/standard.odata/",
+  baseURL: odataApiUrl,
   headers: { Authorization: `Basic ${encode("приложение:bmwf30")}` },
   params: { $format: "json" },
   paramsSerializer: { serialize: serializer },
@@ -105,9 +108,7 @@ const parts = async (guids) => {
   return response.data.value.map(preparePart);
 };
 
-const API_URL = "http://192.168.1.124:3002/api";
-
-const api = axios.create({ baseURL: API_URL });
+const api = axios.create({ baseURL: apiUrl });
 
 const getPhotos = async (workGuid) => {
   const response = await api.get("/photos", { params: { workGuid } });
