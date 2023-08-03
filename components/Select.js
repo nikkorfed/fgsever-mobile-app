@@ -3,15 +3,18 @@ import { Picker } from "@react-native-picker/picker";
 import React, { useState, useRef } from "react";
 import { Platform, StyleSheet, View, Pressable, TextInput } from "react-native";
 
+import Modal from "./Modal";
 import { useModal } from "../hooks/modal";
 import globalStyles from "../styles";
-import Modal from "./Modal";
 
 const Select = ({ style, items, value, onChange, labelProp = "name", valueProp = "key", placeholder }) => {
   const [tempValue, setTempValue] = useState(value);
   const pickerRef = useRef();
 
-  const selectModal = useModal({ onConfirm: () => onChange(tempValue) });
+  const selectModal = useModal({
+    onOpen: () => setTempValue(items[0][valueProp]),
+    onConfirm: () => onChange(tempValue),
+  });
 
   const openAndroid = () => pickerRef.current.focus();
 
@@ -47,6 +50,7 @@ const Select = ({ style, items, value, onChange, labelProp = "name", valueProp =
         </Modal>
       ) : (
         <Picker ref={pickerRef} style={styles.pickerAndroid} selectedValue={value} onValueChange={onChange}>
+          <Picker.Item key="placeholder" label={placeholder} color="#aaa" enabled={false} />
           {items.map((item) => (
             <Picker.Item key={item[valueProp]} label={item[labelProp]} value={item[valueProp]} />
           ))}
