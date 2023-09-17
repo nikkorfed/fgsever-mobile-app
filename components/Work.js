@@ -4,9 +4,9 @@ import moment from "moment";
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
+import Pressable from "./Pressable";
 import { getWorkIcon } from "../helpers/works";
 import globalStyles from "../styles";
-import Pressable from "./Pressable";
 
 const Work = ({ style, work }) => {
   const navigation = useNavigation();

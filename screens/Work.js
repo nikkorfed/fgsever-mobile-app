@@ -79,7 +79,9 @@ const WorkScreen = ({ route, navigation }) => {
         {work.status && (
           <View style={styles.status}>
             {work.status === "В работе" && <FontAwesome5 style={styles.statusIcon} name="clock" color="orange" size={12} />}
-            {work.status === "Выполнен" && <FontAwesome5 style={styles.statusIcon} name="check" color="green" size={12} />}
+            {(work.status === "Выполнен" || work.status === "Закрыт") && (
+              <FontAwesome5 style={styles.statusIcon} name="check" color="green" size={12} />
+            )}
             <Text style={styles.text}>{work.status}</Text>
           </View>
         )}
@@ -120,14 +122,14 @@ const WorkScreen = ({ route, navigation }) => {
           <Text style={styles.label}>Дата и время</Text>
           <Text style={styles.text}>{moment(work.date).format("lll")}</Text>
         </View>
-        <View style={styles.row}>
+        <View style={[styles.row, styles.lastRow]}>
           <Text style={styles.label}>Заказчик</Text>
           <Text style={styles.text}>{work.customer}</Text>
         </View>
-        <View style={[styles.row, styles.lastRow]}>
+        {/* <View style={[styles.row, styles.lastRow]}>
           <Text style={styles.label}>Услуги</Text>
           <Text style={styles.text}>{work.details}</Text>
-        </View>
+        </View> */}
       </View>
       {photos.length > 0 && (
         <View style={styles.section}>
