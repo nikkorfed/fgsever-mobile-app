@@ -2,16 +2,22 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import React from "react";
 import { StyleSheet, Image, View, Text, Dimensions, Pressable, Alert } from "react-native";
 
+import api from "../api";
 import { useStore } from "../hooks/store";
 import globalStyles from "../styles";
 
 const Car = ({ style, guid, name, vin }) => {
-  const { setCars } = useStore();
+  const { pushToken, setCars } = useStore();
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
+    await api.removePushToken({ token: pushToken, type: "car", refGuid: guid });
+    setCars((prev) => prev.filter((car) => car.guid !== guid));
+  };
+
+  const handlePressDelete = () => {
     Alert.alert(`Вы действительно хотите удалить ${name}?`, null, [
       { text: "Отмена" },
-      { text: "Удалить", onPress: () => setCars((prev) => prev.filter((car) => car.guid !== guid)), style: "destructive" },
+      { text: "Удалить", onPress: handleDelete, style: "destructive" },
     ]);
   };
 
@@ -38,7 +44,7 @@ const Car = ({ style, guid, name, vin }) => {
         <Text style={styles.description}>Дата изготовления: </Text>
         <Text style={styles.text}>{productionDate}</Text>
       </View> */}
-      <Pressable style={styles.icon} onPress={handleDelete}>
+      <Pressable style={styles.icon} onPress={handlePressDelete}>
         <FontAwesome5 name="trash" color="lightgrey" size={12} />
       </Pressable>
     </View>

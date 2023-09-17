@@ -115,13 +115,21 @@ const getPhotos = async (workGuid) => {
   return response.data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
 };
 
-const addPushToken = async (carGuid, token) => {
-  const response = await api.post("/push-tokens", { token, carGuid });
+const addPushToken = async ({ token, type, refGuid }) => {
+  const response = await api.post("/push-tokens", { token, type, refGuid });
   return response.data;
 };
 
-const getPushTokens = async (carGuid) => {
-  const response = await api.get("/push-tokens", { params: { carGuid } });
+const getPushTokens = async ({ token, type, refGuid }) => {
+  const response = await api.get("/push-tokens", { params: { token, type, refGuid } });
+  return response.data;
+};
+
+const removePushToken = async ({ token, type, refGuid }) => {
+  const [pushToken] = await getPushTokens({ token, type, refGuid });
+  if (!pushToken) return;
+
+  const response = await api.delete(`/push-tokens/${pushToken.guid}`);
   return response.data;
 };
 
@@ -139,4 +147,5 @@ export default {
   getPhotos,
   addPushToken,
   getPushTokens,
+  removePushToken,
 };

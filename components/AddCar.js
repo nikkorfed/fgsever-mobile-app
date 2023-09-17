@@ -3,11 +3,11 @@ import { Alert, StyleSheet, Text, TextInput } from "react-native";
 import { compareTwoStrings as similarity } from "string-similarity";
 
 import api from "../api";
+import { Button } from "../components/Button";
 import Modal from "../components/Modal";
 import { useModal } from "../hooks/modal";
 import { useStore } from "../hooks/store";
 import globalStyles from "../styles";
-import { Button } from "./Button";
 
 const AddCar = ({ modal, setCars }) => {
   const { pushToken } = useStore();
@@ -39,9 +39,8 @@ const AddCar = ({ modal, setCars }) => {
     setCars((prev) => [...prev, { key: fullVin, guid, name, vin: fullVin }]);
 
     if (pushToken) {
-      const existingTokens = await api.getPushTokens(guid);
-      const tokenExists = existingTokens.some(({ token }) => token === pushToken);
-      if (!tokenExists) await api.addPushToken(guid, pushToken);
+      const [existingPushToken] = await api.getPushTokens({ token: pushToken, type: "car", refGuid: guid });
+      if (!existingPushToken) await api.addPushToken({ token: pushToken, type: "car", refGuid: guid });
     }
 
     Alert.alert("Автомобиль добавлен", "Ваш автомобиль был успешно добавлен в гараж.");
