@@ -1,4 +1,4 @@
-import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import moment from "moment";
 import React from "react";
@@ -24,10 +24,10 @@ const Work = ({ style, work }) => {
           <Text style={styles.title} numberOfLines={1}>
             {name}
           </Text>
-          {status === "В работе" && <FontAwesome5 style={styles.statusIcon} name="clock" color="orange" size={12} />}
-          {(status === "Выполнен" || status === "Закрыт") && (
-            <FontAwesome5 style={styles.statusIcon} name="check" color="green" size={12} />
-          )}
+          {status === "Ожидание" && <FontAwesome5 style={styles.statusIcon} name="clock" color="orange" size={12} />}
+          {status === "В работе" && <MaterialCommunityIcons style={styles.statusIcon} name="progress-clock" color="dodgerblue" size={14} />}
+          {status === "Выполнен" && <FontAwesome5 style={styles.statusIcon} name="check" color="green" size={12} />}
+          {status === "Закрыт" && <FontAwesome5 style={styles.statusIcon} name="check" color="green" size={12} />}
         </View>
         <Text style={styles.description} numberOfLines={1}>
           {`${car.name}, ${mileage.toLocaleString()} км`}

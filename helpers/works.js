@@ -7,6 +7,7 @@ import EngineIcon from "../assets/icons/engine.svg";
 import MaintenanceIcon from "../assets/icons/maintenance.svg";
 import UpdateIcon from "../assets/icons/update.svg";
 import UpgradeIcon from "../assets/icons/upgrade.svg";
+import WarrantyIcon from "../assets/icons/warranty.svg";
 
 export const prepareWorkType = (item) => ({
   guid: item.Ref_Key,
@@ -75,7 +76,8 @@ export const getWorkIcon = (title) => (props) =>
   (title === "Диагностика" && <DiagnosticsIcon {...props} />) ||
   (title === "Обновление ПО" && <UpdateIcon {...props} />) ||
   (title === "Ремонт двигателя" && <EngineIcon {...props} />) ||
-  ((title === "Кузовной" || title === "Покраска") && <BodyRepairIcon {...props} />);
+  ((title === "Кузовной" || title === "Покраска") && <BodyRepairIcon {...props} />) ||
+  (title === "Гарантия" && <WarrantyIcon {...props} />);
 
 export const getWorkName = (value) => (value === "Слесарный" && "Слесарный ремонт") || value;
 

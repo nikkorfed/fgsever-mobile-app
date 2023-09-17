@@ -1,4 +1,4 @@
-import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
 import { setStatusBarStyle } from "expo-status-bar";
 import moment from "moment";
 import { useState, useEffect } from "react";
@@ -78,10 +78,12 @@ const WorkScreen = ({ route, navigation }) => {
         <Text style={styles.introDescription}>{moment(work.date).format("lll")}</Text>
         {work.status && (
           <View style={styles.status}>
-            {work.status === "В работе" && <FontAwesome5 style={styles.statusIcon} name="clock" color="orange" size={12} />}
-            {(work.status === "Выполнен" || work.status === "Закрыт") && (
-              <FontAwesome5 style={styles.statusIcon} name="check" color="green" size={12} />
+            {work.status === "Ожидание" && <FontAwesome5 style={styles.statusIcon} name="clock" color="orange" size={12} />}
+            {work.status === "В работе" && (
+              <MaterialCommunityIcons style={styles.statusIcon} name="progress-clock" color="dodgerblue" size={14} />
             )}
+            {work.status === "Выполнен" && <FontAwesome5 style={styles.statusIcon} name="check" color="green" size={12} />}
+            {work.status === "Закрыт" && <FontAwesome5 style={styles.statusIcon} name="check" color="green" size={12} />}
             <Text style={styles.text}>{work.status}</Text>
           </View>
         )}
