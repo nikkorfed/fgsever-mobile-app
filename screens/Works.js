@@ -27,14 +27,23 @@ const WorksScreen = ({ navigation }) => {
 
     const carGuids = car ? [car] : cars.map((item) => item.guid);
     const workTypeGuids = workType && [workType];
+
     const worksResponse = await api.works({ carGuids, workTypeGuids });
 
-    const data = worksResponse.map((item) => {
+    const works = worksResponse.map((item) => {
       item.name = workTypes.find((workType) => workType.guid === item.workTypeGuid).name;
       item.car = cars.find((car) => car.guid === item.carGuid);
       return item;
     });
-    setWorks(data);
+
+    const workGuids = works.map((work) => work.guid);
+    const workApprovalsResponse = await api.getWorkApprovals(workGuids);
+
+    const workApprovalsByGuids = {};
+    workApprovalsResponse.forEach((workApproval) => (workApprovalsByGuids[workApproval.guid] = workApproval));
+    works.forEach((work) => workApprovalsByGuids[work.guid] && (work.approval = { createdAt: workApprovalsByGuids[work.guid].createdAt }));
+
+    setWorks(works);
     setLoading(false);
   };
 

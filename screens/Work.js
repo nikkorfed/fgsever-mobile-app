@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Image, Platform } from "react-native";
 
 import api from "../api";
+import { Button } from "../components/Button";
 import ImageViewer from "../components/ImageViewer";
 import Pressable from "../components/Pressable";
 import Screen from "../components/Screen";
@@ -37,6 +38,9 @@ const WorkScreen = ({ route, navigation }) => {
     const workType = workTypes.find((workType) => workType.guid === work.workTypeGuid);
     work.name = workType.name;
 
+    const workApproval = await api.getWorkApproval(work.guid);
+    if (workApproval) work.approval = { createdAt: workApproval.createdAt };
+
     const [customer] = await api.customers([work.customerGuid]);
     work.customer = customer.name;
 
@@ -53,6 +57,12 @@ const WorkScreen = ({ route, navigation }) => {
 
     setWork(work);
     setLoading(false);
+  };
+
+  const handleApproveWork = async () => {
+    setLoading(true);
+    await api.addWorkApproval(work.guid);
+    await fetchData();
   };
 
   useEffect(() => {
@@ -78,13 +88,16 @@ const WorkScreen = ({ route, navigation }) => {
         <Text style={styles.introDescription}>{moment(work.date).format("lll")}</Text>
         {work.status && (
           <View style={styles.status}>
+            {work.status === "Согласование" && work.approval && (
+              <FontAwesome5 style={styles.statusIcon} name="check" color="dodgerblue" size={10} />
+            )}
             {work.status === "Ожидание" && <FontAwesome5 style={styles.statusIcon} name="clock" color="orange" size={12} />}
             {work.status === "В работе" && (
               <MaterialCommunityIcons style={styles.statusIcon} name="progress-clock" color="dodgerblue" size={14} />
             )}
             {work.status === "Выполнен" && <FontAwesome5 style={styles.statusIcon} name="check" color="green" size={12} />}
             {work.status === "Закрыт" && <FontAwesome5 style={styles.statusIcon} name="check" color="green" size={12} />}
-            <Text style={styles.text}>{work.status}</Text>
+            <Text style={styles.text}>{work.status === "Согласование" && work.approval ? "Согласовано" : work.status}</Text>
           </View>
         )}
       </View>
@@ -158,6 +171,9 @@ const WorkScreen = ({ route, navigation }) => {
             </Text>
           </View>
         ))}
+        {work.status === "Согласование" && !work.approval && (
+          <Button style={styles.approveButton} title="Согласовать" onPress={handleApproveWork} />
+        )}
       </View>
       {work.parts?.length > 0 && (
         <View style={styles.section}>
@@ -275,6 +291,9 @@ const styles = StyleSheet.create({
   },
   text: {
     ...globalStyles.text,
+  },
+  approveButton: {
+    marginTop: 5,
   },
   price: {
     flexDirection: "row",

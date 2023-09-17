@@ -32,6 +32,11 @@ const Work = ({ style, work }) => {
         <Text style={styles.description} numberOfLines={1}>
           {`${car.name}, ${mileage.toLocaleString()} км`}
         </Text>
+        {work.status === "Согласование" && !work.approval && (
+          <View style={styles.approvingContainer}>
+            <Text style={styles.approvingText}>Требует согласования</Text>
+          </View>
+        )}
       </View>
       <View style={styles.additional}>
         {price !== null && (
@@ -84,7 +89,17 @@ const styles = StyleSheet.create({
   },
   description: {
     ...globalStyles.description,
-    marginTop: 5,
+    marginTop: 2,
+  },
+  approvingContainer: {
+    alignSelf: "flex-start",
+    marginTop: 2,
+    borderRadius: 5,
+    paddingHorizontal: 5,
+    backgroundColor: "#f5f5f5",
+  },
+  approvingText: {
+    ...globalStyles.text,
   },
   additional: {
     justifyContent: "center",
@@ -94,7 +109,7 @@ const styles = StyleSheet.create({
   price: globalStyles.text,
   date: {
     ...globalStyles.description,
-    marginTop: 5,
+    marginTop: 3,
     textAlign: "right",
   },
 });

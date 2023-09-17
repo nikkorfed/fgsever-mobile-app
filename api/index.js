@@ -110,6 +110,26 @@ const parts = async (guids) => {
 
 const api = axios.create({ baseURL: apiUrl });
 
+const getWorkApprovals = async (guids) => {
+  const response = await api.get(`/work-approvals`, { params: { guid: guids.join(",") } });
+  return response.data;
+};
+
+const getWorkApproval = async (guid) => {
+  const response = await api.get(`/work-approvals/${guid}`);
+  return response.data;
+};
+
+const addWorkApproval = async (guid) => {
+  const response = await api.post(`/work-approvals`, { guid });
+  return response.data;
+};
+
+const removeWorkApproval = async (guid) => {
+  const response = await api.delete(`/work-approvals/${guid}`);
+  return response.data;
+};
+
 const getPhotos = async (workGuid) => {
   const response = await api.get("/photos", { params: { workGuid } });
   return response.data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
@@ -144,6 +164,10 @@ export default {
   cars,
   customers,
   parts,
+  getWorkApprovals,
+  getWorkApproval,
+  addWorkApproval,
+  removeWorkApproval,
   getPhotos,
   addPushToken,
   getPushTokens,
