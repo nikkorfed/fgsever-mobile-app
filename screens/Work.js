@@ -2,7 +2,7 @@ import { FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
 import { setStatusBarStyle } from "expo-status-bar";
 import moment from "moment";
 import { useState, useEffect } from "react";
-import { StyleSheet, View, Text, Image, Platform } from "react-native";
+import { AppState, StyleSheet, View, Text, Image, Platform } from "react-native";
 
 import api from "../api";
 import { Button } from "../components/Button";
@@ -67,6 +67,8 @@ const WorkScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     fetchData();
+    const subscription = AppState.addEventListener("change", (state) => state === "active" && fetchData());
+    return () => subscription.remove();
   }, []);
 
   useEffect(() => {

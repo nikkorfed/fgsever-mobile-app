@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, View, Text, ScrollView } from "react-native";
+import { AppState, StyleSheet, View, Text, ScrollView } from "react-native";
 
 import api from "../api";
 import { Button } from "../components/Button";
@@ -49,6 +49,8 @@ const WorksScreen = ({ navigation }) => {
 
   useEffect(() => {
     fetchWorks();
+    const subscription = AppState.addEventListener("change", (state) => state === "active" && fetchWorks());
+    return () => subscription.remove();
   }, [cars, car, workType]);
 
   return (
