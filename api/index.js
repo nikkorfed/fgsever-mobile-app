@@ -65,7 +65,7 @@ const workTypes = async () => {
   return response.data.value.map(prepareWorkType);
 };
 
-const works = async ({ carGuids, workTypeGuids = [] }) => {
+const works = async ({ carGuids, workTypeGuids = [], limit = 10, offset = 0 }) => {
   // return worksResponse.value.map(prepareWork);
 
   const carsFilter = carGuids.map((guid) => `Автомобиль_Key eq guid'${guid}'`).join(" or ");
@@ -75,7 +75,9 @@ const works = async ({ carGuids, workTypeGuids = [] }) => {
   filters.length > 1 && (filters = filters.map((filter) => `(${filter})`));
   filters = filters.join(" and ");
 
-  const response = await oDataApi.get(`/Document_асЗаказНаряд`, { params: { $filter: filters, $orderby: "Date desc" } });
+  const response = await oDataApi.get(`/Document_асЗаказНаряд`, {
+    params: { $top: limit, $skip: offset, $filter: filters, $orderby: "Date desc" },
+  });
   return response.data.value.map(prepareWork);
 };
 

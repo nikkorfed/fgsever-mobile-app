@@ -51,10 +51,10 @@ export const groupWorksByDate = (items) => {
 
   items.map((work) => {
     const latestGroup = result[result.length - 1];
-    const latestItem = latestGroup && latestGroup[latestGroup.length - 1];
+    const latestItem = latestGroup?.data[latestGroup.data.length - 1];
 
-    if (!latestGroup || !moment(latestItem.date).isSame(work.date, "day")) result.push([work]);
-    else latestGroup.push(work);
+    if (!latestGroup || !moment(latestItem.date).isSame(work.date, "day")) result.push({ date: work.date, data: [work] });
+    else latestGroup.data.push(work);
   });
 
   return result;
