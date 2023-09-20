@@ -4,9 +4,9 @@ import React from "react";
 import { Dimensions, StatusBar, StyleSheet, View, Platform } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
+import Spinner from "./Spinner";
 import { screenHorizontalPadding } from "../constants/paddings";
 import { useKeyboardVisible } from "../hooks/keyboard";
-import Spinner from "./Spinner";
 
 // Этот вид прокрутки работает немного плавнее, но некорректно отображает колесо прокрутки и имеет лишний отступ при открытой клавиатуре.
 
@@ -16,14 +16,12 @@ const STATUS_BAR_HEIGHT = StatusBar.currentHeight || 24;
 const WINDOW_HEIGHT = Dimensions.get("window").height;
 const NAVIGATION_BAR_HEIGHT = SCREEN_HEIGHT - STATUS_BAR_HEIGHT - WINDOW_HEIGHT;
 
-const Screen = ({ style, loading, children, fixedBottom, fixedBottomStyle }) => {
+const Screen = ({ style, loading, refreshControl, children, fixedBottom, fixedBottomStyle }) => {
   const isKeyboardVisible = useKeyboardVisible();
   const headerHeight = useHeaderHeight();
   const bottomTabBarHeight = useBottomTabBarHeight();
 
-  let paddingTop = style?.paddingTop ?? 0;
-  Platform.OS === "android" && (paddingTop += headerHeight);
-
+  const marginTop = (style?.marginTop ?? 0) + headerHeight;
   let paddingBottom = Platform.OS === "android" ? 30 : 0;
   Platform.OS === "android" && (paddingBottom += (NAVIGATION_BAR_HEIGHT > 0 ? NAVIGATION_BAR_HEIGHT : 0) + bottomTabBarHeight);
   fixedBottom && (paddingBottom += 60);
@@ -31,9 +29,10 @@ const Screen = ({ style, loading, children, fixedBottom, fixedBottomStyle }) => 
   return (
     <>
       <KeyboardAwareScrollView
-        style={[styles.wrapper, style, { paddingTop }]}
+        style={[styles.wrapper, style, { marginTop }]}
         contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={{ paddingBottom }}
+        refreshControl={refreshControl}
       >
         {children}
       </KeyboardAwareScrollView>

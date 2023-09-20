@@ -2,7 +2,7 @@ import { FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
 import { setStatusBarStyle } from "expo-status-bar";
 import moment from "moment";
 import { useState, useEffect } from "react";
-import { AppState, StyleSheet, View, Text, Image, Platform } from "react-native";
+import { AppState, StyleSheet, RefreshControl, View, Text, Image, Platform } from "react-native";
 
 import api from "../api";
 import { Button } from "../components/Button";
@@ -21,6 +21,7 @@ const WorkScreen = ({ route, navigation }) => {
   const { cars, workTypes } = useStore();
 
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [work, setWork] = useState({});
   const [imageIndex, setImageIndex] = useState(null);
   const [photos, setPhotos] = useState([]);
@@ -28,8 +29,6 @@ const WorkScreen = ({ route, navigation }) => {
   const Icon = getWorkIcon(work.name);
 
   const fetchData = async () => {
-    setLoading(true);
-
     const work = await api.getWork(guid);
     navigation.setParams({ number: work.number });
 
@@ -56,18 +55,29 @@ const WorkScreen = ({ route, navigation }) => {
     photos.length && setPhotos(photos);
 
     setWork(work);
+  };
+
+  const handleFetch = async () => {
+    setLoading(true);
+    await fetchData();
     setLoading(false);
+  };
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await fetchData(true);
+    setRefreshing(false);
   };
 
   const handleApproveWork = async () => {
     setLoading(true);
     await api.addWorkApproval(work.guid);
-    await fetchData();
+    await handleFetch();
   };
 
   useEffect(() => {
-    fetchData();
-    const subscription = AppState.addEventListener("change", (state) => state === "active" && fetchData());
+    handleFetch();
+    const subscription = AppState.addEventListener("change", (state) => state === "active" && handleFetch());
     return () => subscription.remove();
   }, []);
 
@@ -81,7 +91,7 @@ const WorkScreen = ({ route, navigation }) => {
   if (loading) return <Spinner />;
 
   return (
-    <Screen style={{ paddingHorizontal: 0 }}>
+    <Screen style={{ paddingHorizontal: 0 }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}>
       <View style={styles.header}>
         <View style={styles.icon}>
           <Icon size={50} />
