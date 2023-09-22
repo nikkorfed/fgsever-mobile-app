@@ -57,10 +57,10 @@ const WorkScreen = ({ route, navigation }) => {
     setWork(work);
   };
 
-  const handleFetch = async () => {
-    setLoading(true);
+  const handleFetch = async (silent = false) => {
+    if (!silent) setLoading(true);
     await fetchData();
-    setLoading(false);
+    if (!silent) setLoading(false);
   };
 
   const handleRefresh = async () => {
@@ -77,7 +77,7 @@ const WorkScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     handleFetch();
-    const subscription = AppState.addEventListener("change", (state) => state === "active" && handleFetch());
+    const subscription = AppState.addEventListener("change", (state) => state === "active" && handleFetch(true));
     return () => subscription.remove();
   }, []);
 
