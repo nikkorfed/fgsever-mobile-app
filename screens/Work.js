@@ -2,7 +2,7 @@ import { FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
 import { setStatusBarStyle } from "expo-status-bar";
 import moment from "moment";
 import { useState, useEffect } from "react";
-import { AppState, StyleSheet, RefreshControl, View, Text, Image, Platform } from "react-native";
+import { AppState, StyleSheet, Alert, Platform, RefreshControl, View, Text, Image } from "react-native";
 
 import api from "../api";
 import { Button } from "../components/Button";
@@ -38,7 +38,12 @@ const WorkScreen = ({ route, navigation }) => {
     work.name = workType.name;
 
     const workApproval = await api.getWorkApproval(work.guid);
-    if (workApproval) work.approval = { createdAt: workApproval.createdAt };
+    work.approval = workApproval;
+
+    const requests = await api.getRequests({ workGuid: work.guid });
+    const testDrive = requests.find((request) => request.type === "testDrive");
+    const carWash = requests.find((request) => request.type === "carWash");
+    (work.testDrive = testDrive), (work.carWash = carWash);
 
     const [customer] = await api.customers([work.customerGuid]);
     work.customer = customer.name;
@@ -69,6 +74,25 @@ const WorkScreen = ({ route, navigation }) => {
     setRefreshing(false);
   };
 
+  const handleRespondTestDrive = (value) => async () => {
+    setLoading(true);
+    const testDriveRequest = await api.updateRequest(work.testDrive.guid, { status: value });
+    if (testDriveRequest) await handleFetch();
+  };
+
+  const handleClickCarWash = async () => {
+    Alert.alert("Мойка автомобиля", "Вы уверены, что нужно помыть автомобиль?", [
+      { text: "Отмена" },
+      { text: "Помыть", onPress: handleRequestCarWash, isPreferred: true },
+    ]);
+  };
+
+  const handleRequestCarWash = async () => {
+    setLoading(true);
+    const carWashRequest = await api.createRequest({ workGuid: work.guid, status: "pending", type: "carWash" });
+    if (carWashRequest) await handleFetch();
+  };
+
   const handleApproveWork = async () => {
     setLoading(true);
     await api.addWorkApproval(work.guid);
@@ -93,11 +117,11 @@ const WorkScreen = ({ route, navigation }) => {
   return (
     <Screen style={{ paddingHorizontal: 0 }} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />}>
       <View style={styles.header}>
-        <View style={styles.icon}>
+        <View style={styles.headerIcon}>
           <Icon size={50} />
         </View>
-        <Text style={styles.intro}>{work.name}</Text>
-        <Text style={styles.introDescription}>{moment(work.date).format("lll")}</Text>
+        <Text style={styles.headerTitle}>{work.name}</Text>
+        <Text style={styles.headerDescription}>{moment(work.date).format("lll")}</Text>
         {work.status && (
           <View style={styles.status}>
             {work.status === "Согласование" && work.approval && (
@@ -112,7 +136,31 @@ const WorkScreen = ({ route, navigation }) => {
             <Text style={styles.text}>{work.status === "Согласование" && work.approval ? "Согласовано" : work.status}</Text>
           </View>
         )}
+        {work.status !== "Выполнен" && work.status !== "Закрыт" && !work.carWash && (
+          <View style={styles.buttons}>
+            <Pressable style={styles.button} onPress={handleClickCarWash}>
+              <View style={styles.buttonIcon}>
+                <MaterialCommunityIcons name="car-wash" color="white" size={22} />
+              </View>
+              <Text style={styles.buttonText}>Запросить мойку</Text>
+            </Pressable>
+          </View>
+        )}
       </View>
+      {work.status !== "Выполнен" && work.status !== "Закрыт" && work.testDrive?.status === "pending" && (
+        <View style={styles.section}>
+          <Text style={[styles.titleContainer, styles.title]}>Тест-драйв</Text>
+          <Text style={styles.text}>Для проверки выполненных работ мастеру необходима тестовая поездка на автомобиле.</Text>
+          <View style={styles.requestButtons}>
+            <View style={styles.requestButton}>
+              <Button style={styles.requestRejectButton} title="Не нужно" onPress={handleRespondTestDrive("rejected")} />
+            </View>
+            <View style={styles.requestButton}>
+              <Button title="Разрешить" onPress={handleRespondTestDrive("approved")} />
+            </View>
+          </View>
+        </View>
+      )}
       <View style={styles.section}>
         <Text style={styles.title}>
           Автомобиль
@@ -241,7 +289,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: screenHorizontalPadding,
     backgroundColor: "white",
   },
-  icon: {
+  headerIcon: {
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 15,
@@ -250,13 +298,36 @@ const styles = StyleSheet.create({
     width: 100,
     backgroundColor: "#f8f8f8",
   },
-  intro: {
+  headerTitle: {
     ...globalStyles.title,
     textAlign: "center",
   },
-  introDescription: {
+  headerDescription: {
     ...globalStyles.description,
     marginTop: 5,
+  },
+  buttons: {
+    flexDirection: "row",
+    marginTop: 15,
+  },
+  button: {
+    alignItems: "center",
+    marginHorizontal: 15,
+    width: 80,
+  },
+  buttonIcon: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 5,
+    borderRadius: 20,
+    height: 40,
+    width: 40,
+    backgroundColor: "dodgerblue",
+  },
+  buttonText: {
+    ...globalStyles.text,
+    fontSize: 12,
+    textAlign: "center",
   },
   status: {
     flexDirection: "row",
@@ -303,6 +374,19 @@ const styles = StyleSheet.create({
   },
   text: {
     ...globalStyles.text,
+  },
+  requestButtons: {
+    flexDirection: "row",
+    marginTop: 10,
+    marginHorizontal: -5,
+  },
+  requestButton: {
+    flex: 1,
+    paddingHorizontal: 5,
+  },
+  requestRejectButton: {
+    color: "dodgerblue",
+    backgroundColor: "#f8f8f8",
   },
   approveButton: {
     marginTop: 5,

@@ -13,6 +13,8 @@ import StoreContext from "./context/store";
 import { registerForPushNotifications } from "./helpers/push-token";
 import MainNavigator from "./navigators/Main";
 
+import "./helpers/notifications";
+
 moment.locale(Localization.locale);
 // TODO: Перевести приложение на TypeScript (чтобы видеть ошибки при импорте из неверных путей).
 

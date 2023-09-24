@@ -132,6 +132,21 @@ const removeWorkApproval = async (guid) => {
   return response.data;
 };
 
+const getRequests = async ({ workGuid, status, type }) => {
+  const response = await api.get("/requests", { params: { workGuid, status, type } });
+  return response.data;
+};
+
+const createRequest = async ({ workGuid, status, type, data }) => {
+  const response = await api.post("/requests", { workGuid, status, type, data });
+  return response.data;
+};
+
+const updateRequest = async (guid, { workGuid, status, type, data }) => {
+  const response = await api.put(`/requests/${guid}`, { workGuid, status, type, data });
+  return response.data;
+};
+
 const getPhotos = async (workGuid) => {
   const response = await api.get("/photos", { params: { workGuid } });
   return response.data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
@@ -170,6 +185,9 @@ export default {
   getWorkApproval,
   addWorkApproval,
   removeWorkApproval,
+  getRequests,
+  createRequest,
+  updateRequest,
   getPhotos,
   addPushToken,
   getPushTokens,
