@@ -27,7 +27,7 @@ export const prepareWork = (item) => ({
   worksPrice: item.СуммаРаботДокумента,
   partsPrice: item.СуммаНоменклатурыДокумента,
   price: item.СуммаДокумента,
-  works: item.Работы.map((work) => ({
+  works: item.Работы?.map((work) => ({
     guid: work.Номенклатура_Key,
     name: work.Содержание,
     price: work.Цена,
@@ -35,7 +35,7 @@ export const prepareWork = (item) => ({
     time: work.Коэффициент,
     totalPrice: work.Сумма,
   })),
-  parts: item.Запасы.map((work) => ({
+  parts: item.Запасы?.map((work) => ({
     guid: work.Номенклатура_Key,
     name: work.Содержание,
     price: work.Цена,

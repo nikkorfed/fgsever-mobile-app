@@ -75,8 +75,13 @@ const works = async ({ carGuids, workTypeGuids = [], limit = 10, offset = 0 }) =
   filters.length > 1 && (filters = filters.map((filter) => `(${filter})`));
   filters = filters.join(" and ");
 
+  const select = [
+    ...["Ref_Key", "Number", "Состояние", "ВидРемонта_Key", "Date", "Автомобиль_Key"],
+    ...["Пробег", "Заказчик_Key", "СуммаРаботДокумента", "СуммаНоменклатурыДокумента", "СуммаДокумента"],
+  ].join(",");
+
   const response = await oDataApi.get(`/Document_асЗаказНаряд`, {
-    params: { $top: limit, $skip: offset, $filter: filters, $orderby: "Date desc" },
+    params: { $top: limit, $skip: offset, $filter: filters, $select: select, $orderby: "Date desc" },
   });
   return response.data.value.map(prepareWork);
 };

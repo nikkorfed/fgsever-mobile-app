@@ -1,14 +1,14 @@
 import { FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import moment from "moment";
-import React from "react";
+import React, { memo } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 import Pressable from "./Pressable";
 import { getWorkIcon } from "../helpers/works";
 import globalStyles from "../styles";
 
-const Work = ({ style, work }) => {
+const Work = memo(({ style, work }) => {
   const navigation = useNavigation();
 
   const { guid, icon, status, name, car, mileage, price, date } = work;
@@ -52,7 +52,7 @@ const Work = ({ style, work }) => {
       </View>
     </Pressable>
   );
-};
+});
 
 const styles = StyleSheet.create({
   ...globalStyles,
