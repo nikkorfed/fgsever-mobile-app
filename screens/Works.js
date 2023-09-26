@@ -15,8 +15,6 @@ import globalStyles from "../styles";
 const pageSize = 10;
 
 const WorksScreen = ({ navigation }) => {
-  console.log("WorksScreen render...");
-
   const { cars, workTypes, works, setWorks } = useStore();
   const groupedWorks = groupWorksByDate(works);
 
@@ -36,10 +34,7 @@ const WorksScreen = ({ navigation }) => {
     const carGuids = car ? [car] : cars.map((item) => item.guid);
     const workTypeGuids = workType && [workType];
 
-    const start = Date.now();
     const worksResponse = await api.works({ carGuids, workTypeGuids, limit, offset });
-    const end = Date.now();
-    console.log("works request", (end - start).toLocaleString(), "ms");
 
     const works = worksResponse.map((item) => {
       item.name = workTypes.find((workType) => workType.guid === item.workTypeGuid).name;
@@ -54,7 +49,6 @@ const WorksScreen = ({ navigation }) => {
     workApprovalsResponse.forEach((workApproval) => (workApprovalsByGuids[workApproval.guid] = workApproval));
     works.forEach((work) => workApprovalsByGuids[work.guid] && (work.approval = { createdAt: workApprovalsByGuids[work.guid].createdAt }));
 
-    console.log("finish fetchWorks");
     return works;
   };
 
@@ -92,7 +86,6 @@ const WorksScreen = ({ navigation }) => {
 
     setLoading(false);
     setOffset(works.length + data.length);
-    console.log("finish loadMore");
   };
 
   useEffect(() => {
