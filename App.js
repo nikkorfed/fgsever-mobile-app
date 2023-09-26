@@ -2,6 +2,7 @@ import { useFonts, Montserrat_500Medium, Montserrat_600SemiBold, Montserrat_700B
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
 import * as Localization from "expo-localization";
+import { StatusBar } from "expo-status-bar";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -62,6 +63,7 @@ const App = () => {
   return (
     <StoreContext.Provider value={storeContext}>
       <SafeAreaProvider>
+        <StatusBar style="dark" />
         <NavigationContainer>
           <MainNavigator />
         </NavigationContainer>
