@@ -40,7 +40,7 @@ const WorkScreen = ({ route, navigation }) => {
     const workApproval = await api.getWorkApproval(work.guid);
     work.approval = workApproval;
 
-    const requests = await api.getRequests({ workGuid: work.guid });
+    const requests = await api.getRequests({ refType: "work", refGuid: work.guid });
     const testDrive = requests.find((request) => request.type === "testDrive");
     const carWash = requests.find((request) => request.type === "carWash");
     (work.testDrive = testDrive), (work.carWash = carWash);
@@ -89,7 +89,7 @@ const WorkScreen = ({ route, navigation }) => {
 
   const handleRequestCarWash = async () => {
     setLoading(true);
-    const carWashRequest = await api.createRequest({ workGuid: work.guid, status: "pending", type: "carWash" });
+    const carWashRequest = await api.createRequest({ refType: "work", refGuid: work.guid, status: "pending", type: "carWash" });
     if (carWashRequest) await handleFetch();
   };
 

@@ -137,18 +137,18 @@ const removeWorkApproval = async (guid) => {
   return response.data;
 };
 
-const getRequests = async ({ workGuid, status, type }) => {
-  const response = await api.get("/requests", { params: { workGuid, status, type } });
+const getRequests = async ({ refType, refGuid, status, type }) => {
+  const response = await api.get("/requests", { params: { refType, refGuid, status, type } });
   return response.data;
 };
 
-const createRequest = async ({ workGuid, status, type, data }) => {
-  const response = await api.post("/requests", { workGuid, status, type, data });
+const createRequest = async ({ refType, refGuid, status, type, data }) => {
+  const response = await api.post("/requests", { refType, refGuid, status, type, data });
   return response.data;
 };
 
-const updateRequest = async (guid, { workGuid, status, type, data }) => {
-  const response = await api.put(`/requests/${guid}`, { workGuid, status, type, data });
+const updateRequest = async (guid, { refType, refGuid, status, type, data }) => {
+  const response = await api.put(`/requests/${guid}`, { refType, refGuid, status, type, data });
   return response.data;
 };
 
