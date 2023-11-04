@@ -1,12 +1,12 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
-import { StyleSheet, Platform, View, Text, TouchableOpacity } from "react-native";
+import { Platform, View, Text, TouchableOpacity } from "react-native";
 
 import { stackNavigatorOptions } from "../config/stackNavigator";
 import AppointmentScreen from "../screens/Appointment";
 import WorkScreen from "../screens/Work";
 import WorksScreen from "../screens/Works";
-import globalStyles from "../styles";
+import styles from "../styles";
 
 const Stack = createNativeStackNavigator();
 
@@ -51,20 +51,5 @@ const WorksNavigator = () => {
     </Stack.Navigator>
   );
 };
-
-const styles = StyleSheet.create({
-  ...globalStyles,
-  headerTitle: {
-    fontFamily: "Montserrat_600SemiBold",
-    fontSize: 16,
-    textAlign: Platform.OS === "ios" ? "center" : "left",
-  },
-  headerSubtitle: {
-    fontFamily: "Montserrat_500Medium",
-    fontSize: 12,
-    textAlign: Platform.OS === "ios" ? "center" : "left",
-    color: "#888",
-  },
-});
 
 export default WorksNavigator;

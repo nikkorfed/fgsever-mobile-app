@@ -1,8 +1,19 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 
 const styles = StyleSheet.create({
   headerButton: {
     fontSize: 16,
+  },
+  headerTitle: {
+    fontFamily: "Montserrat_600SemiBold",
+    fontSize: 16,
+    textAlign: Platform.OS === "ios" ? "center" : "left",
+  },
+  headerSubtitle: {
+    fontFamily: "Montserrat_500Medium",
+    fontSize: 12,
+    textAlign: Platform.OS === "ios" ? "center" : "left",
+    color: "#888",
   },
   columns: {
     flexDirection: "row",

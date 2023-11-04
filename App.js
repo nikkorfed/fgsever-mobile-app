@@ -24,14 +24,15 @@ const App = () => {
 
   const [pushToken, setPushToken] = useState([]);
   const [cars, setCars] = useState([]);
+  const [car, setCar] = useState();
   const [workTypes, setWorkTypes] = useState([]);
   const [works, setWorks] = useState([]);
 
-  const storeContext = { pushToken, setPushToken, cars, setCars, workTypes, setWorkTypes, works, setWorks };
+  const storeContext = { pushToken, setPushToken, cars, setCars, car, setCar, workTypes, setWorkTypes, works, setWorks };
 
   const getCars = async () => {
     const carsInStorage = JSON.parse(await AsyncStorage.getItem("cars"));
-    carsInStorage && setCars(carsInStorage);
+    carsInStorage && (setCars(carsInStorage), setCar(carsInStorage[0].guid));
   };
 
   const updateCars = async () => {
