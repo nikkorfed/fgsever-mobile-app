@@ -12,6 +12,7 @@ import globalStyles from "../styles";
 const AddCar = ({ modal, setCars }) => {
   const { pushToken } = useStore();
 
+  const [loading, setLoading] = useState(false);
   // const [name, setName] = useState();
   const [vin, setVin] = useState();
   const [customer, setCustomer] = useState();
@@ -24,6 +25,8 @@ const AddCar = ({ modal, setCars }) => {
   };
 
   const handleAddCar = async () => {
+    setLoading(true);
+
     const { guid, vin: fullVin, name } = await api.carGuid(vin);
 
     const customers = await api.carCustomers(guid);
@@ -48,6 +51,7 @@ const AddCar = ({ modal, setCars }) => {
     // setName();
     setVin();
     setCustomer();
+    setLoading(false);
   };
 
   return (
@@ -68,7 +72,7 @@ const AddCar = ({ modal, setCars }) => {
           placeholder="Фамилия, имя и отчество"
           placeholderTextColor="#aaa"
         />
-        <Button title="Добавить" onPress={handleAddCar} />
+        <Button title="Добавить" loading={loading} onPress={handleAddCar} />
       </Modal>
     </>
   );

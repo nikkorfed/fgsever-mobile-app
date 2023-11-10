@@ -1,9 +1,12 @@
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import LottieView from "lottie-react-native";
+import React, { useEffect, useRef } from "react";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
 import Pressable from "./Pressable";
+
+const loadingAnimation = require("../assets/animations/loading.json");
 
 // Попробовать реализовать экспорт вида Button, { SimpleButton }
 
@@ -21,14 +24,33 @@ export const BackButton = ({ style, title, ...props }) => {
   );
 };
 
-export const Button = ({ style, title, ...props }) => {
+export const Button = ({ style, title, loading, onPress, ...props }) => {
   // Проверить, как в Pressable передается style в виде массива в массиве. Если не передается, самому через reduce() собирать объект со стилями.
+  const loadingRef = useRef(null);
+
   const color = Array.isArray(style) ? style.reduce((_, style) => style?.color || _, undefined) : style?.color;
   const textStyle = { color: color ?? "white" };
 
+  useEffect(() => {
+    loadingRef.current?.reset();
+    setTimeout(() => loadingRef.current?.play(), 0);
+  }, []);
+
   return (
-    <Pressable style={[styles.button, style]} {...props}>
-      <Text style={[styles.buttonText, textStyle]}>{title}</Text>
+    <Pressable style={[styles.button, loading && { opacity: 0.7 }, style]} onPress={!loading && onPress} {...props}>
+      {loading ? (
+        <LottieView
+          ref={loadingRef}
+          style={styles.buttonIcon}
+          source={loadingAnimation}
+          colorFilters={[{ keypath: "Shape Layer 2", color: "white" }]}
+          autoPlay
+        />
+      ) : (
+        <View style={styles.buttonTextContainer}>
+          <Text style={[styles.buttonText, textStyle]}>{title}</Text>
+        </View>
+      )}
     </Pressable>
   );
 };
@@ -65,12 +87,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
-    paddingVertical: 12,
     paddingHorizontal: 30,
     backgroundColor: "dodgerblue",
   },
   simpleButton: {
     backgroundColor: undefined,
+  },
+  buttonIcon: {
+    height: 42,
+    width: 42,
+  },
+  buttonTextContainer: {
+    paddingVertical: 12,
   },
   buttonText: {
     fontFamily: "Montserrat_600SemiBold",
