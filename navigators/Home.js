@@ -31,11 +31,9 @@ const HomeNavigator = () => {
               <Text style={styles.headerTitle}>{children}</Text>
               <CarPicker value={car} onChange={setCar}>
                 {({ onPress }) => (
-                  <TouchableOpacity onPress={onPress}>
-                    <Text style={styles.headerSubtitle}>
-                      {cars.find((item) => item.guid === car)?.name || "Выбрать автомобиль"}
-                      <MaterialCommunityIcons name="chevron-down" color="#888" size={14} />
-                    </Text>
+                  <TouchableOpacity style={{ flexDirection: "row", alignItems: "center" }} onPress={onPress}>
+                    <Text style={styles.headerSubtitle}>{cars.find((item) => item.guid === car)?.name || "Выбрать автомобиль"}</Text>
+                    <MaterialCommunityIcons name="chevron-down" color="#888" size={14} />
                   </TouchableOpacity>
                 )}
               </CarPicker>
@@ -53,11 +51,9 @@ const HomeNavigator = () => {
               <Text style={styles.headerTitle}>{children}</Text>
               <CarPicker value={car} onChange={setCar}>
                 {({ onPress }) => (
-                  <TouchableOpacity onPress={onPress}>
-                    <Text style={styles.headerSubtitle}>
-                      {cars.find((item) => item.guid === car)?.name || "Выбрать автомобиль"}
-                      <MaterialCommunityIcons name="chevron-down" color="#888" size={14} />
-                    </Text>
+                  <TouchableOpacity style={{ flexDirection: "row", alignItems: "center" }} onPress={onPress}>
+                    <Text style={styles.headerSubtitle}>{cars.find((item) => item.guid === car)?.name || "Выбрать автомобиль"}</Text>
+                    <MaterialCommunityIcons name="chevron-down" color="#888" size={14} />
                   </TouchableOpacity>
                 )}
               </CarPicker>

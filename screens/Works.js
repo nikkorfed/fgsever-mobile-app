@@ -1,6 +1,5 @@
-import { useHeaderHeight } from "@react-navigation/elements";
 import { useEffect, useState } from "react";
-import { AppState, StyleSheet, Platform, SectionList, View, Text, ScrollView } from "react-native";
+import { AppState, StyleSheet, SectionList, View, Text, ScrollView } from "react-native";
 
 import api from "../api";
 import { Button } from "../components/Button";
@@ -24,9 +23,6 @@ const WorksScreen = ({ navigation }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [offset, setOffset] = useState(0);
-
-  const headerHeight = useHeaderHeight();
-  const marginTop = Platform.OS === "android" ? headerHeight : 0;
 
   const fetchWorks = async ({ car, workType, limit, offset }) => {
     if (!cars.length) return [];
@@ -97,7 +93,7 @@ const WorksScreen = ({ navigation }) => {
   return (
     <>
       <SectionList
-        style={[styles.container, { marginTop }]}
+        style={styles.container}
         contentInsetAdjustmentBehavior="automatic"
         contentContainerStyle={{ paddingBottom: 70 }}
         sections={groupedWorks}

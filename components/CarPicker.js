@@ -23,7 +23,7 @@ const CarPicker = ({ style, value, onChange, children }) => {
   const handleSelectCar = Platform.OS === "ios" ? selectModal.open : openAndroid;
 
   return (
-    <View style={style}>
+    <View style={[styles.container, style]}>
       {children({ onPress: handleSelectCar })}
       {Platform.OS === "ios" ? (
         <Modal modal={selectModal}>
@@ -47,6 +47,9 @@ const CarPicker = ({ style, value, onChange, children }) => {
 
 const styles = StyleSheet.create({
   ...globalStyles,
+  container: {
+    overflow: "hidden",
+  },
   pickerAndroid: {
     display: "none",
   },

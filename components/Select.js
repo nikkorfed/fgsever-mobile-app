@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
   ...globalStyles,
   container: {
     flexDirection: "row",
+    overflow: "hidden",
     borderRadius: globalStyles.input.borderRadius,
     height: globalStyles.input.height,
     backgroundColor: globalStyles.input.backgroundColor,

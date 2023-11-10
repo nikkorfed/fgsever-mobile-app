@@ -1,5 +1,5 @@
 export const stackNavigatorOptions = {
-  headerTransparent: true,
+  headerShadowVisible: false,
   headerBlurEffect: "light",
   headerStyle: { backgroundColor: "white" },
   headerTitleStyle: { fontFamily: "Montserrat_600SemiBold", fontSize: 16 },

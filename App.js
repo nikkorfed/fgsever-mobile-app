@@ -32,11 +32,17 @@ const App = () => {
 
   const getCars = async () => {
     const carsInStorage = JSON.parse(await AsyncStorage.getItem("cars"));
-    carsInStorage && (setCars(carsInStorage), setCar(carsInStorage[0].guid));
+    carsInStorage && setCars(carsInStorage);
   };
 
   const updateCars = async () => {
     await AsyncStorage.setItem("cars", JSON.stringify(cars));
+    setCar((prev) => {
+      if (!prev) return cars.length ? cars[0].guid : prev;
+
+      const prevCarExists = cars.find((car) => car.guid === prev);
+      return prevCarExists ? prev : cars[0]?.guid;
+    });
   };
 
   const getWorkTypes = async () => {

@@ -1,12 +1,10 @@
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-import { useHeaderHeight } from "@react-navigation/elements";
 import React from "react";
 import { Dimensions, StatusBar, StyleSheet, View, Platform } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import Spinner from "./Spinner";
 import { screenHorizontalPadding } from "../constants/paddings";
-import { useKeyboardVisible } from "../hooks/keyboard";
 
 // Этот вид прокрутки работает немного плавнее, но некорректно отображает колесо прокрутки и имеет лишний отступ при открытой клавиатуре.
 
@@ -17,11 +15,9 @@ const WINDOW_HEIGHT = Dimensions.get("window").height;
 const NAVIGATION_BAR_HEIGHT = SCREEN_HEIGHT - STATUS_BAR_HEIGHT - WINDOW_HEIGHT;
 
 const Screen = ({ style, loading, refreshControl, children, fixedBottom, fixedBottomStyle }) => {
-  const isKeyboardVisible = useKeyboardVisible();
-  const headerHeight = useHeaderHeight();
   const bottomTabBarHeight = useBottomTabBarHeight();
 
-  const marginTop = (style?.marginTop ?? 0) + headerHeight;
+  const marginTop = style?.marginTop ?? 0;
   let paddingBottom = Platform.OS === "android" ? 30 : 0;
   Platform.OS === "android" && (paddingBottom += (NAVIGATION_BAR_HEIGHT > 0 ? NAVIGATION_BAR_HEIGHT : 0) + bottomTabBarHeight);
   fixedBottom && (paddingBottom += 60);
